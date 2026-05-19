@@ -1,0 +1,11 @@
+{
+  "name": "navismaster",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "ui5 build --clean-dest && cd dist && zip -r navismaster.zip ."
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.0.0"
+  }
+}

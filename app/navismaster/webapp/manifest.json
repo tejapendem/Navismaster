@@ -1,0 +1,104 @@
+{
+    "sap.app": {
+        "id": "navismaster",
+        "type": "application",
+        "title": "NavisMaster",
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/dashboard/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "description": "A simple CAP project.",
+        "i18n": "i18n/i18n.properties",
+        "crossNavigation": {
+            "inbounds": {
+                "navismaster-display": {
+                    "semanticObject": "navismaster",
+                    "action": "display",
+                    "title": "NavisMaster",
+                    "subTitle": "Admin Dashboard",
+                    "icon": "sap-icon://dashboard",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "navismaster.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "dependencies": {
+            "libs": {
+                "sap.m": {},
+                "sap.f": {},
+                "sap.tnt": {},
+                "sap.ui.layout": {}
+            }
+        },
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+        "models": {
+            "": {
+                "dataSource": "mainService",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "navismaster.view",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "async": true
+            },
+            "routes": [
+                {
+                    "name": "main",
+                    "pattern": "",
+                    "target": "main"
+                }
+            ],
+            "targets": {
+                "main": {
+                    "viewName": "Main"
+                }
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "navismaster.service"
+    },
+    "sap.ui": {
+        "technology": "UI5"
+    },
+    "sap.platform.cf": {
+        "ui5VersionNumber": "1.120.0"
+    },
+    "_version": "1.49.0"
+}

@@ -1,0 +1,5 @@
+ID;title;value;subtitle;delta;icon;borderColor
+1;Golden Records today;1,284;+9.2% vs avg;+9.2%;sap-icon://favorite;#1d4ed8
+2;Avg Golden Score;86.4;target ≥ 85;+2%;sap-icon://quality-issue;#059669
+3;Open Stewardship;142;12 aging > 24h;+4%;sap-icon://alert;#d97706
+4;Time-to-GR median;4.7m;-18s this week;-18s;sap-icon://history;#0891b2

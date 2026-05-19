@@ -1,0 +1,1046 @@
+/* ROOT AND CONTAINER STYLING */
+html,
+body,
+.sapUiBody,
+#content,
+.rootPage {
+    height: 100% !important;
+    margin: 0;
+    background-color: #f1f5f9 !important; /* light slate background */
+    font-family: "Outfit", "Inter", -apple-system, sans-serif !important;
+}
+
+.rootLayout {
+    height: 100% !important;
+    width: 100%;
+}
+
+.mainContainer {
+    flex: 1;
+    height: calc(100% - 72px) !important;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* TOP HEADER STYLING (DARK THEME) */
+.topHeader {
+    background-color: #0f172a !important; /* Dark Slate Blue */
+    border-bottom: 1px solid #1e293b !important;
+    padding: 0 1.5rem !important;
+    color: white !important;
+}
+
+.logoBarHeader {
+    gap: 0.75rem;
+}
+
+.logoAvatar {
+    background-color: #2563eb !important; /* Bright royal blue */
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoTitle {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    margin: 0;
+}
+
+.logoSubtitle {
+    color: #94a3b8 !important; /* Slate-400 */
+    font-size: 0.75rem !important;
+    margin: 0;
+}
+
+.contextPill {
+    background-color: #1e293b !important; /* border accent */
+    border: 1px solid #334155 !important;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+}
+
+.contextText {
+    color: #93c5fd !important; /* bright blue sky */
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+}
+
+.headerSearch {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 9999px !important;
+    overflow: hidden !important;
+    height: 36px !important;
+}
+
+.headerSearch .sapMSFI {
+    background-color: transparent !important;
+    border: none !important;
+    color: white !important;
+    height: 100% !important;
+}
+
+.headerSearch .sapMSFBtn {
+    background-color: transparent !important;
+    color: #94a3b8 !important;
+    border: none !important;
+    height: 100% !important;
+}
+
+.headerSearch .sapMSFBtn:hover {
+    color: white !important;
+    background-color: #334155 !important;
+}
+
+.headerSearch input {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+    font-size: 0.85rem !important;
+    height: 100% !important;
+    padding-left: 1rem !important;
+}
+
+.headerIconBtn {
+    color: #94a3b8 !important;
+}
+
+.headerIconBtn:hover {
+    color: white !important;
+}
+
+.userAvatar {
+    background-color: #475569 !important;
+    color: white !important;
+    font-weight: bold;
+}
+
+/* SIDEBAR STYLING */
+.sidebar {
+    background-color: #ffffff !important;
+    border-right: 1px solid #e2e8f0 !important;
+    padding: 1.5rem 1rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.sectionTitle {
+    font-size: 0.7rem !important;
+    font-weight: 800 !important;
+    color: #64748b !important; /* slate-500 */
+    letter-spacing: 0.08em !important;
+    margin: 1.2rem 0.5rem 0.6rem 0.5rem !important;
+    text-transform: uppercase;
+}
+
+/* PILLARS */
+.pillarList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.pillarItem {
+    padding: 0.6rem 0.75rem !important;
+    border-radius: 12px;
+    background-color: #ffffff;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    gap: 0.75rem;
+}
+
+.pillarItem:hover {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.activePillar {
+    background-color: #eff6ff !important; /* light blue */
+    border-left: 4px solid #2563eb !important; /* thick blue indicator */
+}
+
+/* CUSTOM CIRCLES FOR NUMBERED PILLARS */
+.pillarCircle {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 50% !important;
+    background-color: #f1f5f9 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.activeCircle {
+    background-color: #2563eb !important; /* Active blue */
+}
+
+.pillarCircleText {
+    color: #64748b !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+}
+
+.activeCircleText {
+    color: white !important;
+}
+
+.pillarText {
+    display: flex;
+    flex-direction: column;
+}
+
+.pillarTitle {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+.pillarSubtitle {
+    font-size: 0.7rem !important;
+    color: #64748b !important;
+}
+
+/* WORKSPACE LIST - OVERRIDING SAPUI5 DEFAULT LIST ITEM STYLINGS */
+.workspaceList {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.workspaceList .sapMLIB {
+    background: transparent !important;
+    border-bottom: none !important;
+    padding: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: background-color 0.2s ease;
+}
+
+.workspaceList .sapMLIB:hover {
+    background-color: #f1f5f9 !important;
+}
+
+.workspaceList .activeWorkspaceItem {
+    background-color: #f1f5f9 !important;
+    border-left: 4px solid #2563eb !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.workspaceRow {
+    padding: 0.6rem 0.75rem !important;
+    width: 100% !important;
+    gap: 0.75rem;
+}
+
+.workspaceItemLeft {
+    gap: 0.75rem;
+}
+
+.workspaceIcon {
+    font-size: 1.1rem !important;
+    color: #64748b !important;
+    width: 1.25rem;
+    text-align: center;
+}
+
+/* High-specificity color overriding for active item icon */
+.workspaceList .activeWorkspaceItem .workspaceIcon {
+    color: #2563eb !important;
+    font-weight: bold;
+}
+
+.workspaceText {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    color: #334155 !important;
+}
+
+/* High-specificity color overriding for active item text */
+.workspaceList .activeWorkspaceItem .workspaceText {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.workspaceBadge {
+    background-color: #f97316 !important; /* Orange badge */
+    border-radius: 12px !important;
+    padding: 2px 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 28px !important;
+    height: 18px !important;
+}
+
+.badgeText {
+    color: white !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+}
+
+.sidebarSpacer {
+    flex-grow: 1;
+}
+
+/* BRAND CARD BOTTOM */
+.brandCard {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px;
+    padding: 0.75rem !important;
+    margin-top: auto;
+    gap: 0.75rem;
+}
+
+.brandAvatar {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+.brandText {
+    display: flex;
+    flex-direction: column;
+}
+
+.brandTitle {
+    font-weight: 700 !important;
+    font-size: 0.8rem !important;
+    color: #0f172a !important;
+}
+
+.brandSubtitle {
+    font-size: 0.7rem !important;
+    color: #64748b !important;
+}
+
+/* CONTENT AREA STYLING */
+.contentArea {
+    flex: 1;
+    height: 100%;
+    background-color: #f8fafc !important;
+    overflow-y: auto;
+}
+
+.greetingBar {
+    padding: 1.5rem 2rem !important;
+}
+
+.greetingTitle {
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 1.6rem !important;
+}
+
+.greetingSubtitle {
+    color: #64748b !important;
+    font-size: 0.85rem !important;
+    margin-top: 0.25rem;
+}
+
+.newRecordBtn {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.newRecordBtn .sapMBtnInner {
+    background-color: #2563eb !important; /* beautiful brand premium blue */
+    border: 1px solid #2563eb !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    height: 38px !important;
+    line-height: 36px !important;
+    padding: 0 1.25rem !important;
+}
+
+.newRecordBtn .sapMBtnInner:hover {
+    background-color: #1d4ed8 !important;
+    border-color: #1d4ed8 !important;
+}
+
+/* KPI GRID & CARDS */
+.kpiGrid {
+    padding: 0 1.5rem 1rem 1.5rem !important;
+}
+
+.kpiCard {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.kpiCardTitle {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    text-transform: uppercase;
+}
+
+.kpiCardValue {
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0.35rem 0 !important;
+}
+
+.kpiCardSub {
+    gap: 0.35rem;
+}
+
+/* High-specificity override for target dot icon color */
+.kpiCard .targetDot {
+    color: #10b981 !important; /* green dot */
+    font-size: 0.65rem !important;
+}
+
+.targetText {
+    font-size: 0.75rem !important;
+    color: #64748b !important;
+}
+
+/* KPI Top Borders */
+.yellowBorder {
+    border-top: 4px solid #f59e0b !important; /* Golden/Amber */
+}
+
+.redOrangeBorder {
+    border-top: 4px solid #ef4444 !important; /* Red-Orange */
+}
+
+.blueBorder {
+    border-top: 4px solid #3b82f6 !important; /* Blue */
+}
+
+.cyanBorder {
+    border-top: 4px solid #06b6d4 !important; /* Cyan */
+}
+
+.positiveText {
+    color: #16a34a !important; /* Green */
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+}
+
+.warningText {
+    color: #f97316 !important; /* Orange */
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+}
+
+/* YOUR APPS SECTION */
+.appsTitle {
+    margin-left: 2rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.tileGrid {
+    padding: 0 1.5rem 1rem 1.5rem !important;
+}
+
+.appTile {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.25rem !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+    min-height: 145px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.2s ease-in-out;
+}
+
+.appTile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+.tileHeader {
+    gap: 0.75rem;
+}
+
+.tileIcon {
+    font-size: 1.5rem !important;
+    width: 1.75rem;
+    text-align: center;
+}
+
+.tileHeaderText {
+    display: flex;
+    flex-direction: column;
+}
+
+.tileTitle {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+.tileSubtitle {
+    font-size: 0.7rem !important;
+    color: #64748b !important;
+    margin-top: 0.1rem;
+}
+
+.tileMetric {
+    font-size: 2.25rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 0.5rem 0 !important;
+}
+
+.tileFooter {
+    font-size: 0.72rem !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+/* App Tile Colored Borders */
+.tileOrange {
+    border-left: 4px solid #f97316 !important;
+}
+.tileOrange .tileIcon { color: #f97316 !important; }
+
+.tileBlue {
+    border-left: 4px solid #1e3a8a !important;
+}
+.tileBlue .tileIcon { color: #1e3a8a !important; }
+
+.tileGreen {
+    border-left: 4px solid #10b981 !important;
+}
+.tileGreen .tileIcon { color: #10b981 !important; }
+
+.tileRed {
+    border-left: 4px solid #ef4444 !important;
+}
+.tileRed .tileIcon { color: #ef4444 !important; }
+
+.tilePurple {
+    border-left: 4px solid #8b5cf6 !important;
+}
+.tilePurple .tileIcon { color: #8b5cf6 !important; }
+
+.tileYellow {
+    border-left: 4px solid #f59e0b !important;
+}
+.tileYellow .tileIcon { color: #f59e0b !important; }
+
+.tileBlue2 {
+    border-left: 4px solid #3b82f6 !important;
+}
+.tileBlue2 .tileIcon { color: #3b82f6 !important; }
+
+.tileTeal {
+    border-left: 4px solid #14b8a6 !important;
+}
+.tileTeal .tileIcon { color: #14b8a6 !important; }
+
+/* RECENT ACTIVITY */
+.activityFeed {
+    margin: 1.5rem 2rem 2.5rem 2rem !important;
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px;
+    padding: 1.25rem !important;
+}
+
+.activityFeedTitle {
+    font-size: 0.75rem !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    letter-spacing: 0.05em !important;
+    margin: 0 0 1rem 0 !important;
+    text-transform: uppercase;
+}
+
+.activityList {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Override standard List Item behaviors for Activity */
+.activityList .sapMLIB {
+    background: transparent !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    padding: 0.5rem 0 !important;
+    height: auto !important;
+}
+
+.activityList .sapMLIB:last-child {
+    border-bottom: none !important;
+}
+
+.activityRow {
+    gap: 1rem;
+    padding: 0.25rem 0;
+    width: 100% !important;
+}
+
+.activityTime {
+    font-size: 0.8rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    width: 3.5rem;
+}
+
+.activityDot {
+    font-size: 0.75rem !important;
+    margin-right: 0.75rem;
+}
+
+/* High specificity overrides for colored dots */
+.activityFeed .dotGreen { color: #10b981 !important; }
+.activityFeed .dotRed { color: #ef4444 !important; }
+.activityFeed .dotYellow { color: #f59e0b !important; }
+.activityFeed .dotBlue { color: #3b82f6 !important; }
+
+.activityMessage {
+    font-size: 0.85rem !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+
+/* ==========================================
+   STEWARD INBOX (SCREEN 2) CUSTOM STYLING
+   ========================================== */
+
+.inboxContainer {
+    padding: 1.5rem 2rem !important;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.inboxBreadcrumbs {
+    gap: 0.25rem;
+    align-items: center;
+}
+
+.breadcrumbBaseLink {
+    font-size: 0.78rem !important;
+    color: #64748b !important;
+    cursor: pointer;
+    font-weight: 500 !important;
+}
+.breadcrumbBaseLink:hover {
+    color: #2563eb !important;
+    text-decoration: underline !important;
+}
+
+.breadcrumbDivider {
+    font-size: 0.75rem !important;
+    color: #94a3b8 !important;
+}
+
+.breadcrumbCurrent {
+    font-size: 0.78rem !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+.inboxTitleBar {
+    width: 100% !important;
+}
+
+.inboxTitleText {
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+}
+
+.inboxCountText {
+    font-size: 0.95rem !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+    margin-left: 0.75rem !important;
+    margin-top: 0.65rem !important;
+}
+
+.exportBtn {
+    border-radius: 6px !important;
+    overflow: hidden !important;
+}
+
+.exportBtn .sapMBtnInner {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    height: 36px !important;
+    line-height: 34px !important;
+    padding: 0 1rem !important;
+}
+
+.exportBtn .sapMBtnInner:hover {
+    background-color: #f8fafc !important;
+    border-color: #94a3b8 !important;
+}
+
+.approveBtn {
+    border-radius: 6px !important;
+    overflow: hidden !important;
+}
+
+.approveBtn .sapMBtnInner {
+    background-color: #0f172a !important; /* Premium dark navy */
+    border: 1px solid #0f172a !important;
+    color: #ffffff !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    height: 36px !important;
+    line-height: 34px !important;
+    padding: 0 1.25rem !important;
+}
+
+.approveBtn .sapMBtnInner:hover {
+    background-color: #1e293b !important;
+    border-color: #1e293b !important;
+}
+
+/* FILTERS ROW */
+.filtersToolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem 0 !important;
+}
+
+.filtersLabel {
+    font-size: 0.85rem !important;
+    color: #64748b !important;
+    font-weight: 700 !important;
+}
+
+.filterPill {
+    border-radius: 9999px !important;
+    padding: 0.35rem 0.85rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 28px !important;
+    border: 1px solid transparent !important;
+    cursor: pointer !important;
+}
+
+.pillBlue {
+    background-color: #eff6ff !important;
+    border-color: #3b82f6 !important;
+    color: #1d4ed8 !important;
+}
+.pillBlueText { color: #1d4ed8 !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillRed {
+    background-color: #fef2f2 !important;
+    border-color: #fca5a5 !important;
+    color: #b91c1c !important;
+}
+.pillRedText { color: #b91c1c !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillYellow {
+    background-color: #fffbeb !important;
+    border-color: #fde047 !important;
+    color: #b45309 !important;
+}
+.pillYellowText { color: #b45309 !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillCyan {
+    background-color: #ecfeff !important;
+    border-color: #22d3ee !important;
+    color: #0e7490 !important;
+}
+.pillCyanText { color: #0e7490 !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillGreen {
+    background-color: #f0fdf4 !important;
+    border-color: #86efac !important;
+    color: #15803d !important;
+}
+.pillGreenText { color: #15803d !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillAdd {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+.pillAddText { color: #475569 !important; font-weight: 700 !important; font-size: 0.75rem !important; }
+
+.pillDropdown {
+    background-color: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 9999px !important;
+    padding: 0.35rem 0.85rem !important;
+    height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    cursor: pointer !important;
+}
+.dropdownText {
+    color: #334155 !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+}
+.dropdownIcon {
+    font-size: 0.65rem !important;
+    color: #64748b !important;
+}
+
+/* SMART TABLE CARD STYLING */
+.tableContainer {
+    background-color: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    margin-top: 0.5rem;
+}
+
+.stewardTable {
+    background-color: #ffffff !important;
+}
+
+.stewardTable .sapMListTblHeader {
+    background-color: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+/* Make headers clean and exactly aligned */
+.columnHeader {
+    font-size: 0.72rem !important;
+    font-weight: 800 !important;
+    color: #64748b !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+}
+
+.recordCell {
+    display: flex;
+    flex-direction: column;
+}
+
+.recordCodeLink {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #2563eb !important; /* blue clickable code */
+    text-decoration: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.recordCodeLink:hover {
+    text-decoration: underline !important;
+}
+
+.recordSubTitle {
+    font-size: 0.75rem !important;
+    color: #64748b !important;
+    margin-top: 0.15rem !important;
+}
+
+.domainCell {
+    gap: 0.5rem;
+}
+
+.domainDot {
+    font-size: 0.6rem !important;
+}
+
+.cellText {
+    font-size: 0.82rem !important;
+    color: #334155 !important;
+    font-weight: 500 !important;
+}
+
+.boldFinding {
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.sevCell {
+    gap: 0.5rem;
+}
+
+.sevDot {
+    font-size: 0.6rem !important;
+}
+
+.boldSev {
+    font-weight: 700 !important;
+}
+
+.ageText {
+    color: #64748b !important;
+}
+
+.rowActionBtn {
+    color: #94a3b8 !important;
+}
+.rowActionBtn:hover {
+    color: #334155 !important;
+}
+
+/* SCORE CELL STYLING */
+.scoreContainer {
+    gap: 0.5rem;
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+}
+
+.scoreBoxVal {
+    width: 38px !important;
+    height: 26px !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+}
+
+.scoreValueText {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+}
+
+.scoreIndicatorCol {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    flex-grow: 1;
+}
+
+.scoreSliderBase {
+    background-color: #e2e8f0 !important;
+    height: 4px !important;
+    border-radius: 2px !important;
+    width: 60px !important;
+    overflow: hidden !important;
+}
+
+.scoreSliderActive {
+    height: 100% !important;
+}
+
+.scoreStateText {
+    font-size: 0.65rem !important;
+    color: #64748b !important;
+    text-transform: uppercase;
+    font-weight: 600 !important;
+}
+
+/* Background fills for Scores and Dots */
+.greenBg { background-color: #10b981 !important; }
+.orangeBg { background-color: #f97316 !important; }
+.redBg { background-color: #ef4444 !important; }
+.orangeBrownBg { background-color: #d97706 !important; }
+
+.blueDot { color: #3b82f6 !important; }
+.darkGreyDot { color: #475569 !important; }
+.redDot { color: #ef4444 !important; }
+.yellowDot { color: #f59e0b !important; }
+
+/* PAGINATION FOOTER */
+.tableFooterToolbar {
+    background-color: #ffffff !important;
+    border-top: 1px solid #f1f5f9 !important;
+    padding: 0.75rem 1.5rem !important;
+    height: 52px !important;
+}
+
+.footerLeftText {
+    font-size: 0.8rem !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+}
+
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.pagBtn {
+    background-color: transparent !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 0.8rem !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.pagBtn:hover {
+    background-color: #f1f5f9 !important;
+}
+
+.pagActive {
+    background-color: #0f172a !important; /* dark navy */
+    border-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+.pagArrow {
+    font-size: 0.65rem !important;
+}
+
+/* HTML Custom Layout Helpers */
+.domainDotHbox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.sevDotHbox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.scoreContainerHTML {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+}
+
+.domainDotHbox .domainDot,
+.sevDotHbox .sevDot {
+    font-size: 0.85rem !important;
+    line-height: 1 !important;
+    margin-right: 0.25rem !important;
+}

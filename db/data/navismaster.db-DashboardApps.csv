@@ -1,0 +1,5 @@
+ID;title;subtitle;metric;footer;icon;color
+1;Steward Inbox;Records waiting on you;142;12 urgent;sap-icon://inbox;#f59e0b
+2;Rule Console;Catalog + telemetry;286;4 packs;sap-icon://document-text;#1e3a8a
+3;Vector Dedup;Semantic similarity search;0.94;P95 latency 92ms;sap-icon://search;#0891b2
+4;Cohort Outliers;k-NN over peer clusters;38;New flags overnight;sap-icon://bar-chart;#2563eb
