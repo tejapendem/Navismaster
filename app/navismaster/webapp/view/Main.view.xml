@@ -194,7 +194,7 @@
                                     <Title text="Good morning" level="H2" class="greetingTitle"/>
                                     <Text text="Tuesday · 18 May 2026 · You have 7 stewardship items waiting (3 high priority)" class="greetingSubtitle"/>
                                 </VBox>
-                                <Button text="+ New record" type="Emphasized" class="newRecordBtn"/>
+                                <Button text="+ New record" type="Emphasized" class="newRecordBtn" press="onNewRecordPress"/>
                             </HBox>
 
                             <!-- KPI SUMMARY GRID (4 cards) -->

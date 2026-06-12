@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NavisMaster — Create Master Data</title>
+<style>
+:root {
+  --primary: #1B4F72;
+  --primary-light: #2980B9;
+  --accent: #00A3A3;
+  --accent-light: #E6F7F7;
+  --success: #27AE60;
+  --warning: #E67E22;
+  --error: #E74C3C;
+  --bg: #EDF2F7;
+  --card: #FFFFFF;
+  --border: #CBD5E0;
+  --text: #2D3748;
+  --text-muted: #718096;
+  --ai-purple: #6B46C1;
+  --ai-bg: #FAF5FF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#1B4F72 0%,#154360 100%);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 3px 12px rgba(0,0,0,0.25);}
+.hdr-brand{display:flex;align-items:center;gap:12px;}
+.hdr-logo{width:38px;height:38px;background:rgba(255,255,255,0.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;}
+.hdr-text h1{font-size:1.25rem;font-weight:800;letter-spacing:0.3px;}
+.hdr-text p{font-size:0.72rem;opacity:0.65;margin-top:1px;}
+.hdr-right{display:flex;align-items:center;gap:16px;}
+.hdr-badge{background:rgba(0,163,163,0.25);color:#7FE6E6;font-size:0.72rem;padding:4px 10px;border-radius:12px;font-weight:700;border:1px solid rgba(0,163,163,0.4);}
+.hdr-user{font-size:0.82rem;opacity:0.8;display:flex;align-items:center;gap:6px;}
+
+/* LAYOUT */
+.main{max-width:980px;margin:0 auto;padding:28px 20px;}
+.screen{display:none;animation:fadeIn 0.2s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* HOME */
+.page-heading{margin-bottom:24px;}
+.page-heading h2{font-size:1.4rem;font-weight:800;color:var(--primary);}
+.page-heading p{font-size:0.875rem;color:var(--text-muted);margin-top:4px;max-width:600px;line-height:1.6;}
+
+.master-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+.mc{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:24px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.2s;}
+.mc:hover{border-color:#00A3A3;box-shadow:0 8px 28px rgba(0,163,163,0.14);transform:translateY(-3px);}
+.mc:hover::after{transform:scaleX(1);}
+.mc-icon{font-size:2rem;margin-bottom:12px;display:block;}
+.mc-title{font-size:1.05rem;font-weight:800;color:var(--primary);margin-bottom:3px;}
+.mc-sap{font-size:0.7rem;color:var(--text-muted);font-family:monospace;margin-bottom:8px;background:var(--bg);display:inline-block;padding:2px 7px;border-radius:4px;}
+.mc-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.55;margin-bottom:12px;}
+.mc-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.tag{font-size:0.68rem;padding:2px 9px;border-radius:10px;font-weight:700;}
+.tag-teal{background:var(--accent-light);color:var(--accent);}
+.tag-blue{background:#EBF5FB;color:#2980B9;}
+.tag-purple{background:var(--ai-bg);color:var(--ai-purple);}
+.mc-arrow{position:absolute;top:20px;right:20px;color:var(--border);font-size:1.1rem;transition:color 0.2s;}
+.mc:hover .mc-arrow{color:var(--accent);}
+
+/* WIZARD HEADER */
+.wiz-topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+.btn-back{background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.82rem;cursor:pointer;color:var(--text-muted);transition:all 0.15s;font-weight:600;}
+.btn-back:hover{background:var(--bg);border-color:#00A3A3;color:var(--accent);}
+.wiz-title-box{flex:1;}
+.wiz-title-box h2{font-size:1.15rem;font-weight:800;color:var(--primary);}
+.wiz-title-box p{font-size:0.76rem;color:var(--text-muted);margin-top:2px;}
+.mode-toggle-box{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:7px 13px;}
+.mode-toggle-box span{font-size:0.76rem;color:var(--text-muted);font-weight:600;}
+.toggle{position:relative;display:inline-block;width:38px;height:21px;}
+.toggle input{opacity:0;width:0;height:0;}
+.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:var(--border);border-radius:21px;transition:0.25s;}
+.slider:before{position:absolute;content:"";height:15px;width:15px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:0.25s;}
+input:checked+.slider{background:var(--accent);}
+input:checked+.slider:before{transform:translateX(17px);}
+
+/* CHAT PANEL */
+.chat-panel{background:linear-gradient(135deg,#FAF5FF,#F0E6FF);border:1.5px solid #D4B8FF;border-radius:12px;padding:18px;margin-bottom:18px;display:none;}
+.chat-panel.open{display:block;}
+.chat-msg{display:flex;gap:10px;align-items:flex-start;}
+.chat-avatar{width:32px;height:32px;background:var(--ai-purple);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.chat-bubble{background:#fff;border-radius:12px 12px 12px 0;padding:12px 16px;font-size:0.82rem;color:#44337A;line-height:1.6;box-shadow:0 2px 6px rgba(107,70,193,0.1);}
+.chat-bubble strong{color:var(--ai-purple);display:block;font-size:0.75rem;margin-bottom:3px;}
+
+/* STEPPER */
+.stepper{background:var(--card);border-radius:12px;padding:16px 22px;display:flex;align-items:center;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06);overflow-x:auto;}
+.s-item{display:flex;align-items:center;gap:0;}
+.s-circle{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:800;flex-shrink:0;transition:all 0.2s;}
+.s-circle.pending{background:var(--bg);border:2px solid var(--border);color:var(--text-muted);}
+.s-circle.active{background:var(--accent);border:2px solid var(--accent);color:#fff;box-shadow:0 0 0 4px rgba(0,163,163,0.15);}
+.s-circle.done{background:var(--success);border:2px solid var(--success);color:#fff;}
+.s-label{font-size:0.7rem;margin-left:7px;white-space:nowrap;font-weight:600;}
+.s-label.active{color:var(--accent);}
+.s-label.done{color:var(--success);}
+.s-label.pending{color:var(--text-muted);}
+.s-line{flex:1;height:2px;background:var(--border);margin:0 6px;min-width:16px;}
+.s-line.done{background:var(--success);}
+
+/* ALERT BANNERS */
+.alert{border-radius:10px;padding:12px 16px;margin-bottom:16px;display:none;font-size:0.82rem;line-height:1.5;}
+.alert.show{display:flex;align-items:flex-start;gap:10px;}
+.alert-warn{background:#FEF3CD;border:1.5px solid #E6A817;}
+.alert-warn .a-icon{color:#B7791F;font-size:1.1rem;}
+.alert-warn strong{color:#B7791F;}
+.alert-warn p{color:#744210;}
+
+/* FORM CARD */
+.form-card{background:var(--card);border-radius:12px;padding:26px;box-shadow:0 1px 4px rgba(0,0,0,0.07);margin-bottom:16px;}
+.fc-title{font-size:0.9rem;font-weight:800;color:var(--primary);margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--accent-light);display:flex;align-items:center;gap:8px;}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.full{grid-column:1/-1;}
+
+/* FORM FIELDS */
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fl{font-size:0.78rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.fl .req{color:var(--error);}
+.ai-chip{font-size:0.62rem;background:var(--ai-purple);color:#fff;padding:1px 6px;border-radius:6px;font-weight:800;letter-spacing:0.3px;}
+.sap-chip{font-size:0.62rem;background:var(--bg);color:var(--text-muted);padding:1px 6px;border-radius:4px;font-family:monospace;border:1px solid var(--border);}
+
+input[type=text],input[type=number],select,textarea{
+  width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:0.845rem;color:var(--text);background:#fff;transition:border-color 0.15s,box-shadow 0.15s;font-family:inherit;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,163,163,0.12);}
+input.err,select.err{border-color:var(--error);background:#FFF5F5;}
+.hint{font-size:0.7rem;color:var(--text-muted);line-height:1.4;}
+.ferr{font-size:0.7rem;color:var(--error);display:none;}
+.ferr.show{display:block;}
+.cc{font-size:0.68rem;color:var(--text-muted);text-align:right;}
+.cc.warn{color:var(--warning);}
+.cc.over{color:var(--error);}
+
+/* AI SUGGESTION */
+.ai-sug{background:var(--ai-bg);border:1.5px dashed #B794F4;border-radius:8px;padding:9px 12px;margin-top:6px;display:flex;align-items:center;gap:8px;}
+.ai-sug-text{font-size:0.78rem;color:#553C9A;flex:1;}
+.ai-sug-text strong{color:var(--ai-purple);}
+.ai-apply{background:var(--ai-purple);color:#fff;border:none;border-radius:6px;padding:4px 11px;font-size:0.73rem;font-weight:700;cursor:pointer;transition:background 0.15s;white-space:nowrap;}
+.ai-apply:hover{background:#553C9A;}
+
+/* NAV BAR */
+.nav-bar{display:flex;justify-content:space-between;align-items:center;padding:18px 0 4px;}
+.nav-left,.nav-right{display:flex;gap:10px;align-items:center;}
+.btn{padding:10px 22px;border-radius:9px;font-size:0.875rem;font-weight:700;cursor:pointer;border:none;transition:all 0.15s;font-family:inherit;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:#009090;transform:translateY(-1px);}
+.btn-secondary{background:var(--card);border:1.5px solid var(--border);color:var(--text);}
+.btn-secondary:hover{background:var(--bg);}
+.btn-ghost{background:none;border:none;color:var(--text-muted);font-size:0.82rem;cursor:pointer;padding:9px 12px;font-family:inherit;}
+.btn-ghost:hover{color:var(--text);}
+.btn-submit{background:var(--success);color:#fff;}
+.btn-submit:hover{background:#229954;transform:translateY(-1px);}
+
+/* REVIEW */
+.review-ai-box{background:linear-gradient(135deg,#E6F7F7,#D4EFFC);border:1.5px solid #00A3A3;border-radius:10px;padding:16px;margin-bottom:18px;}
+.confidence-bar{background:#D5E8F0;border-radius:20px;height:8px;overflow:hidden;width:200px;margin-top:5px;}
+.confidence-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#27AE60,#2ECC71);transition:width 0.8s ease;}
+.review-tbl{width:100%;border-collapse:collapse;font-size:0.83rem;}
+.review-tbl td{padding:8px 12px;border-bottom:1px solid var(--border);}
+.review-tbl td:first-child{width:42%;color:var(--text-muted);font-weight:600;}
+.review-tbl td:last-child{color:var(--text);font-weight:600;}
+.review-section h3{font-size:0.85rem;font-weight:800;color:var(--primary);margin:16px 0 10px;}
+
+.workflow-box{background:#FFFBF0;border:1.5px solid #F6C340;border-radius:10px;padding:16px;margin-top:16px;}
+.wf-step{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #FCEABB;font-size:0.8rem;}
+.wf-step:last-child{border-bottom:none;}
+.wf-num{width:24px;height:24px;border-radius:50%;background:#F6C340;color:#7D4C00;font-weight:800;font-size:0.72rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wf-text strong{color:#7D4C00;}
+.wf-text{color:#856404;}
+
+/* SUCCESS SCREEN */
+.success-wrap{background:var(--card);border-radius:14px;padding:48px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,0.07);}
+.success-icon{width:80px;height:80px;background:#E8F8EF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 20px;}
+.success-wrap h2{font-size:1.3rem;font-weight:800;color:var(--primary);margin-bottom:8px;}
+.success-wrap>p{font-size:0.875rem;color:var(--text-muted);margin-bottom:28px;}
+.tracking-box{background:var(--bg);border-radius:12px;padding:20px;max-width:500px;margin:0 auto 28px;text-align:left;}
+.track-header{font-size:0.82rem;font-weight:800;color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.track-id{font-family:monospace;color:var(--accent);background:var(--accent-light);padding:2px 8px;border-radius:5px;}
+.ts{display:flex;align-items:flex-start;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+.ts:last-child{border-bottom:none;}
+.ts-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.72rem;flex-shrink:0;font-weight:800;}
+.ts-done{background:#E8F8EF;color:var(--success);}
+.ts-active{background:#FFFBF0;color:var(--warning);border:2px solid #F6C340;}
+.ts-pending{background:var(--bg);border:2px solid var(--border);color:var(--text-muted);}
+.ts-label{font-size:0.82rem;font-weight:700;color:var(--text);}
+.ts-sub{font-size:0.72rem;color:var(--text-muted);margin-top:1px;}
+
+@media(max-width:620px){
+  .master-grid,.g2,.g3{grid-template-columns:1fr;}
+  .s-label{display:none;}
+  .hdr-badge{display:none;}
+  .stepper{gap:2px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-logo">🧭</div>
+    <div class="hdr-text">
+      <h1>NavisMaster</h1>
+      <p>CarinAi Platform · Canopus GBS</p>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <span class="hdr-badge">AI-Powered MDM</span>
+    <div class="hdr-user">👤 YK &nbsp;·&nbsp; MDM Requester</div>
+  </div>
+</header>
+
+<div class="main">
+
+<!-- ══════════════ HOME SCREEN ══════════════ -->
+<div id="scr-home" class="screen active">
+  <div class="page-heading">
+    <h2>Create Master Data</h2>
+    <p>Select the type of master data to create. Each form is validated by NavisMaster's AI rule engine and checked for duplicates before going to your manager for approval.</p>
+  </div>
+  <div class="master-grid">
+    <div class="mc" onclick="startWiz('material')">
+      <span class="mc-arrow">›</span>
+      <span class="mc-icon">📦</span>
+      <div class="mc-title">Material Master</div>
+      <div class="mc-sap">MM01 · MARA / MARC / MAKT / MARM</div>
+      <div class="mc-desc">Raw materials, operating supplies, packaging, or services. Covers description, classification, org assignment, MRP, purchasing, and costing views.</div>
+      <div class="mc-tags"><span class="tag tag-teal">MM</span><span class="tag tag-blue">Inventory</span><span class="tag tag-blue">MRP</span><span class="tag tag-purple">AI Cleansing</span></div>
+    </div>
+    <div class="mc" onclick="startWiz('bp')">
+      <span class="mc-arrow">›</span>
+      <span class="mc-icon">🤝</span>
+      <div class="mc-title">Business Partner</div>
+      <div class="mc-sap">BP / XD01 / XK01 · KNA1 / LFA1 / BUT000</div>
+      <div class="mc-desc">Customers, vendors, or combined business partners. Covers address, tax IDs, bank details, company code assignment, payment terms, and credit management.</div>
+      <div class="mc-tags"><span class="tag tag-teal">Customer</span><span class="tag tag-teal">Vendor</span><span class="tag tag-blue">CVI Ready</span><span class="tag tag-purple">AI Dedup</span></div>
+    </div>
+    <div class="mc" onclick="startWiz('product')">
+      <span class="mc-arrow">›</span>
+      <span class="mc-icon">🏭</span>
+      <div class="mc-title">Product Master</div>
+      <div class="mc-sap">MM01 (FERT/HALB) · Sales Org / BOM</div>
+      <div class="mc-desc">Finished or semi-finished products. Covers sales organisation, distribution channel, pricing, product hierarchy, BOM relevance, and MRP planning data.</div>
+      <div class="mc-tags"><span class="tag tag-teal">FERT</span><span class="tag tag-teal">HALB</span><span class="tag tag-blue">Sales</span><span class="tag tag-blue">BOM</span></div>
+    </div>
+    <div class="mc" onclick="startWiz('equipment')">
+      <span class="mc-arrow">›</span>
+      <span class="mc-icon">⚙️</span>
+      <div class="mc-title">Equipment Master</div>
+      <div class="mc-sap">IE01 · EQUI / EQUZ / ILOA</div>
+      <div class="mc-desc">Plant maintenance equipment including manufacturer data, functional location, work center, cost center, and classification characteristics for PM planning.</div>
+      <div class="mc-tags"><span class="tag tag-teal">PM</span><span class="tag tag-blue">Asset</span><span class="tag tag-blue">Classification</span><span class="tag tag-purple">AI Match</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ WIZARD SCREEN ══════════════ -->
+<div id="scr-wizard" class="screen">
+  <div class="wiz-topbar">
+    <button class="btn-back" onclick="goHome()">← Back</button>
+    <div class="wiz-title-box">
+      <h2 id="wiz-heading">Material Master</h2>
+      <p id="wiz-sub">New creation request · AI-assisted form</p>
+    </div>
+    <div class="mode-toggle-box">
+      <span>Chat Mode</span>
+      <label class="toggle">
+        <input type="checkbox" id="chat-toggle" onchange="toggleChat(this.checked)">
+        <span class="slider"></span>
+      </label>
+      <span>🤖</span>
+    </div>
+  </div>
+
+  <!-- Chat panel -->
+  <div id="chat-panel" class="chat-panel">
+    <div class="chat-msg">
+      <div class="chat-avatar">🤖</div>
+      <div class="chat-bubble">
+        <strong>NavisMaster AI · Assistant</strong>
+        I've analysed similar records in your system and pre-filled some fields. Look for the purple <strong>AI</strong> badges — review each suggestion and click <strong>Apply</strong> to accept, or type your own value. I'll validate your inputs in real time against SAP field rules and flag duplicates before you submit.
+      </div>
+    </div>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper" id="stepper"></div>
+
+  <!-- Duplicate warning -->
+  <div class="alert alert-warn" id="dup-alert">
+    <span class="a-icon">⚠️</span>
+    <div>
+      <strong>Potential Duplicate Detected</strong>
+      <p id="dup-msg"></p>
+    </div>
+  </div>
+
+  <!-- Form content -->
+  <div id="form-content"></div>
+
+  <!-- Navigation -->
+  <div class="nav-bar">
+    <div class="nav-left">
+      <button class="btn btn-secondary" id="btn-prev" onclick="prevStep()">← Back</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn btn-ghost" onclick="saveDraft()">💾 Save Draft</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextStep()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ SUCCESS SCREEN ══════════════ -->
+<div id="scr-success" class="screen">
+  <div class="success-wrap">
+    <div class="success-icon">✅</div>
+    <h2>Request Submitted Successfully</h2>
+    <p>Your master data creation request is now in the approval workflow. You will be notified at each stage by email and in-app notification.</p>
+    <div class="tracking-box">
+      <div class="track-header">📋 Request ID: <span class="track-id" id="req-id">NM-2026-00142</span></div>
+      <div class="ts"><div class="ts-icon ts-done">✓</div><div><div class="ts-label">Submitted & AI Validated</div><div class="ts-sub">Fields cleansed · Duplicate check passed · 14/14 rules passed</div></div></div>
+      <div class="ts"><div class="ts-icon ts-active">⏳</div><div><div class="ts-label">Manager Approval</div><div class="ts-sub">Pending · Notified by email — SLA: 2 business days</div></div></div>
+      <div class="ts"><div class="ts-icon ts-pending">3</div><div><div class="ts-label">MDM Steward Review</div><div class="ts-sub">Not started · Queued in NavisMaster Steward Inbox</div></div></div>
+      <div class="ts"><div class="ts-icon ts-pending">4</div><div><div class="ts-label">SAP Creation via Integration Suite</div><div class="ts-sub">Pending approval · Auto-pushed to ECC/S4 on approval</div></div></div>
+      <div class="ts"><div class="ts-icon ts-pending">5</div><div><div class="ts-label">Confirmation & SAP Number</div><div class="ts-sub">SAP material/BP number emailed to requester</div></div></div>
+    </div>
+    <button class="btn btn-primary" onclick="goHome()">+ Create Another</button>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ───────────────────────────────────────────────
+// CONFIG
+// ───────────────────────────────────────────────
+const MASTERS = {
+  material:{
+    heading:'Material Master',sub:'New material creation request · AI-assisted · MM01 equivalent',
+    steps:['Basic Info','Classification','Org & MRP','Purchasing & Costing','Review & Submit'],
+    dup:{field:'mat_maktx',msg:'Possible duplicate found: "STEEL PIPE SEAMLESS SCH40 5IN" (MAT-10045, 87% similarity). Please verify before continuing.'}
+  },
+  bp:{
+    heading:'Business Partner',sub:'New BP creation · Customer / Vendor / Combined · CVI Ready',
+    steps:['Role & Identity','Address','Tax & Legal','Bank Details','Company Code','Review & Submit'],
+    dup:{field:'bp_name1',msg:'Possible match found: "TATA STEEL LIMITED" (BP-50023, 82% name similarity). Check if this is the same entity before proceeding.'}
+  },
+  product:{
+    heading:'Product Master',sub:'Finished / Semi-finished product · Sales & BOM data',
+    steps:['Basic Info','Sales Data','Pricing','MRP & BOM','Review & Submit'],
+    dup:null
+  },
+  equipment:{
+    heading:'Equipment Master',sub:'Plant maintenance equipment · IE01 equivalent',
+    steps:['Basic Data','Location & Org','Classification','Review & Submit'],
+    dup:null
+  }
+};
+
+let master=null,step=0,data={};
+
+// ───────────────────────────────────────────────
+// SCREEN MANAGEMENT
+// ───────────────────────────────────────────────
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goHome(){master=null;step=0;data={};show('scr-home');}
+
+function startWiz(type){
+  master=type;step=0;data={};
+  const m=MASTERS[type];
+  document.getElementById('wiz-heading').textContent=m.heading;
+  document.getElementById('wiz-sub').textContent=m.sub;
+  document.getElementById('dup-alert').classList.remove('show');
+  renderStepper();renderForm();updateNav();
+  show('scr-wizard');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function nextStep(){
+  if(!validate())return;
+  collect();
+  const steps=MASTERS[master].steps;
+  if(step===steps.length-1){submit();return;}
+  step++;
+  if(step===1){
+    const m=MASTERS[master];
+    if(m.dup){
+      document.getElementById('dup-msg').textContent=m.dup.msg;
+      document.getElementById('dup-alert').classList.add('show');
+    }
+  } else {
+    document.getElementById('dup-alert').classList.remove('show');
+  }
+  renderStepper();renderForm();updateNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function prevStep(){
+  if(step===0){goHome();return;}
+  step--;
+  document.getElementById('dup-alert').classList.remove('show');
+  renderStepper();renderForm();updateNav();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateNav(){
+  const steps=MASTERS[master].steps;
+  const isLast=step===steps.length-1;
+  const nextBtn=document.getElementById('btn-next');
+  nextBtn.textContent=isLast?'✓ Submit Request':'Next →';
+  nextBtn.className=isLast?'btn btn-submit':'btn btn-primary';
+  document.getElementById('btn-prev').textContent=step===0?'✕ Cancel':'← Back';
+}
+
+function saveDraft(){collect();alert('Draft saved!\nRequest ID: NM-DRAFT-'+Date.now().toString().slice(-5)+'\nYou can return to complete this request from My Drafts.');}
+
+function submit(){
+  const id='NM-2026-'+String(Math.floor(10000+Math.random()*90000));
+  document.getElementById('req-id').textContent=id;
+  show('scr-success');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleChat(on){
+  document.getElementById('chat-panel').classList.toggle('open',on);
+}
+
+// ───────────────────────────────────────────────
+// STEPPER
+// ───────────────────────────────────────────────
+function renderStepper(){
+  const steps=MASTERS[master].steps;
+  let h='';
+  steps.forEach((s,i)=>{
+    const st=i<step?'done':i===step?'active':'pending';
+    h+=`<div class="s-item"><div class="s-circle ${st}">${i<step?'✓':(i+1)}</div><span class="s-label ${st}">${s}</span></div>`;
+    if(i<steps.length-1)h+=`<div class="s-line ${i<step?'done':''}"></div>`;
+  });
+  document.getElementById('stepper').innerHTML=h;
+}
+
+// ───────────────────────────────────────────────
+// FORM RENDERING ENGINE
+// ───────────────────────────────────────────────
+function renderForm(){
+  const fns={
+    material:[matStep0,matStep1,matStep2,matStep3,reviewStep],
+    bp:[bpStep0,bpStep1,bpStep2,bpStep3,bpStep4,reviewStep],
+    product:[prodStep0,prodStep1,prodStep2,prodStep3,reviewStep],
+    equipment:[eqStep0,eqStep1,eqStep2,reviewStep]
+  };
+  document.getElementById('form-content').innerHTML=fns[master][step]();
+  initCharCounters();
+  // trigger AI suggestions with slight delay for realism
+  setTimeout(fireAI,350);
+}
+
+// Field builder helper
+function F(id,label,type,opts={}){
+  const{req=false,hint='',sap='',ai=false,ph='',opts:sel=[],rows=3,max=0,val=''}=opts;
+  const reqS=req?'<span class="req">*</span>':'';
+  const aiS=ai?'<span class="ai-chip">AI</span>':'';
+  const sapS=sap?`<span class="sap-chip">${sap}</span>`:'';
+  let inp='';
+  if(type==='select'){
+    inp=`<select id="${id}"><option value="">— Select —</option>${sel.map(o=>typeof o==='string'?`<option>${o}</option>`:`<option value="${o.v}">${o.l}</option>`).join('')}</select>`;
+  }else if(type==='textarea'){
+    inp=`<textarea id="${id}" rows="${rows}" placeholder="${ph}">${val}</textarea>`;
+  }else{
+    const mc=max?`data-max="${max}"`:'';
+    inp=`<input type="${type}" id="${id}" placeholder="${ph}" value="${val}" ${mc}>`;
+  }
+  const cc=max?`<div class="cc" id="${id}-cc">0/${max}</div>`:'';
+  const aiBlock=ai?`<div class="ai-sug" id="${id}-sug"><span>🤖</span><span class="ai-sug-text">Suggestion: <strong id="${id}-ai-val">analysing…</strong></span><button class="ai-apply" onclick="applyAI('${id}')">Apply</button></div>`:'';
+  return`<div class="fg">
+  <label class="fl" for="${id}">${label} ${reqS} ${aiS} ${sapS}</label>
+  ${inp}${cc}
+  ${hint?`<div class="hint">${hint}</div>`:''}
+  <div class="ferr" id="${id}-err">This field is required.</div>
+  ${aiBlock}
+</div>`;
+}
+
+// ── MATERIAL MASTER ──────────────────────────
+function matStep0(){
+  return`<div class="form-card">
+  <div class="fc-title">📦 Basic Information</div>
+  <div class="g2">
+    ${F('mat_maktx','Material Description (Short Text)','text',{req:true,sap:'MAKT.MAKTX',ai:true,ph:'Max 40 characters',max:40,hint:'SAP short text: 40 chars. AI normalises free text to canonical form.'})}
+    ${F('mat_mtart','Material Type','select',{req:true,sap:'MARA.MTART',opts:[{v:'ROH',l:'ROH — Raw Material'},{v:'HALB',l:'HALB — Semi-finished'},{v:'FERT',l:'FERT — Finished Product'},{v:'HIBE',l:'HIBE — Operating Supplies'},{v:'VERP',l:'VERP — Packaging Material'},{v:'DIEN',l:'DIEN — Service'},{v:'NLAG',l:'NLAG — Non-stock Material'}]})}
+    ${F('mat_mbrsh','Industry Sector','select',{req:true,sap:'MARA.MBRSH',opts:[{v:'M',l:'M — Mechanical Engineering'},{v:'E',l:'E — Electrical / Electronics'},{v:'C',l:'C — Chemical Industry'},{v:'A',l:'A — Automotive'},{v:'P',l:'P — Pharmaceuticals'},{v:'O',l:'O — Oil & Gas'},{v:'B',l:'B — Plant Engineering'}]})}
+    ${F('mat_matkl','Material Group','select',{req:true,sap:'MARA.MATKL',hint:'Determines account assignment and procurement categories.',opts:['001 — Raw Materials','002 — Mechanical Components','003 — Electrical Components','004 — Consumables & MRO','005 — Packaging Materials','006 — Semi-finished Goods','007 — Finished Products','008 — Services / Subcontracting']})}
+    ${F('mat_meins','Base Unit of Measure','select',{req:true,sap:'MARA.MEINS',ai:true,opts:[{v:'KG',l:'KG — Kilogram'},{v:'G',l:'G — Gram'},{v:'L',l:'L — Litre'},{v:'ML',l:'ML — Millilitre'},{v:'PC',l:'PC — Piece'},{v:'EA',l:'EA — Each'},{v:'M',l:'M — Metre'},{v:'M2',l:'M2 — Square Metre'},{v:'M3',l:'M3 — Cubic Metre'},{v:'MT',l:'MT — Metric Ton'},{v:'FT',l:'FT — Foot'},{v:'IN',l:'IN — Inch'},{v:'BOX',l:'BOX — Box'},{v:'ROL',l:'ROL — Roll'},{v:'PAK',l:'PAK — Pack'}]})}
+    ${F('mat_spras','Language','select',{req:true,sap:'MAKT.SPRAS',opts:[{v:'EN',l:'EN — English'},{v:'DE',l:'DE — German'},{v:'FR',l:'FR — French'},{v:'HI',l:'HI — Hindi'},{v:'ZH',l:'ZH — Chinese'},{v:'AR',l:'AR — Arabic'}]})}
+    <div class="fg full">${F('mat_long','Long Description','textarea',{rows:3,sap:'—',ph:'Detailed description for AI processing, catalogue matching, and deduplication…',hint:'Used by AI for vector similarity deduplication. More detail = better duplicate detection.'}).replace('<div class="fg">','').replace('</div>','')}</div>
+    ${F('mat_unspsc','UNSPSC Code','text',{sap:'MARA.UNSPSC',ai:true,ph:'e.g. 40141700',hint:'AI auto-maps material description to UNSPSC commodity taxonomy.'})}
+  </div>
+</div>`;
+}
+
+function matStep1(){
+  return`<div class="form-card">
+  <div class="fc-title">🏷️ Classification & Physical Data</div>
+  <div class="g2">
+    ${F('mat_bismt','Old / Legacy Material Number','text',{sap:'MARA.BISMT',ph:'Previous or customer material reference',hint:'Used for migration and cross-reference matching.'})}
+    ${F('mat_ean11','EAN / UPC Barcode','text',{sap:'MEAN.EAN11',ph:'13-digit EAN or 12-digit UPC'})}
+    ${F('mat_ntgew','Net Weight','number',{sap:'MARA.NTGEW',ph:'0.000'})}
+    ${F('mat_brgew','Gross Weight','number',{sap:'MARA.BRGEW',ph:'0.000'})}
+    ${F('mat_gewei','Weight Unit','select',{sap:'MARA.GEWEI',opts:[{v:'KG',l:'KG — Kilogram'},{v:'G',l:'G — Gram'},{v:'LB',l:'LB — Pound'},{v:'MT',l:'MT — Metric Ton'}]})}
+    ${F('mat_volum','Volume','number',{sap:'MARA.VOLUM',ph:'0.000'})}
+    ${F('mat_voleh','Volume Unit','select',{sap:'MARA.VOLEH',opts:[{v:'L',l:'L — Litre'},{v:'ML',l:'ML — Millilitre'},{v:'M3',l:'M3 — Cubic Metre'},{v:'FT3',l:'FT3 — Cubic Foot'}]})}
+    ${F('mat_prdha','Product Hierarchy','text',{sap:'MARA.PRDHA',ph:'e.g. 00100002000300',max:18,hint:'Sales product hierarchy — up to 18 chars, 3 levels.'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">↔️ Alternative Unit of Measure Conversion</div>
+  <div class="g3">
+    ${F('mat_alt_uom','Alternative UoM','select',{sap:'MARM.UMRES',opts:['KG','G','L','PC','EA','M','M2','BOX','ROL','PAK','BT','FT','IN']})}
+    ${F('mat_umrez','Numerator','number',{sap:'MARM.UMREZ',ph:'1',hint:'Alt UoM quantity'})}
+    ${F('mat_umren','Denominator','number',{sap:'MARM.UMREN',ph:'1',hint:'Base UoM quantity'})}
+  </div>
+</div>`;
+}
+
+function matStep2(){
+  return`<div class="form-card">
+  <div class="fc-title">🏭 Organisational Assignment</div>
+  <div class="g2">
+    ${F('mat_werks','Plant','select',{req:true,sap:'MARC.WERKS',hint:'Plant where this material will be stocked / used.',opts:['1000 — Main Plant','1100 — Plant North','1200 — Plant South','2000 — Warehouse Central','3000 — Distribution Centre']})}
+    ${F('mat_lgort','Default Storage Location','select',{sap:'MARD.LGORT',opts:['0001 — General Store','0002 — Production Store','0003 — Finished Goods','0010 — Raw Material Store','0020 — Packaging Store','BLOC — Blocked Stock']})}
+    ${F('mat_dismm','MRP Type','select',{req:true,sap:'MARC.DISMM',hint:'Controls how MRP calculates requirements.',opts:[{v:'PD',l:'PD — Deterministic MRP'},{v:'VB',l:'VB — Reorder Point (Manual)'},{v:'VM',l:'VM — Reorder Point (Auto)'},{v:'ND',l:'ND — No MRP Planning'},{v:'M0',l:'M0 — Manual Reorder'}]})}
+    ${F('mat_beskz','Procurement Type','select',{req:true,sap:'MARC.BESKZ',opts:[{v:'E',l:'E — In-house Production'},{v:'F',l:'F — External Procurement'},{v:'X',l:'X — Both Allowed'}]})}
+    ${F('mat_plifz','Planned Delivery Time (days)','number',{sap:'MARC.PLIFZ',ph:'0',hint:'Lead time from PO placement to GR.'})}
+    ${F('mat_minbe','Reorder / Safety Stock Level','number',{sap:'MARC.MINBE',ph:'0'})}
+    ${F('mat_mtvfp','Availability Checking Group','select',{sap:'MARC.MTVFP',opts:['01 — Daily Requirements','02 — Individual Requirements','KP — No Check']})}
+    ${F('mat_bklas','Valuation Class','select',{req:true,sap:'MBEW.BKLAS',hint:'Determines G/L accounts in automatic account determination.',opts:['3000 — Raw Materials','7900 — Finished Products','7920 — Semi-finished Products','3030 — Operating Supplies','3100 — Packaging']})}
+  </div>
+</div>`;
+}
+
+function matStep3(){
+  return`<div class="form-card">
+  <div class="fc-title">🛒 Purchasing Data</div>
+  <div class="g2">
+    ${F('mat_ekgrp','Purchasing Group','select',{req:true,sap:'MARC.EKGRP',opts:['001 — General Purchasing','002 — Raw Materials Buyer','003 — MRO & Indirect','004 — Capital Equipment','005 — Services']})}
+    ${F('mat_mfrpn','Manufacturer Part Number','text',{sap:'MARA.MFRPN',ph:'OEM / manufacturer part no.',hint:'Used for supplier catalogue matching.'})}
+    ${F('mat_mfrnr','Manufacturer Name / BP','text',{sap:'MARA.MFRNR',ph:'Manufacturer name or SAP BP number'})}
+    ${F('mat_webaz','GR Processing Time (days)','number',{sap:'MARC.WEBAZ',ph:'0',hint:'Days required after GR before material is available.'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">💰 Costing & Accounting</div>
+  <div class="g2">
+    ${F('mat_vprsv','Price Control','select',{req:true,sap:'MBEW.VPRSV',opts:[{v:'S',l:'S — Standard Price'},{v:'V',l:'V — Moving Average Price'}]})}
+    ${F('mat_stprs','Standard Price / Initial MAP','number',{req:true,sap:'MBEW.STPRS',ph:'0.00',hint:'Standard price (for S) or initial moving average (for V).'})}
+    ${F('mat_waers','Currency','select',{req:true,sap:'MBEW.WAERS',opts:['INR — Indian Rupee','USD — US Dollar','EUR — Euro','GBP — British Pound','AED — UAE Dirham']})}
+    ${F('mat_peinh','Price Unit','number',{sap:'MBEW.PEINH',ph:'1',hint:'Quantity base to which price applies.'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">📎 Justification & References</div>
+  <div class="g2">
+    <div class="fg full">${F('mat_just','Business Justification','textarea',{req:true,rows:3,ph:'Why is this material being created? New project, new supplier, new product line…',hint:'Required for manager approval — be specific about business need.'}).replace('<div class="fg">','').replace('</div>','')}</div>
+    ${F('mat_refdoc','Reference Drawing / Spec Number','text',{ph:'Technical drawing, datasheet, or spec reference no.'})}
+  </div>
+</div>`;
+}
+
+// ── BUSINESS PARTNER ────────────────────────
+function bpStep0(){
+  return`<div class="form-card">
+  <div class="fc-title">🤝 BP Role & Identity</div>
+  <div class="g2">
+    ${F('bp_role','BP Role','select',{req:true,sap:'BUT100.RLTYP',hint:'Determines which company code views and fields are shown.',opts:[{v:'CU',l:'Customer Only (FI-AR)'},{v:'VE',l:'Vendor / Supplier Only (FI-AP)'},{v:'BOTH',l:'Customer & Vendor (Combined)'},{v:'GP',l:'General Business Partner'}]})}
+    ${F('bp_group','BP Grouping / Account Group','select',{req:true,sap:'BUT000.BU_GROUP',hint:'Controls number range assignment and mandatory field logic.',opts:['KUNA — Domestic Customer','KUNB — Foreign Customer','LIFA — Domestic Vendor','LIFB — Foreign Vendor','INTE — Intercompany Partner','BANK — Bank Master']})}
+    ${F('bp_name1','Organisation Name — Line 1','text',{req:true,sap:'KNA1.NAME1 / LFA1.NAME1',ph:'Full legal company name',max:40})}
+    ${F('bp_name2','Organisation Name — Line 2','text',{sap:'KNA1.NAME2 / LFA1.NAME2',ph:'Trading name or continuation',max:40})}
+    ${F('bp_sortl','Search Term / Key','text',{req:true,sap:'KNA1.SORTL',ph:'Short key for matchcode search',max:10,hint:'Up to 10 chars — used in duplicate detection and lookups.'})}
+    ${F('bp_spras','Correspondence Language','select',{req:true,sap:'KNA1.SPRAS',opts:[{v:'EN',l:'EN — English'},{v:'DE',l:'DE — German'},{v:'FR',l:'FR — French'},{v:'HI',l:'HI — Hindi'},{v:'AR',l:'AR — Arabic'}]})}
+    ${F('bp_legal','Legal Form','select',{sap:'BUT000.LEGAL_ENTY',opts:['Private Limited Company','Public Limited Company','LLP — Limited Liability Partnership','Sole Proprietorship','Partnership Firm','Government Entity','Non-Profit / NGO','Trust']})}
+    ${F('bp_brsch','Industry / Business Sector','select',{sap:'KNA1.BRSCH',opts:['Manufacturing','Trading & Distribution','Construction & EPC','IT & Technology','Healthcare & Pharma','Government & PSU','Financial Services','Oil, Gas & Energy','Retail & FMCG']})}
+  </div>
+</div>`;
+}
+
+function bpStep1(){
+  return`<div class="form-card">
+  <div class="fc-title">📍 Registered Address</div>
+  <div class="g2">
+    ${F('bp_stras','Street / Road Name','text',{req:true,sap:'ADRC.STREET',ph:'Street / road name',max:60})}
+    ${F('bp_hsnmr','House / Building Number','text',{sap:'ADRC.HOUSE_NUM1',ph:'Building, plot, or house number',max:10})}
+    ${F('bp_pstlz','Postal / ZIP Code','text',{req:true,sap:'ADRC.POST_CODE1',ph:'6-digit postal code',max:10})}
+    ${F('bp_ort01','City','text',{req:true,sap:'ADRC.CITY1',ph:'City name',max:40})}
+    ${F('bp_land1','Country','select',{req:true,sap:'ADRC.COUNTRY',ai:true,opts:['IN — India','US — United States','DE — Germany','GB — United Kingdom','AE — UAE','SG — Singapore','AU — Australia','CN — China','JP — Japan','FR — France']})}
+    ${F('bp_regio','State / Region','select',{sap:'ADRC.REGION',opts:['MH — Maharashtra','KA — Karnataka','TN — Tamil Nadu','DL — Delhi NCT','GJ — Gujarat','RJ — Rajasthan','WB — West Bengal','TS — Telangana','AP — Andhra Pradesh','UP — Uttar Pradesh']})}
+    ${F('bp_tel','Phone Number','text',{req:true,sap:'ADR2.TEL_NUMBER',ph:'+91 XXXXX XXXXX',max:30})}
+    ${F('bp_email','Email Address','text',{req:true,sap:'ADR6.SMTP_ADDR',ph:'contact@company.com',hint:'Primary business email for order confirmations and invoices.'})}
+    ${F('bp_fax','Fax Number','text',{sap:'ADR3.FAX_NUMBER',ph:'+91 XXXXX XXXXX (optional)',max:30})}
+    ${F('bp_url','Website','text',{sap:'ADRC.URL',ph:'https://www.company.com'})}
+  </div>
+</div>`;
+}
+
+function bpStep2(){
+  return`<div class="form-card">
+  <div class="fc-title">🏛️ Tax & Legal Information</div>
+  <div class="g2">
+    ${F('bp_stceg','GST / VAT Registration Number','text',{req:true,sap:'KNA1.STCEG / LFA1.STCEG',ph:'15-digit GSTIN (India) or VAT Reg. No.',max:20,hint:'Validated against GSTIN registry if integration is active.'})}
+    ${F('bp_stcd1','Tax Number 1 (PAN)','text',{sap:'KNA1.STCD1',ph:'10-character PAN (India)',max:16,hint:'Permanent Account Number — mandatory for TDS vendors.'})}
+    ${F('bp_stcd2','Tax Number 2 (TAN)','text',{sap:'KNA1.STCD2',ph:'10-character TAN',max:11})}
+    ${F('bp_stcd3','Tax Number 3 (CIN)','text',{sap:'KNA1.STCD3',ph:'21-character Company Identification No.',max:21})}
+    ${F('bp_taxkd','Tax Classification','select',{req:true,sap:'KNA1.TAXKD',opts:[{v:'0',l:'0 — Not Liable to Tax'},{v:'1',l:'1 — Liable to Tax (Standard)'},{v:'2',l:'2 — Tax Exempt'},{v:'3',l:'3 — Zero Rated'}]})}
+    ${F('bp_msme','MSME Classification','select',{sap:'—',hint:'Mandatory for Indian vendors under MSME Act.',opts:['Micro — < ₹1 Cr turnover','Small — ₹1–10 Cr turnover','Medium — ₹10–50 Cr turnover','Large — > ₹50 Cr turnover','Not Applicable']})}
+    ${F('bp_wtxcd','Withholding Tax Type','select',{sap:'WITH_ITEM.WT_WITHCD',opts:['— None —','S1 — 194A: Bank Interest','S2 — 194C: Contractor / Sub-contractor','S3 — 194H: Commission & Brokerage','S4 — 194I: Rent','S5 — 194J: Professional / Technical Fees']})}
+    ${F('bp_dunn','Dunning Procedure','select',{sap:'KNB1.MAHNA',hint:'Applicable for customers only.',opts:['— None —','Z001 — Standard Dunning','Z002 — Reminder Only','Z003 — Legal Action']})}
+  </div>
+</div>`;
+}
+
+function bpStep3(){
+  return`<div class="form-card">
+  <div class="fc-title">🏦 Bank Account Details</div>
+  <div class="g2">
+    ${F('bp_banks','Bank Country','select',{req:true,sap:'BNKA.BANKS',opts:['IN — India','US — United States','DE — Germany','GB — United Kingdom','AE — UAE','SG — Singapore','AU — Australia']})}
+    ${F('bp_bankl','Bank Key / IFSC Code','text',{req:true,sap:'BNKA.BANKL',ph:'11-character IFSC (India) or Swift/Routing code',max:15,hint:'Must be a valid bank key in SAP bank directory.'})}
+    ${F('bp_bankn','Bank Account Number','text',{req:true,sap:'KNBK.BANKN / LFBK.BANKN',ph:'Beneficiary account number',max:18})}
+    ${F('bp_iban','IBAN','text',{sap:'KNBK.IBAN',ph:'International Bank Account Number (for cross-border payments)',max:34})}
+    ${F('bp_koinh','Account Holder Name','text',{req:true,sap:'KNBK.KOINH',ph:'Name exactly as registered with the bank',max:60})}
+    ${F('bp_bkont','Account Type','select',{sap:'KNBK.BKONT',opts:[{v:'00',l:'Current / Checking Account'},{v:'01',l:'Savings Account'},{v:'02',l:'Cash Credit / Overdraft'}]})}
+  </div>
+</div>`;
+}
+
+function bpStep4(){
+  return`<div class="form-card">
+  <div class="fc-title">🏢 Company Code Assignment</div>
+  <div class="g2">
+    ${F('bp_bukrs','Company Code','select',{req:true,sap:'KNB1.BUKRS / LFB1.BUKRS',opts:['1000 — TEPL India HQ','2000 — TEPL Manufacturing Division','3000 — TEPL Middle East FZE']})}
+    ${F('bp_akont','Reconciliation Account (G/L)','text',{req:true,sap:'KNB1.AKONT / LFB1.AKONT',ph:'G/L account number (must exist in CoA)',max:10,hint:'Must be a reconciliation account in the chart of accounts.'})}
+    ${F('bp_zterm','Payment Terms','select',{req:true,sap:'KNB1.ZTERM / LFB1.ZTERM',opts:['0001 — Immediate / Net','NT30 — Net 30 days','NT45 — Net 45 days','NT60 — Net 60 days','2/10 — 2% discount if paid in 10 days, Net 30','Z003 — 100% Advance Payment Required']})}
+    ${F('bp_zwels','Payment Method(s)','select',{sap:'KNB1.ZWELS',opts:['C — Cheque','T — NEFT / Bank Transfer','I — IMPS','R — RTGS','D — Demand Draft','P — Payment Advice']})}
+    ${F('bp_klimk','Credit Limit (Customers only)','number',{sap:'KNB1.KLIMK',ph:'0.00',hint:'Maximum open credit in company code currency.'})}
+    ${F('bp_zuawa','Alternative Payer / Payee BP','text',{sap:'KNB1.ZUAWA',ph:'BP number if payments route through a different entity'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">📎 Justification & Compliance</div>
+  <div class="g2">
+    <div class="fg full">${F('bp_just','Business Justification','textarea',{req:true,rows:3,ph:'Why is this Business Partner being created? What is the trade/commercial relationship?',hint:'Required for manager approval and audit trail.'}).replace('<div class="fg">','').replace('</div>','')}</div>
+    ${F('bp_cert','Compliance Documents Available','select',{opts:['— Select —','GST Registration Certificate','PAN & Address Proof','MSME Certificate','Bank Cancelled Cheque','Vendor Qualification Form','All of the above']})}
+  </div>
+</div>`;
+}
+
+// ── PRODUCT MASTER ───────────────────────────
+function prodStep0(){
+  return`<div class="form-card">
+  <div class="fc-title">🏭 Basic Product Information</div>
+  <div class="g2">
+    ${F('prod_maktx','Product Description (Short Text)','text',{req:true,sap:'MAKT.MAKTX',ai:true,max:40,ph:'Max 40 characters',hint:'AI standardises to canonical product name.'})}
+    ${F('prod_mtart','Material Type','select',{req:true,sap:'MARA.MTART',opts:[{v:'FERT',l:'FERT — Finished Product'},{v:'HALB',l:'HALB — Semi-finished Product'}]})}
+    ${F('prod_mbrsh','Industry Sector','select',{req:true,sap:'MARA.MBRSH',opts:[{v:'M',l:'M — Mechanical'},{v:'E',l:'E — Electrical'},{v:'C',l:'C — Chemical'},{v:'P',l:'P — Pharma / Life Sciences'},{v:'A',l:'A — Automotive'}]})}
+    ${F('prod_matkl','Product Group','select',{req:true,sap:'MARA.MATKL',opts:['001 — Pumps & Fluid Systems','002 — Electrical Equipment','003 — Structural & Pressure Vessels','004 — Chemical Process Equipment','005 — Consumer Packaging','006 — Electronic Assemblies']})}
+    ${F('prod_meins','Base Unit of Measure','select',{req:true,sap:'MARA.MEINS',opts:['PC — Piece','EA — Each','KG — Kilogram','SET — Set','MT — Metric Ton','L — Litre','M — Metre']})}
+    ${F('prod_unspsc','UNSPSC Code','text',{sap:'—',ai:true,ph:'e.g. 40161500',hint:'Auto-mapped by AI to UNSPSC product taxonomy.'})}
+    <div class="fg full">${F('prod_long','Long Description','textarea',{rows:3,ph:'Detailed product description for AI processing, catalogue, and customer documentation…'}).replace('<div class="fg">','').replace('</div>','')}</div>
+  </div>
+</div>`;
+}
+
+function prodStep1(){
+  return`<div class="form-card">
+  <div class="fc-title">🏪 Sales Organisation Data</div>
+  <div class="g2">
+    ${F('prod_vkorg','Sales Organisation','select',{req:true,sap:'MVKE.VKORG',opts:['1000 — TEPL Domestic Sales','2000 — TEPL Export Division','3000 — TEPL Middle East']})}
+    ${F('prod_vtweg','Distribution Channel','select',{req:true,sap:'MVKE.VTWEG',opts:['10 — Direct / OEM Sales','20 — Trade & Distribution','30 — Project Supply','40 — Spares & Aftermarket']})}
+    ${F('prod_spart','Division','select',{req:true,sap:'MVKE.SPART',opts:['01 — Rotating Equipment','02 — Electrical Products','03 — Structural Fabrication','04 — Process Equipment','05 — Spares & Services']})}
+    ${F('prod_dwerk','Delivering Plant','select',{req:true,sap:'MVKE.DWERK',opts:['1000 — Main Plant','1100 — Plant North','1200 — Plant South']})}
+    ${F('prod_mvgr1','Material Pricing Group','select',{sap:'MVKE.MVGR1',opts:['A1 — Standard Catalogue','A2 — Customised / Engineered','A3 — Spare Parts','A4 — Service / Repair']})}
+    ${F('prod_minbest','Minimum Order Quantity','number',{sap:'MVKE.MINBEST',ph:'1'})}
+    ${F('prod_mstae','Cross-plant Material Status','select',{sap:'MARA.MSTAE',opts:[{v:'',l:'— No restriction —'},{v:'Z1',l:'Z1 — New (Pending Approval)'},{v:'Z2',l:'Z2 — Phase-out Planned'},{v:'Z3',l:'Z3 — Blocked for New Orders'}]})}
+    ${F('prod_taxm1','Tax Classification (Sales)','select',{sap:'MVKE.TAXM1',opts:['0 — Not Taxable','1 — Full Tax','2 — Reduced / Exempt']})}
+  </div>
+</div>`;
+}
+
+function prodStep2(){
+  return`<div class="form-card">
+  <div class="fc-title">💰 Pricing & Revenue Accounting</div>
+  <div class="g2">
+    ${F('prod_vprsv','Price Control','select',{req:true,sap:'MBEW.VPRSV',opts:[{v:'S',l:'S — Standard Price (for FERT/HALB)'},{v:'V',l:'V — Moving Average Price'}]})}
+    ${F('prod_stprs','Standard Price','number',{req:true,sap:'MBEW.STPRS',ph:'0.00'})}
+    ${F('prod_waers','Currency','select',{req:true,sap:'MBEW.WAERS',opts:['INR — Indian Rupee','USD — US Dollar','EUR — Euro']})}
+    ${F('prod_peinh','Price Unit','number',{sap:'MBEW.PEINH',ph:'1'})}
+    ${F('prod_prdha','Product Hierarchy','text',{sap:'MARA.PRDHA',ph:'Product hierarchy code (up to 18 chars)',max:18,hint:'Used for sales analysis and pricing conditions.'})}
+    ${F('prod_ktgrm','Account Assignment Group','select',{req:true,sap:'MVKE.KTGRM',hint:'Determines revenue G/L accounts in billing.',opts:['01 — Domestic Product Revenue','02 — Export Revenue','03 — Service Revenue']})}
+  </div>
+</div>`;
+}
+
+function prodStep3(){
+  return`<div class="form-card">
+  <div class="fc-title">⚙️ MRP & BOM Configuration</div>
+  <div class="g2">
+    ${F('prod_werks','Production Plant','select',{req:true,sap:'MARC.WERKS',opts:['1000 — Main Plant','1100 — Plant North','1200 — Plant South']})}
+    ${F('prod_dismm','MRP Type','select',{req:true,sap:'MARC.DISMM',opts:[{v:'PD',l:'PD — Deterministic MRP'},{v:'VB',l:'VB — Reorder Point'},{v:'ND',l:'ND — No MRP'}]})}
+    ${F('prod_dzeit','In-house Production Time (days)','number',{sap:'MARC.DZEIT',ph:'0',hint:'Lead time for internal manufacture.'})}
+    ${F('prod_mtvfp','Availability Check','select',{sap:'MARC.MTVFP',opts:['01 — Daily Requirements','02 — Individual Requirements','KP — No Check']})}
+    ${F('prod_bom_rel','BOM Relevance','select',{sap:'—',opts:['New BOM to be created','Existing BOM — specify number below','No BOM required']})}
+    ${F('prod_bom_no','Existing BOM Number','text',{sap:'MAST.STLAN',ph:'SAP BOM number if existing'})}
+    ${F('prod_bklas','Valuation Class','select',{req:true,sap:'MBEW.BKLAS',opts:['7900 — Finished Products','7920 — Semi-finished Products']})}
+    ${F('prod_profitctr','Profit Centre','text',{sap:'MARC.PRCTR',ph:'Profit centre code',hint:'Used for segment reporting and margin analysis.'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">📎 Justification</div>
+  <div class="fg">${F('prod_just','Business Justification','textarea',{req:true,rows:3,ph:'New product launch, customer project, product extension…',hint:'Required for manager approval.'}).replace('<div class="fg">','').replace('</div>','')}</div>
+</div>`;
+}
+
+// ── EQUIPMENT MASTER ─────────────────────────
+function eqStep0(){
+  return`<div class="form-card">
+  <div class="fc-title">⚙️ Equipment Basic Data</div>
+  <div class="g2">
+    ${F('eq_eqktx','Equipment Description (Short Text)','text',{req:true,sap:'EQUI.EQKTX',ai:true,max:40,ph:'Max 40 characters',hint:'AI normalises to canonical manufacturer description.'})}
+    ${F('eq_eqtyp','Equipment Category','select',{req:true,sap:'EQUI.EQTYP',opts:[{v:'M',l:'M — Mechanical Equipment'},{v:'E',l:'E — Electrical / Instrument'},{v:'P',l:'P — Process Equipment'},{v:'V',l:'V — Vehicle / Mobile Plant'},{v:'B',l:'B — Building Infrastructure'},{v:'I',l:'I — IT / Communication Equipment'}]})}
+    ${F('eq_typbz','Object Type','text',{sap:'EQUI.TYPBZ',ph:'Short object type identifier',max:10})}
+    ${F('eq_hersteller','Manufacturer','text',{req:true,sap:'EQUI.HERSTELLER',ph:'Manufacturer legal name',max:30})}
+    ${F('eq_herld','Country of Manufacture','select',{sap:'EQUI.HERLD',opts:['IN — India','DE — Germany','US — USA','JP — Japan','IT — Italy','CN — China','GB — UK']})}
+    ${F('eq_typmuster','Model Number / Type Designation','text',{req:true,sap:'EQUI.TYPMUSTER',ph:'Manufacturer model or type number',max:20})}
+    ${F('eq_serge','Serial Number','text',{req:true,sap:'EQUI.SERGE',ph:'Unique manufacturer serial number',max:30,hint:'Used for warranty tracking and individual equipment identification.'})}
+    ${F('eq_baujj','Year of Construction','text',{sap:'EQUI.BAUJJ',ph:'YYYY',max:4})}
+    ${F('eq_inbdt','Start-up / Commissioning Date','text',{sap:'EQUI.INBDT',ph:'DD.MM.YYYY',hint:'Date first put into operation.'})}
+    ${F('eq_ansdt','Acquisition / Purchase Date','text',{sap:'EQUI.ANSDT',ph:'DD.MM.YYYY'})}
+  </div>
+</div>`;
+}
+
+function eqStep1(){
+  return`<div class="form-card">
+  <div class="fc-title">📍 Location & Organisational Assignment</div>
+  <div class="g2">
+    ${F('eq_werks','Plant','select',{req:true,sap:'ILOA.WERKS',opts:['1000 — Main Plant','1100 — Plant North','1200 — Plant South','2000 — Warehouse / Stores']})}
+    ${F('eq_iwerk','Maintenance Planning Plant','select',{req:true,sap:'EQUI.IWERK',opts:['1000 — Main Plant','1100 — Plant North','1200 — Plant South']})}
+    ${F('eq_tplnr','Functional Location','text',{sap:'ILOA.TPLNR',ph:'e.g. 1000-PP01-PUMP-001',max:40,hint:'Technical hierarchy position code from functional location master.'})}
+    ${F('eq_stort','Location Description','text',{sap:'ILOA.STORT',ph:'Building / bay / area description'})}
+    ${F('eq_beber','Plant Section','select',{sap:'ILOA.BEBER',opts:['PP01 — Production Line 1','PP02 — Production Line 2','UT01 — Utilities Block','MNT01 — Maintenance Bay','WH01 — Warehouse Area']})}
+    ${F('eq_gewrk','Responsible Work Centre','select',{req:true,sap:'ILOA.GEWRK',opts:['MECH01 — Mechanical Workshop','ELEC01 — Electrical Team','INST01 — Instrumentation & Controls','PIPING — Piping & Valves','CIVIL01 — Civil Infrastructure']})}
+    ${F('eq_kostl','Cost Centre','text',{req:true,sap:'ILOA.KOSTL',ph:'SAP cost centre code',max:10,hint:'Maintenance costs will be posted to this cost centre.'})}
+    ${F('eq_prctr','Profit Centre','text',{sap:'ILOA.PRCTR',ph:'Profit centre code (if applicable)',max:10})}
+  </div>
+</div>`;
+}
+
+function eqStep2(){
+  return`<div class="form-card">
+  <div class="fc-title">🏷️ SAP Classification</div>
+  <div class="g2">
+    ${F('eq_klart','Class Type','select',{req:true,sap:'KLAH.KLART',opts:[{v:'002',l:'002 — Equipment Class'},{v:'300',l:'300 — Variant Configuration Class'}]})}
+    ${F('eq_class','Class Name','text',{req:true,sap:'KSML.CLINT',ph:'e.g. PUMP_CENTRIFUGAL',hint:'SAP class name — must exist in classification system.'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">📊 Technical Nameplate Data</div>
+  <div class="g3">
+    ${F('eq_power','Rated Power (kW)','number',{ph:'0',hint:'Nameplate rated power in kilowatts'})}
+    ${F('eq_voltage','Operating Voltage (V)','number',{ph:'415'})}
+    ${F('eq_phase','Phase','select',{opts:['3-Phase','1-Phase','DC']})}
+    ${F('eq_freq','Frequency (Hz)','number',{ph:'50'})}
+    ${F('eq_flow','Flow Rate (m³/hr)','number',{ph:'0'})}
+    ${F('eq_pressure','Operating Pressure (bar)','number',{ph:'0'})}
+    ${F('eq_temp','Operating Temperature (°C)','number',{ph:'0'})}
+    ${F('eq_weight','Equipment Weight (kg)','number',{sap:'EQUI.GEWGT',ph:'0'})}
+    ${F('eq_inv','Inventory / Asset Tag No.','text',{ph:'Fixed asset register tag or inventory number'})}
+  </div>
+</div>
+<div class="form-card">
+  <div class="fc-title">📎 Justification & Documentation</div>
+  <div class="g2">
+    <div class="fg full">${F('eq_just','Business Justification / Purpose','textarea',{req:true,rows:3,ph:'New installation, replacement of failed asset, relocation, project acquisition…',hint:'Required for manager approval and asset register.'}).replace('<div class="fg">','').replace('</div>','')}</div>
+    ${F('eq_doc','Technical Document / P&ID Reference','text',{ph:'Drawing number, P&ID reference, datasheet number'})}
+  </div>
+</div>`;
+}
+
+// ── REVIEW STEP ──────────────────────────────
+function reviewStep(){
+  collect();
+  const rows=Object.entries(data).filter(([k,v])=>v&&v!=='— Select —').slice(0,18).map(([k,v])=>{
+    const lbl=k.replace(/^[^_]+_/,'').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+    return`<tr><td>${lbl}</td><td>${v}</td></tr>`;
+  }).join('');
+  return`<div class="form-card">
+  <div class="fc-title" style="color:var(--success);">✅ Review & Submit Request</div>
+  <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:16px;line-height:1.6;">Review the information below. On submission, this request goes to your <strong>Line Manager</strong> for approval, then to an <strong>MDM Steward</strong> for final review, before being automatically pushed to <strong>SAP</strong> via NavisMaster's Integration Suite connector.</p>
+
+  <div class="review-ai-box">
+    <div style="display:flex;align-items:flex-start;gap:12px;">
+      <span style="font-size:1.3rem;">🤖</span>
+      <div style="flex:1;">
+        <strong style="font-size:0.87rem;color:var(--primary);">NavisMaster AI — Pre-submission Check Complete</strong>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:3px;line-height:1.5;">✓ Fields normalised &nbsp;·&nbsp; ✓ SAP format validated &nbsp;·&nbsp; ✓ No duplicate found &nbsp;·&nbsp; ✓ 14/14 business rules passed</p>
+        <div style="margin-top:10px;">
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:4px;">Record Confidence Score</div>
+          <div class="confidence-bar"><div class="confidence-fill" style="width:91%;"></div></div>
+          <div style="font-size:0.75rem;color:var(--success);font-weight:800;margin-top:4px;">91% — High Confidence · Fast-track eligible</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-section">
+    <h3>Entered Data Summary</h3>
+    <table class="review-tbl">${rows||'<tr><td colspan="2" style="color:var(--text-muted);padding:12px;">No data entered — please go back and fill the form.</td></tr>'}</table>
+  </div>
+
+  <div class="workflow-box">
+    <div style="font-size:0.85rem;font-weight:800;color:#856404;margin-bottom:10px;">📋 Approval Workflow — What Happens Next</div>
+    <div class="wf-step"><div class="wf-num">1</div><div class="wf-text"><strong>Submitted</strong> — AI cleansing, rule validation &amp; duplicate check complete</div></div>
+    <div class="wf-step"><div class="wf-num">2</div><div class="wf-text"><strong>Manager Approval</strong> — your Line Manager receives an email + in-app notification (SLA: 2 business days)</div></div>
+    <div class="wf-step"><div class="wf-num">3</div><div class="wf-text"><strong>MDM Steward Review</strong> — data steward verifies Golden Record quality before SAP push</div></div>
+    <div class="wf-step"><div class="wf-num">4</div><div class="wf-text"><strong>SAP Push</strong> — NavisMaster Integration Suite connector creates the master in ECC / S4HANA automatically</div></div>
+    <div class="wf-step"><div class="wf-num">5</div><div class="wf-text"><strong>Confirmation</strong> — SAP material / BP number emailed to you with the Golden Record PDF</div></div>
+  </div>
+</div>`;
+}
+
+// ───────────────────────────────────────────────
+// VALIDATION & UTILS
+// ───────────────────────────────────────────────
+function validate(){
+  let ok=true;
+  document.querySelectorAll('#form-content [id]').forEach(el=>{
+    const errEl=document.getElementById(el.id+'-err');
+    const lbl=document.querySelector(`label[for="${el.id}"]`);
+    const isReq=lbl&&lbl.innerHTML.includes('class="req"');
+    if(isReq&&(el.tagName==='INPUT'||el.tagName==='SELECT'||el.tagName==='TEXTAREA')){
+      if(!el.value||el.value==='— Select —'){
+        el.classList.add('err');
+        if(errEl)errEl.classList.add('show');
+        ok=false;
+      }else{
+        el.classList.remove('err');
+        if(errEl)errEl.classList.remove('show');
+      }
+    }
+  });
+  if(!ok){
+    const firstErr=document.querySelector('.err');
+    if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  return ok;
+}
+
+function collect(){
+  document.querySelectorAll('#form-content input,#form-content select,#form-content textarea').forEach(el=>{
+    if(el.id)data[el.id]=el.value;
+  });
+}
+
+function initCharCounters(){
+  document.querySelectorAll('[data-max]').forEach(el=>{
+    const cc=document.getElementById(el.id+'-cc');
+    if(!cc)return;
+    const max=parseInt(el.dataset.max);
+    const upd=()=>{
+      const n=el.value.length;
+      cc.textContent=`${n}/${max}`;
+      cc.className='cc'+(n>max*0.85?' warn':'')+(n>=max?' over':'');
+      if(n>max)el.value=el.value.slice(0,max);
+    };
+    el.addEventListener('input',upd);upd();
+  });
+}
+
+// AI Suggestions per master type
+const AI_SUGGESTIONS = {
+  material:{mat_maktx:'STEEL PIPE SEAMLESS SCH40 5IN',mat_meins:'M',mat_unspsc:'40141700 — Pipe Fittings'},
+  bp:{bp_land1:'IN — India'},
+  product:{prod_maktx:'PUMP CENTRIFUGAL 5HP 3PH CAST IRON',prod_unspsc:'40161504 — Centrifugal Pumps'},
+  equipment:{eq_eqktx:'PUMP CENTRIFUGAL 5HP 415V 3PH CI BODY'}
+};
+
+function fireAI(){
+  const sug=AI_SUGGESTIONS[master]||{};
+  Object.entries(sug).forEach(([id,val])=>{
+    const valEl=document.getElementById(id+'-ai-val');
+    const sugEl=document.getElementById(id+'-sug');
+    if(valEl){valEl.textContent=val;}
+    if(sugEl){sugEl.style.display='flex';}
+  });
+}
+
+function applyAI(id){
+  const valEl=document.getElementById(id+'-ai-val');
+  const inp=document.getElementById(id);
+  if(!valEl||!inp)return;
+  inp.value=valEl.textContent;
+  inp.dispatchEvent(new Event('input'));
+  inp.style.borderColor='var(--ai-purple)';
+  inp.style.boxShadow='0 0 0 3px rgba(107,70,193,0.15)';
+  setTimeout(()=>{inp.style.borderColor='';inp.style.boxShadow='';},900);
+}
+</script>
+</body>
+</html>

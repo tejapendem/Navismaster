@@ -1044,3 +1044,500 @@ body,
     line-height: 1 !important;
     margin-right: 0.25rem !important;
 }
+
+/* ==========================================
+   MASTER DATA DIALOG STYLING
+   ========================================== */
+
+.masterDataDialog.sapMDialog {
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.masterDataDialog .sapMDialogTitle {
+    font-size: 1.35rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    padding: 1.5rem 1.5rem 0 !important;
+    background: transparent !important;
+}
+
+.masterDataDialog .sapMDialogScrollCont {
+    padding: 0.75rem 1.5rem 1.5rem !important;
+}
+
+.masterDataSubtitle {
+    font-size: 0.82rem !important;
+    color: #64748b !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1rem !important;
+}
+
+.masterDataGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+}
+
+.masterDataCard {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 1.15rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    display: flex !important;
+    gap: 0.85rem !important;
+}
+
+.masterDataCard:hover {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+    transform: translateY(-1px);
+}
+
+.masterDataCardIcon {
+    font-size: 1.65rem !important;
+    width: 2rem !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+    margin-top: 0.15rem !important;
+}
+
+.masterDataCardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.masterDataCardTitle {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+.masterDataCardSubtitle {
+    font-size: 0.68rem !important;
+    color: #64748b !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.1rem !important;
+}
+
+.masterDataCardDesc {
+    font-size: 0.72rem !important;
+    color: #64748b !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.35rem !important;
+}
+
+.masterDataTags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.3rem !important;
+    margin-top: auto !important;
+}
+
+.masterDataTag {
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    padding: 0.15rem 0.5rem !important;
+    border-radius: 9999px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    height: 18px !important;
+    white-space: nowrap !important;
+}
+
+.masterDataTag.tagBlue { background-color: #eff6ff !important; color: #1d4ed8 !important; border: 1px solid #bfdbfe !important; }
+.masterDataTag.tagCyan { background-color: #ecfeff !important; color: #0e7490 !important; border: 1px solid #a5f3fc !important; }
+.masterDataTag.tagOrange { background-color: #fff7ed !important; color: #c2410c !important; border: 1px solid #fed7aa !important; }
+.masterDataTag.tagGreen { background-color: #f0fdf4 !important; color: #15803d !important; border: 1px solid #bbf7d0 !important; }
+.masterDataTag.tagPurple { background-color: #faf5ff !important; color: #7e22ce !important; border: 1px solid #e9d5ff !important; }
+
+/* Master Data Card Border Accents */
+.mdcBorderBlue { border-left: 4px solid #3b82f6 !important; }
+.mdcBorderGreen { border-left: 4px solid #10b981 !important; }
+.mdcBorderOrange { border-left: 4px solid #f97316 !important; }
+.mdcBorderPurple { border-left: 4px solid #8b5cf6 !important; }
+
+/* ==========================================
+   MASTER DATA WIZARD DIALOG STYLING
+   ========================================== */
+
+.masterDataWizardDialog.sapMDialog {
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.masterDataWizardDialog .sapMDialogTitle {
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    padding: 1.25rem 1.5rem 0 !important;
+    background: transparent !important;
+}
+
+.masterDataWizardDialog .sapMDialogScrollCont {
+    padding: 0 !important;
+}
+
+.wizContainer {
+    display: flex;
+    min-height: 380px;
+}
+
+/* Step Stepper */
+.wizStepper {
+    width: 210px;
+    background: #f8fafc;
+    border-right: 1px solid #e2e8f0;
+    padding: 1.25rem 1rem;
+    flex-shrink: 0;
+}
+
+.wizStepperTitle {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+.wizStep {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.wizStep:hover {
+    background: #edf2f7;
+}
+
+.wizStepActive {
+    background: #eff6ff !important;
+}
+
+.wizStepDone .wizStepCircle {
+    background: #10b981 !important;
+    color: white !important;
+    border-color: #10b981 !important;
+}
+
+.wizStepCircle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #64748b;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.wizStepActive .wizStepCircle {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: white;
+}
+
+.wizStepLabel {
+    min-width: 0;
+}
+
+.wizStepTitle {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+.wizStepDesc {
+    font-size: 0.62rem;
+    color: #94a3b8;
+    margin-top: 1px;
+}
+
+.wizStepActive .wizStepTitle {
+    color: #1d4ed8;
+}
+
+.wizStepLine {
+    width: 2px;
+    height: 18px;
+    background: #e2e8f0;
+    margin: 2px 0 2px 11px;
+}
+
+/* Form Content */
+.wizForm {
+    flex: 1;
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    max-height: 480px;
+}
+
+.wizFormStepLabel {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.25rem;
+}
+
+.wizFormTitle {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.15rem;
+}
+
+.wizFormDesc {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-bottom: 1.25rem;
+}
+
+/* Form Fields */
+.wizFields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.wizField {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    position: relative;
+}
+
+.wizFieldLabel {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.wizFieldRequired .wizFieldLabel {
+    color: #0f172a;
+}
+
+.wizReq {
+    color: #ef4444;
+    font-size: 0.85rem;
+}
+
+.wizFieldDesc {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.wizAiBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: #7e22ce;
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.wizInput {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #1a202c;
+    background: #fff;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+
+.wizInput:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.wizSelect {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    padding-right: 2rem;
+    cursor: pointer;
+}
+
+.wizTextarea {
+    min-height: 72px;
+    resize: vertical;
+}
+
+.wizCharCounter {
+    font-size: 0.62rem;
+    color: #94a3b8;
+    text-align: right;
+    margin-top: 0.1rem;
+}
+
+.wizAiApplyBtn {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #7e22ce;
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    align-self: flex-start;
+    transition: all 0.2s ease;
+}
+
+.wizAiApplyBtn:hover {
+    background: #ede9fe;
+    border-color: #c4b5fd;
+}
+
+/* Navigation Bar */
+.wizNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 0 0 16px 16px;
+}
+
+.wizNavLeft, .wizNavRight {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.wizBtn {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.45rem 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #334155;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.wizBtn:hover {
+    background: #f1f5f9;
+}
+
+.wizBtnNext {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.wizBtnNext:hover {
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+.wizBtnSubmit {
+    background: #059669;
+    color: white;
+    border-color: #059669;
+}
+
+.wizBtnSubmit:hover {
+    background: #047857;
+    border-color: #047857;
+}
+
+.wizBtnCancel {
+    color: #64748b;
+}
+
+/* Submit Confirmation Dialog */
+.submitConfirmDialog.sapMDialog {
+    border-radius: 16px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.submitConfirmDialog .sapMDialogTitle {
+    display: none !important;
+}
+
+.submitConfirmDialog .sapMDialogScrollCont {
+    padding: 0 !important;
+}
+
+.submitConfirmContent {
+    text-align: center;
+    padding: 2rem 2rem 1.5rem;
+}
+
+.submitConfirmIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.submitConfirmTitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+.submitConfirmDesc {
+    font-size: 0.82rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+}
+
+.submitConfirmDetails {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.submitConfirmRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #334155;
+}
+
+.submitConfirmRowLabel {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.submitConfirmStatus {
+    font-weight: 800;
+    color: #d97706;
+}

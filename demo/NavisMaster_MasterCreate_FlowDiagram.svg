@@ -1,0 +1,351 @@
+<svg viewBox="0 0 1100 820" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="hdrGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1B4F72"/>
+      <stop offset="100%" style="stop-color:#154360"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00C8C8"/>
+      <stop offset="100%" style="stop-color:#008A8A"/>
+    </linearGradient>
+    <linearGradient id="aiGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7B5FD0"/>
+      <stop offset="100%" style="stop-color:#553C9A"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2ECC71"/>
+      <stop offset="100%" style="stop-color:#27AE60"/>
+    </linearGradient>
+    <linearGradient id="warnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F39C12"/>
+      <stop offset="100%" style="stop-color:#D68910"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.12)"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#00A3A3"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#A0AEC0"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#E53E3E"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="820" fill="#EDF2F7"/>
+
+  <!-- Header bar -->
+  <rect width="1100" height="60" fill="url(#hdrGrad)"/>
+  <text x="24" y="22" fill="white" font-size="11" font-weight="700" opacity="0.7">NAVISMASTER · CarinAi Platform · Canopus GBS</text>
+  <text x="24" y="44" fill="white" font-size="17" font-weight="800" letter-spacing="0.3">Master Data Creation — Smart Form &amp; Approval Flow</text>
+  <text x="1076" y="38" fill="white" font-size="10" text-anchor="end" opacity="0.6">v1.0 · June 2026</text>
+
+  <!-- LEGEND -->
+  <rect x="820" y="76" width="260" height="148" rx="10" fill="white" filter="url(#shadow)"/>
+  <text x="836" y="96" font-size="10" font-weight="800" fill="#2D3748">LEGEND</text>
+  <rect x="836" y="104" width="14" height="14" rx="3" fill="url(#accentGrad)"/><text x="856" y="115" font-size="10" fill="#4A5568">Requester Action</text>
+  <rect x="836" y="124" width="14" height="14" rx="3" fill="url(#aiGrad)"/><text x="856" y="135" font-size="10" fill="#4A5568">NavisMaster AI Processing</text>
+  <rect x="836" y="144" width="14" height="14" rx="3" fill="#E6FFFA" stroke="#00A3A3" stroke-width="1.5"/><text x="856" y="155" font-size="10" fill="#4A5568">System / Automated Step</text>
+  <rect x="836" y="164" width="14" height="14" rx="3" fill="#FFF5F5" stroke="#E53E3E" stroke-width="1.5"/><text x="856" y="175" font-size="10" fill="#4A5568">Rejection / Rework Path</text>
+  <rect x="836" y="184" width="14" height="14" rx="3" fill="#FFFBF0" stroke="#F6AD55" stroke-width="1.5"/><text x="856" y="195" font-size="10" fill="#4A5568">Approval / Decision Point</text>
+  <line x1="836" y1="209" x2="870" y2="209" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/><text x="876" y="213" font-size="10" fill="#4A5568">Main Flow</text>
+  <line x1="936" y1="209" x2="970" y2="209" stroke="#E53E3E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/><text x="976" y="213" font-size="10" fill="#4A5568">Rejection</text>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- ROW 1: Master type selection + Form steps  -->
+  <!-- ─────────────────────────────────────────── -->
+
+  <!-- Step label row -->
+  <text x="50" y="86" font-size="10" font-weight="800" fill="#718096" letter-spacing="1">PHASE 1 — REQUEST &amp; INTAKE</text>
+  <text x="50" y="320" font-size="10" font-weight="800" fill="#718096" letter-spacing="1">PHASE 2 — AI PROCESSING</text>
+  <text x="50" y="490" font-size="10" font-weight="800" fill="#718096" letter-spacing="1">PHASE 3 — APPROVAL WORKFLOW</text>
+  <text x="50" y="660" font-size="10" font-weight="800" fill="#718096" letter-spacing="1">PHASE 4 — SAP CREATION &amp; CONFIRMATION</text>
+
+  <!-- Phase separator lines -->
+  <line x1="30" y1="92" x2="800" y2="92" stroke="#CBD5E0" stroke-width="1"/>
+  <line x1="30" y1="326" x2="800" y2="326" stroke="#CBD5E0" stroke-width="1"/>
+  <line x1="30" y1="496" x2="800" y2="496" stroke="#CBD5E0" stroke-width="1"/>
+  <line x1="30" y1="666" x2="800" y2="666" stroke="#CBD5E0" stroke-width="1"/>
+
+  <!-- ─── STEP 1: Requester Login ─── -->
+  <rect x="40" y="102" width="110" height="68" rx="10" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <text x="95" y="128" text-anchor="middle" font-size="13" fill="white">👤</text>
+  <text x="95" y="143" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">REQUESTER</text>
+  <text x="95" y="157" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.85)">Login · NavisMaster</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="150" y1="136" x2="182" y2="136" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ─── STEP 2: Select Master Type ─── -->
+  <rect x="183" y="102" width="120" height="68" rx="10" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <text x="243" y="128" text-anchor="middle" font-size="13" fill="white">🗂</text>
+  <text x="243" y="143" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">SELECT TYPE</text>
+  <text x="243" y="157" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.85)">Mat / BP / Product / Equip</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="303" y1="136" x2="335" y2="136" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ─── STEP 3: Smart Wizard Form ─── -->
+  <rect x="336" y="96" width="150" height="80" rx="10" fill="white" stroke="#00A3A3" stroke-width="2" filter="url(#shadow)"/>
+  <text x="411" y="117" text-anchor="middle" font-size="11" fill="#2D3748">📝</text>
+  <text x="411" y="131" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">STEP-BY-STEP WIZARD</text>
+  <text x="411" y="143" text-anchor="middle" font-size="8.5" fill="#718096">Required fields · Validation</text>
+  <text x="411" y="155" text-anchor="middle" font-size="8.5" fill="#718096">Char counters · SAP mapping</text>
+  <text x="411" y="167" text-anchor="middle" font-size="8.5" fill="#718096">Business Justification</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="486" y1="136" x2="518" y2="136" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ─── STEP 4: AI Assistance ─── -->
+  <rect x="519" y="96" width="140" height="80" rx="10" fill="url(#aiGrad)" filter="url(#shadow)"/>
+  <text x="589" y="117" text-anchor="middle" font-size="11" fill="white">🤖</text>
+  <text x="589" y="131" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">AI SUGGESTIONS</text>
+  <text x="589" y="143" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Auto-fill short text</text>
+  <text x="589" y="155" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">UNSPSC mapping</text>
+  <text x="589" y="167" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">UoM suggestion · Chat mode</text>
+
+  <!-- Arrow 4→5 -->
+  <line x1="659" y1="136" x2="691" y2="136" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ─── STEP 5: Save Draft / Submit ─── -->
+  <rect x="692" y="102" width="110" height="68" rx="10" fill="url(#accentGrad)" filter="url(#shadow)"/>
+  <text x="747" y="128" text-anchor="middle" font-size="11" fill="white">🚀</text>
+  <text x="747" y="142" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">SUBMIT</text>
+  <text x="747" y="156" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.85)">Request · Draft option</text>
+
+  <!-- ─────────────────────────────────────── -->
+  <!-- ROW 2 — PHASE 2: AI PROCESSING         -->
+  <!-- ─────────────────────────────────────── -->
+
+  <!-- Down arrow from Submit to AI Cleanse -->
+  <line x1="747" y1="170" x2="747" y2="218" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Horizontal back to AI cleanse block -->
+  <line x1="747" y1="244" x2="647" y2="244" stroke="#00A3A3" stroke-width="2"/>
+  <line x1="647" y1="218" x2="647" y2="270" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- AI Cleanse block -->
+  <rect x="520" y="336" width="140" height="76" rx="10" fill="url(#aiGrad)" filter="url(#shadow)"/>
+  <text x="590" y="356" text-anchor="middle" font-size="11" fill="white">✨</text>
+  <text x="590" y="370" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">AI CLEANSING</text>
+  <text x="590" y="382" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Gemini 1.5 · Normalise</text>
+  <text x="590" y="394" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">40-char SAP text · Taxonomy</text>
+  <text x="590" y="406" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">UNSPSC · ISO UoM</text>
+
+  <!-- Down arrow from Submit -->
+  <line x1="747" y1="170" x2="747" y2="336" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- AI Validate block -->
+  <rect x="680" y="336" width="130" height="76" rx="10" fill="url(#aiGrad)" filter="url(#shadow)"/>
+  <text x="745" y="356" text-anchor="middle" font-size="11" fill="white">✅</text>
+  <text x="745" y="370" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">RULE VALIDATE</text>
+  <text x="745" y="382" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Required · Format</text>
+  <text x="745" y="394" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Cross-field · Lookup</text>
+  <text x="745" y="406" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">14 BTP rule checks</text>
+
+  <!-- Arrow cleanse → validate -->
+  <line x1="660" y1="374" x2="679" y2="374" stroke="white" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Duplicate check block -->
+  <rect x="375" y="336" width="130" height="76" rx="10" fill="url(#aiGrad)" filter="url(#shadow)"/>
+  <text x="440" y="356" text-anchor="middle" font-size="11" fill="white">🔍</text>
+  <text x="440" y="370" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">DEDUPLICATE</text>
+  <text x="440" y="382" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">HANA Vector Engine</text>
+  <text x="440" y="394" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Cosine Similarity ≥ 80%</text>
+  <text x="440" y="406" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)">Semantic matching</text>
+
+  <!-- Arrow submit → cleanse (flow from top) -->
+  <line x1="590" y1="170" x2="590" y2="336" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Arrow cleanse ← dedup (parallel left to right under submit) -->
+  <line x1="505" y1="374" x2="520" y2="374" stroke="white" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Staging table block -->
+  <rect x="200" y="336" width="158" height="76" rx="10" fill="#E6FFFA" stroke="#00A3A3" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="279" y="356" text-anchor="middle" font-size="11" fill="#234E52">🗄️</text>
+  <text x="279" y="370" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">STAGING TABLE</text>
+  <text x="279" y="382" text-anchor="middle" font-size="8.5" fill="#2C7A7B">HANA Cloud · Per-tenant</text>
+  <text x="279" y="394" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Status: STAGED → CLEANSED</text>
+  <text x="279" y="406" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Full audit trail logged</text>
+
+  <!-- Arrow submit → staging -->
+  <line x1="411" y1="176" x2="411" y2="300" stroke="#00A3A3" stroke-width="2"/>
+  <line x1="411" y1="300" x2="279" y2="300" stroke="#00A3A3" stroke-width="2"/>
+  <line x1="279" y1="300" x2="279" y2="336" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Arrow staging → dedup -->
+  <line x1="358" y1="374" x2="375" y2="374" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Dup flag path -->
+  <rect x="40" y="336" width="140" height="76" rx="10" fill="#FFF5F5" stroke="#E53E3E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="110" y="356" text-anchor="middle" font-size="11">⚠️</text>
+  <text x="110" y="370" text-anchor="middle" font-size="9.5" font-weight="800" fill="#C53030">DUPLICATE FLAG</text>
+  <text x="110" y="382" text-anchor="middle" font-size="8.5" fill="#E53E3E">Requester notified</text>
+  <text x="110" y="394" text-anchor="middle" font-size="8.5" fill="#E53E3E">Review / confirm or</text>
+  <text x="110" y="406" text-anchor="middle" font-size="8.5" fill="#E53E3E">abandon request</text>
+
+  <!-- Arrow from dedup to dup flag (left) -->
+  <line x1="375" y1="395" x2="180" y2="395" stroke="#E53E3E" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowRed)"/>
+  <text x="265" y="415" text-anchor="middle" font-size="8.5" fill="#E53E3E">Similarity ≥ 80%</text>
+
+  <!-- ─────────────────────────────────────── -->
+  <!-- ROW 3 — PHASE 3: APPROVAL              -->
+  <!-- ─────────────────────────────────────── -->
+
+  <!-- Arrow from rule validate down to manager approval -->
+  <line x1="745" y1="412" x2="745" y2="506" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Confidence score box (transition from AI to approval) -->
+  <rect x="580" y="424" width="140" height="56" rx="8" fill="#E6FFFA" stroke="#00A3A3" stroke-width="1.5"/>
+  <text x="650" y="443" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">GOLDEN RECORD</text>
+  <text x="650" y="456" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Confidence ≥ 80% → Fast-track</text>
+  <text x="650" y="468" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Confidence &lt; 80% → Steward queue</text>
+
+  <line x1="745" y1="412" x2="650" y2="424" stroke="#00A3A3" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- MANAGER APPROVAL block -->
+  <rect x="580" y="506" width="180" height="80" rx="10" fill="#FFFBF0" stroke="#F6AD55" stroke-width="2" filter="url(#shadow)"/>
+  <text x="670" y="528" text-anchor="middle" font-size="13">👨‍💼</text>
+  <text x="670" y="543" text-anchor="middle" font-size="9.5" font-weight="800" fill="#744210">MANAGER APPROVAL</text>
+  <text x="670" y="555" text-anchor="middle" font-size="8.5" fill="#975A16">Email + in-app notification</text>
+  <text x="670" y="567" text-anchor="middle" font-size="8.5" fill="#975A16">SLA: 2 business days</text>
+  <text x="670" y="579" text-anchor="middle" font-size="8.5" fill="#975A16">Can Approve / Reject / Clarify</text>
+
+  <!-- Reject from manager -->
+  <rect x="395" y="520" width="120" height="52" rx="8" fill="#FFF5F5" stroke="#E53E3E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="455" y="540" text-anchor="middle" font-size="9.5" font-weight="800" fill="#C53030">REJECTED</text>
+  <text x="455" y="553" text-anchor="middle" font-size="8.5" fill="#E53E3E">Requester notified</text>
+  <text x="455" y="564" text-anchor="middle" font-size="8.5" fill="#E53E3E">Reason provided · Rework</text>
+
+  <line x1="580" y1="546" x2="515" y2="546" stroke="#E53E3E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+
+  <!-- MDM STEWARD REVIEW block -->
+  <rect x="200" y="506" width="180" height="80" rx="10" fill="#FFFBF0" stroke="#F6AD55" stroke-width="2" filter="url(#shadow)"/>
+  <text x="290" y="528" text-anchor="middle" font-size="13">🕵️</text>
+  <text x="290" y="543" text-anchor="middle" font-size="9.5" font-weight="800" fill="#744210">MDM STEWARD</text>
+  <text x="290" y="555" text-anchor="middle" font-size="8.5" fill="#975A16">Fiori Steward Inbox</text>
+  <text x="290" y="567" text-anchor="middle" font-size="8.5" fill="#975A16">Side-by-side compare</text>
+  <text x="290" y="579" text-anchor="middle" font-size="8.5" fill="#975A16">Approve / Reject / Merge</text>
+
+  <!-- Arrow manager → steward -->
+  <line x1="580" y1="546" x2="380" y2="546" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="490" y="538" text-anchor="middle" font-size="8" fill="#2C7A7B" font-weight="700">Approved ✓</text>
+
+  <!-- Reject from steward -->
+  <rect x="40" y="520" width="130" height="52" rx="8" fill="#FFF5F5" stroke="#E53E3E" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="105" y="540" text-anchor="middle" font-size="9.5" font-weight="800" fill="#C53030">REJECTED</text>
+  <text x="105" y="553" text-anchor="middle" font-size="8.5" fill="#E53E3E">Rework request sent</text>
+  <text x="105" y="564" text-anchor="middle" font-size="8.5" fill="#E53E3E">Back to requester</text>
+  <line x1="200" y1="546" x2="170" y2="546" stroke="#E53E3E" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowRed)"/>
+
+  <!-- ─────────────────────────────────────── -->
+  <!-- ROW 4 — PHASE 4: SAP CREATION          -->
+  <!-- ─────────────────────────────────────── -->
+
+  <!-- Arrow steward → golden record approved -->
+  <line x1="290" y1="586" x2="290" y2="690" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- GOLDEN RECORD MASTER TABLE -->
+  <rect x="200" y="690" width="180" height="68" rx="10" fill="#E6FFFA" stroke="#00A3A3" stroke-width="2" filter="url(#shadow)"/>
+  <text x="290" y="712" text-anchor="middle" font-size="11">⭐</text>
+  <text x="290" y="726" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">GOLDEN RECORD</text>
+  <text x="290" y="738" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Master Table updated</text>
+  <text x="290" y="750" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Version controlled · Tenant</text>
+
+  <!-- Arrow golden → integration suite -->
+  <line x1="380" y1="724" x2="440" y2="724" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Integration Suite -->
+  <rect x="440" y="690" width="150" height="68" rx="10" fill="#E6FFFA" stroke="#00A3A3" stroke-width="2" filter="url(#shadow)"/>
+  <text x="515" y="712" text-anchor="middle" font-size="11">🔄</text>
+  <text x="515" y="726" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">INTEGRATION SUITE</text>
+  <text x="515" y="738" text-anchor="middle" font-size="8.5" fill="#2C7A7B">iFlow triggered</text>
+  <text x="515" y="750" text-anchor="middle" font-size="8.5" fill="#2C7A7B">BAPI / IDoc / OData push</text>
+
+  <!-- Arrow integration → SAP ECC/S4 -->
+  <line x1="590" y1="724" x2="640" y2="724" stroke="#00A3A3" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- SAP Backend -->
+  <rect x="640" y="680" width="160" height="88" rx="10" fill="url(#greenGrad)" filter="url(#shadow)"/>
+  <text x="720" y="706" text-anchor="middle" font-size="13" fill="white">🏗️</text>
+  <text x="720" y="722" text-anchor="middle" font-size="9.5" font-weight="800" fill="white">SAP ECC / S4HANA</text>
+  <text x="720" y="734" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.9)">MM01 / IE01 / XD01 / XK01</text>
+  <text x="720" y="746" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.9)">Master record created</text>
+  <text x="720" y="758" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.9)">SAP number generated</text>
+
+  <!-- Confirmation arrow back to requester -->
+  <line x1="720" y1="768" x2="720" y2="800" stroke="#27AE60" stroke-width="2"/>
+  <line x1="720" y1="800" x2="95" y2="800" stroke="#27AE60" stroke-width="2"/>
+  <line x1="95" y1="800" x2="95" y2="800" stroke="#27AE60" stroke-width="2" marker-end="url(#arrow)"/>
+  <!-- Confirmation box -->
+  <rect x="40" y="782" width="200" height="30" rx="6" fill="#E6FFFA" stroke="#27AE60" stroke-width="1.5"/>
+  <text x="140" y="801" text-anchor="middle" font-size="9" font-weight="700" fill="#1B4F72">✉️ SAP number emailed to Requester · Audit PDF</text>
+
+  <!-- Distribution Log -->
+  <rect x="40" y="690" width="145" height="68" rx="10" fill="#E6FFFA" stroke="#00A3A3" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="112" y="712" text-anchor="middle" font-size="11">📋</text>
+  <text x="112" y="726" text-anchor="middle" font-size="9.5" font-weight="800" fill="#1B4F72">AUDIT LOG</text>
+  <text x="112" y="738" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Every AI prompt logged</text>
+  <text x="112" y="750" text-anchor="middle" font-size="8.5" fill="#2C7A7B">Every decision recorded</text>
+  <line x1="185" y1="724" x2="200" y2="724" stroke="#00A3A3" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- ─────────────────────────────────────── -->
+  <!-- BOTTOM STRIP: 4 master types           -->
+  <!-- ─────────────────────────────────────── -->
+  <rect x="820" y="248" width="260" height="310" rx="10" fill="white" filter="url(#shadow)"/>
+  <text x="836" y="270" font-size="10" font-weight="800" fill="#2D3748">MASTER TYPES &amp; WIZARD STEPS</text>
+
+  <!-- Material Master -->
+  <text x="836" y="290" font-size="9.5" font-weight="800" fill="#1B4F72">📦  Material Master (MM01)</text>
+  <text x="844" y="303" font-size="8.5" fill="#4A5568">Step 1  Basic Info · MARA.MAKTX / MTART / MEINS</text>
+  <text x="844" y="315" font-size="8.5" fill="#4A5568">Step 2  Classification · Weights / UNSPSC / Alt UoM</text>
+  <text x="844" y="327" font-size="8.5" fill="#4A5568">Step 3  Org &amp; MRP · Plant / Storage / MRP / Valuation</text>
+  <text x="844" y="339" font-size="8.5" fill="#4A5568">Step 4  Purchasing &amp; Costing · Buyer / Price / Curr.</text>
+
+  <line x1="836" y1="346" x2="1066" y2="346" stroke="#EDF2F7" stroke-width="1"/>
+
+  <!-- Business Partner -->
+  <text x="836" y="360" font-size="9.5" font-weight="800" fill="#1B4F72">🤝  Business Partner (BP/XD01/XK01)</text>
+  <text x="844" y="373" font-size="8.5" fill="#4A5568">Step 1  Role &amp; Identity · BP Role / Grouping / Name</text>
+  <text x="844" y="385" font-size="8.5" fill="#4A5568">Step 2  Address · ADRC Street / City / Country</text>
+  <text x="844" y="397" font-size="8.5" fill="#4A5568">Step 3  Tax &amp; Legal · GSTIN / PAN / TAN / MSME</text>
+  <text x="844" y="409" font-size="8.5" fill="#4A5568">Step 4  Bank · IFSC / IBAN / Account / Holder</text>
+  <text x="844" y="421" font-size="8.5" fill="#4A5568">Step 5  Company Code · Recon Acct / Pymt Terms</text>
+
+  <line x1="836" y1="428" x2="1066" y2="428" stroke="#EDF2F7" stroke-width="1"/>
+
+  <!-- Product Master -->
+  <text x="836" y="442" font-size="9.5" font-weight="800" fill="#1B4F72">🏭  Product Master (FERT/HALB)</text>
+  <text x="844" y="455" font-size="8.5" fill="#4A5568">Step 1  Basic Info · Description / FERT-HALB / Group</text>
+  <text x="844" y="467" font-size="8.5" fill="#4A5568">Step 2  Sales Data · Sales Org / Channel / Division</text>
+  <text x="844" y="479" font-size="8.5" fill="#4A5568">Step 3  Pricing · Std Price / Hierarchy / Rev Acct</text>
+  <text x="844" y="491" font-size="8.5" fill="#4A5568">Step 4  MRP &amp; BOM · Prod Plant / BOM link / Costing</text>
+
+  <line x1="836" y1="498" x2="1066" y2="498" stroke="#EDF2F7" stroke-width="1"/>
+
+  <!-- Equipment Master -->
+  <text x="836" y="512" font-size="9.5" font-weight="800" fill="#1B4F72">⚙️  Equipment Master (IE01)</text>
+  <text x="844" y="525" font-size="8.5" fill="#4A5568">Step 1  Basic Data · Desc / Manufacturer / Serial</text>
+  <text x="844" y="537" font-size="8.5" fill="#4A5568">Step 2  Location · Func Loc / Work Ctr / Cost Ctr</text>
+  <text x="844" y="549" font-size="8.5" fill="#4A5568">Step 3  Classification + Technical Nameplate</text>
+
+  <!-- AI Features side panel -->
+  <rect x="820" y="570" width="260" height="170" rx="10" fill="#FAF5FF" stroke="#B794F4" stroke-width="1.5"/>
+  <text x="836" y="590" font-size="10" font-weight="800" fill="#553C9A">🤖 NavisMaster AI FEATURES</text>
+  <text x="836" y="607" font-size="8.5" fill="#4A5568">✓ Free-text → 40-char SAP short text (Gemini 1.5)</text>
+  <text x="836" y="620" font-size="8.5" fill="#4A5568">✓ UNSPSC taxonomy auto-mapping</text>
+  <text x="836" y="633" font-size="8.5" fill="#4A5568">✓ ISO unit of measure normalisation</text>
+  <text x="836" y="646" font-size="8.5" fill="#4A5568">✓ Semantic deduplication (Vector Cosine ≥ 80%)</text>
+  <text x="836" y="659" font-size="8.5" fill="#4A5568">✓ Confidence score (0–100%) per record</text>
+  <text x="836" y="672" font-size="8.5" fill="#4A5568">✓ Chat-mode for mobile users</text>
+  <text x="836" y="685" font-size="8.5" fill="#4A5568">✓ Fast-track for high-confidence records (&gt;80%)</text>
+  <text x="836" y="698" font-size="8.5" fill="#4A5568">✓ Full audit trail — every prompt + decision</text>
+  <text x="836" y="711" font-size="8.5" fill="#4A5568">✓ Multi-tenant · Per-org HANA Cloud schema</text>
+  <text x="836" y="724" font-size="8.5" fill="#4A5568">✓ Outbound: BAPI / IDoc / OData to ECC/S4</text>
+
+  <!-- Footer -->
+  <rect y="800" width="1100" height="20" fill="#2D3748"/>
+  <text x="550" y="813" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.6)">NavisMaster · CarinAi Platform · Canopus GBS · Confidential — Internal Use Only · v1.0 June 2026</text>
+</svg>
