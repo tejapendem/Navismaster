@@ -1,0 +1,8 @@
+{
+  "watch": {
+    "ignore": ["app/**", "demo/**", "node_modules/**", "*.lock", "package-lock.json", "mta_archives/**"]
+  },
+  "features": {
+    "live_reload": false
+  }
+}

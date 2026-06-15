@@ -8,4 +8,13 @@ service DashboardService {
     entity WorkspaceItems as projection on db.WorkspaceItems;
     entity Pillars as projection on db.Pillars;
 
+    type UserInfo {
+        id        : String;
+        name      : String;
+        initials  : String;
+        firstName : String;
+    }
+
+    function currentUser() returns UserInfo;
+
 }

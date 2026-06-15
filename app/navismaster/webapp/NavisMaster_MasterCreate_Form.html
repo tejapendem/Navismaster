@@ -34,33 +34,541 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--te
 .hdr-badge{background:rgba(0,163,163,0.25);color:#7FE6E6;font-size:0.72rem;padding:4px 10px;border-radius:12px;font-weight:700;border:1px solid rgba(0,163,163,0.4);}
 .hdr-user{font-size:0.82rem;opacity:0.8;display:flex;align-items:center;gap:6px;}
 
+/* ════════════ NAVISMASTER TOP HEADER (matches main dashboard) ════════════ */
+.navisHeader {
+  height: 58px;
+  background: linear-gradient(90deg, #0d1b3e 0%, #1a2f5a 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem;
+  font-family: "72", "Segoe UI", Inter, system-ui, sans-serif;
+  position: sticky; top: 0; z-index: 50;
+}
+.navisHeader::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 3px;
+  background: linear-gradient(90deg,
+    #f59e0b 0%,
+    #ef4444 22%,
+    #ec4899 42%,
+    #8b5cf6 60%,
+    #2563eb 78%,
+    #06b6d4 100%);
+  background-size: 200% 100%;
+  animation: navisHeaderGradient 8s ease-in-out infinite;
+  box-shadow: 0 1px 8px rgba(99,102,241,0.35);
+  pointer-events: none;
+  z-index: 51;
+}
+@keyframes navisHeaderGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .navisHeader::after { animation: none !important; }
+}
+.nh-left, .nh-mid, .nh-right { display: flex; align-items: center; gap: 1rem; }
+.nh-mid  { flex: 1; justify-content: center; }
+.nh-right{ gap: 0.4rem; }
+
+.nh-brand {
+  display: flex; align-items: center; gap: 0.7rem;
+  text-decoration: none;
+  padding-right: 1rem;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  transition: opacity 0.2s;
+}
+.nh-brand:hover { opacity: 0.85; }
+.nh-logo {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow:
+    0 4px 12px rgba(245,158,11,0.45),
+    inset 0 1px 1px rgba(255,255,255,0.45);
+  position: relative; overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+.nh-logo::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), transparent);
+  border-radius: 10px 10px 0 0;
+  pointer-events: none;
+}
+.nh-logo svg { width: 22px; height: 22px; position: relative; z-index: 1; transition: transform 0.6s; }
+.nh-brand:hover .nh-logo { transform: translateY(-1px); }
+.nh-brand:hover .nh-logo svg { transform: rotate(45deg); }
+
+.nh-text { display: flex; flex-direction: column; line-height: 1.1; }
+.nh-title { font-size: 1.05rem; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
+.nh-title-light { font-weight: 400; color: rgba(255,255,255,0.75); }
+.nh-subtitle {
+  font-size: 0.6rem; color: #7da8d8; font-weight: 600;
+  letter-spacing: 0.4px; text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.nh-context {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(59,111,212,0.25);
+  border: 1px solid rgba(59,111,212,0.55);
+  padding: 0.28rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700; color: #93c5fd;
+  white-space: nowrap;
+}
+.nh-context-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  display: inline-block; flex-shrink: 0;
+  animation: nhDotBlink 1.4s ease-in-out infinite;
+}
+@keyframes nhDotBlink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(34,197,94,0.9); }
+  50%      { opacity: 0.45; box-shadow: 0 0 2px rgba(34,197,94,0.4); }
+}
+
+.nh-search {
+  display: flex; align-items: center; gap: 0.6rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  height: 36px;
+  padding: 0 0.85rem;
+  width: 28rem; max-width: 100%;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: width 0.35s cubic-bezier(0.22,1,0.36,1),
+              border-color 0.2s,
+              box-shadow 0.25s,
+              background 0.2s;
+  cursor: text;
+}
+.nh-search:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255,255,255,0.24);
+}
+.nh-search:focus-within {
+  width: 34rem;
+  border-color: rgba(99,179,255,0.65);
+  box-shadow: 0 0 0 4px rgba(99,179,255,0.18);
+  background: rgba(255,255,255,0.1);
+}
+.nh-search-icon {
+  width: 14px; height: 14px;
+  color: rgba(125,168,216,0.85);
+  flex-shrink: 0;
+  background: transparent !important;
+  transition: color 0.2s;
+}
+.nh-search:focus-within .nh-search-icon { color: rgba(147,197,253,1); }
+.nh-search input {
+  background: transparent !important;
+  border: none; outline: none;
+  color: #e2eaf4;
+  font-size: 0.82rem;
+  flex: 1;
+  font-family: inherit;
+  letter-spacing: 0.1px;
+  min-width: 0;
+  padding: 0;
+}
+.nh-search input::placeholder { color: rgba(148,180,210,0.65); font-weight: 500; }
+.nh-search-kbd {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: "SF Mono", "Roboto Mono", "Courier New", monospace;
+  font-size: 0.62rem; font-weight: 700;
+  color: rgba(220,235,255,0.6);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 1px 5px; height: 18px;
+  border-radius: 4px;
+  white-space: nowrap;
+  letter-spacing: 0.4px;
+  transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+.nh-search:focus-within .nh-search-kbd { opacity: 0; }
+
+.nh-icon {
+  position: relative;
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 8px; cursor: pointer;
+  font-size: 1rem; line-height: 1;
+  transition: background 0.15s;
+}
+.nh-icon:hover { background: rgba(255,255,255,0.1); }
+.nh-icon-dot {
+  position: absolute; top: 6px; right: 6px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #f97316;
+  border: 2px solid #0d1b3e;
+  box-shadow: 0 0 4px rgba(249,115,22,0.7);
+}
+
+.nh-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #1e40af, #1d4ed8);
+  color: #fff; font-size: 0.72rem; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.35);
+  cursor: pointer;
+  margin-left: 0.4rem;
+}
+
+/* Breadcrumb strip below header */
+.nh-breadcrumb {
+  background: #ffffff;
+  border-bottom: 1px solid #e8edf5;
+  padding: 0.6rem 1.75rem;
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem;
+}
+.nh-breadcrumb a {
+  color: #64748b; text-decoration: none; font-weight: 500;
+  transition: color 0.15s;
+}
+.nh-breadcrumb a:hover { color: #2563eb; text-decoration: underline; }
+.nh-bc-sep { color: #cbd5e1; }
+.nh-bc-current { color: #0d1b3e; font-weight: 700; }
+
 /* LAYOUT */
 .main{max-width:980px;margin:0 auto;padding:28px 20px;}
 .screen{display:none;animation:fadeIn 0.2s ease;}
 .screen.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-/* HOME */
-.page-heading{margin-bottom:24px;}
-.page-heading h2{font-size:1.4rem;font-weight:800;color:var(--primary);}
-.page-heading p{font-size:0.875rem;color:var(--text-muted);margin-top:4px;max-width:600px;line-height:1.6;}
+/* ════════════ CREATE MASTER DATA — pro layout ════════════ */
+.main { max-width: 1200px; margin: 0 auto; padding: 28px 24px 60px; }
 
-.master-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-.mc{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:24px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
-.mc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 0.2s;}
-.mc:hover{border-color:#00A3A3;box-shadow:0 8px 28px rgba(0,163,163,0.14);transform:translateY(-3px);}
-.mc:hover::after{transform:scaleX(1);}
-.mc-icon{font-size:2rem;margin-bottom:12px;display:block;}
-.mc-title{font-size:1.05rem;font-weight:800;color:var(--primary);margin-bottom:3px;}
-.mc-sap{font-size:0.7rem;color:var(--text-muted);font-family:monospace;margin-bottom:8px;background:var(--bg);display:inline-block;padding:2px 7px;border-radius:4px;}
-.mc-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.55;margin-bottom:12px;}
-.mc-tags{display:flex;gap:6px;flex-wrap:wrap;}
-.tag{font-size:0.68rem;padding:2px 9px;border-radius:10px;font-weight:700;}
-.tag-teal{background:var(--accent-light);color:var(--accent);}
-.tag-blue{background:#EBF5FB;color:#2980B9;}
-.tag-purple{background:var(--ai-bg);color:var(--ai-purple);}
-.mc-arrow{position:absolute;top:20px;right:20px;color:var(--border);font-size:1.1rem;transition:color 0.2s;}
-.mc:hover .mc-arrow{color:var(--accent);}
+/* ── Hero panel ── */
+.cmHero {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid #e8edf5;
+  border-radius: 18px;
+  padding: 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 16px rgba(15,23,42,0.05);
+  position: relative;
+  overflow: hidden;
+}
+.cmHero::before {
+  content: '';
+  position: absolute; top: -100px; right: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99,179,255,0.18), transparent 70%);
+  pointer-events: none;
+}
+
+.cmKicker {
+  display: inline-flex; align-items: center;
+  font-size: 0.7rem; font-weight: 800;
+  color: #2563eb;
+  background: rgba(37,99,235,0.08);
+  border: 1px solid rgba(37,99,235,0.2);
+  padding: 0.32rem 0.85rem;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.cmHeroTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #0d1b3e;
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.cmHeroTitleAccent {
+  background: linear-gradient(135deg, #2563eb, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.cmHeroDesc {
+  font-size: 0.92rem;
+  color: #475569;
+  line-height: 1.65;
+  max-width: 580px;
+  margin-bottom: 22px;
+}
+
+.cmHeroStats {
+  display: flex; align-items: center; gap: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #eef2f7;
+}
+.cmStat { display: flex; flex-direction: column; gap: 2px; }
+.cmStatValue {
+  font-size: 1.5rem; font-weight: 900; color: #0d1b3e;
+  letter-spacing: -0.5px; line-height: 1;
+}
+.cmStatUnit { font-size: 0.95rem; font-weight: 700; color: #64748b; margin-left: 1px; }
+.cmStatLabel {
+  font-size: 0.66rem; color: #94a3b8;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.cmStatDivider { width: 1px; height: 30px; background: #e2e8f0; }
+
+/* AI panel on the right */
+.cmHeroRight { display: flex; align-items: stretch; }
+.cmAiPanel {
+  flex: 1;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #6d28d9 100%);
+  border-radius: 14px;
+  padding: 22px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(109,40,217,0.25);
+}
+.cmAiOrb {
+  position: absolute;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+  top: -40px; right: -40px;
+  animation: cmOrb 6s ease-in-out infinite;
+}
+@keyframes cmOrb {
+  0%,100% { transform: scale(1) translate(0,0);   opacity: 0.7; }
+  50%     { transform: scale(1.2) translate(-10px,10px); opacity: 1; }
+}
+.cmAiTitle {
+  font-size: 1rem; font-weight: 800;
+  letter-spacing: -0.2px;
+  margin-bottom: 6px;
+  position: relative; z-index: 1;
+}
+.cmAiSub {
+  font-size: 0.78rem; color: rgba(220,235,255,0.85);
+  line-height: 1.55;
+  margin-bottom: 14px;
+  position: relative; z-index: 1;
+}
+.cmAiTags {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  position: relative; z-index: 1;
+}
+.cmAiTag {
+  font-size: 0.66rem; font-weight: 700;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Section heading row */
+.cmSectionHead {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+.cmSectionTitle {
+  font-size: 0.72rem;
+  font-weight: 900;
+  color: #475569;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cmSectionHint { font-size: 0.78rem; color: #94a3b8; font-weight: 500; }
+
+/* Master grid */
+.master-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  margin-bottom: 32px;
+}
+
+/* ── Card ── */
+.mc {
+  background: #ffffff;
+  border: 1px solid #e8edf5;
+  border-radius: 16px;
+  padding: 22px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.22s,
+              border-color 0.22s;
+  position: relative;
+  overflow: hidden;
+  display: flex; flex-direction: column; gap: 14px;
+  box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+}
+.mc::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+  transition: height 0.2s;
+}
+.mc-material::before  { background: linear-gradient(90deg, #2563eb, #60a5fa); }
+.mc-bp::before        { background: linear-gradient(90deg, #059669, #34d399); }
+.mc-product::before   { background: linear-gradient(90deg, #ea580c, #fb923c); }
+.mc-equipment::before { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+
+.mc:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(15,23,42,0.1);
+  border-color: #cbd5e1;
+}
+.mc:hover::before { height: 6px; }
+.mc:hover .mc-iconWrap { transform: scale(1.08) rotate(-3deg); }
+.mc:hover .mc-cta      { background: var(--mc-cta-color); color: #fff; }
+.mc:hover .mc-ctaArrow { transform: translateX(4px); }
+
+/* Top row */
+.mc-top {
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.mc-iconWrap {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+  flex-shrink: 0;
+  transition: transform 0.25s;
+  box-shadow: 0 4px 10px rgba(15,23,42,0.08), inset 0 1px 1px rgba(255,255,255,0.7);
+}
+.mc-material  .mc-iconWrap { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+.mc-bp        .mc-iconWrap { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.mc-product   .mc-iconWrap { background: linear-gradient(135deg, #ffedd5, #fed7aa); }
+.mc-equipment .mc-iconWrap { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+
+.mc-meta { flex: 1; min-width: 0; }
+.mc-title {
+  font-size: 1.1rem; font-weight: 800;
+  color: #0d1b3e;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.mc-sap {
+  font-size: 0.66rem;
+  font-family: "SF Mono", "Roboto Mono", "Courier New", monospace;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 5px;
+  display: inline-block;
+  letter-spacing: 0.2px;
+}
+
+.mc-stepsBadge {
+  font-size: 0.62rem; font-weight: 800;
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* "Most popular" pop badge */
+.mc-pop {
+  position: absolute; top: 14px; right: 14px;
+  font-size: 0.6rem; font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 10px rgba(245,158,11,0.4);
+  z-index: 2;
+}
+
+.mc-desc {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.mc-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag {
+  font-size: 0.66rem; font-weight: 800;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  border: 1px solid;
+}
+.tag-teal   { background: #ecfeff; color: #0e7490; border-color: #cffafe; }
+.tag-blue   { background: #eff6ff; color: #1d4ed8; border-color: #dbeafe; }
+.tag-purple { background: #faf5ff; color: #6d28d9; border-color: #ede9fe; }
+
+/* CTA bar */
+.mc-cta {
+  margin-top: 4px;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.84rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background 0.2s, color 0.2s;
+  border: 1px solid #e8edf5;
+}
+.mc-material  { --mc-cta-color: #2563eb; }
+.mc-bp        { --mc-cta-color: #059669; }
+.mc-product   { --mc-cta-color: #ea580c; }
+.mc-equipment { --mc-cta-color: #7c3aed; }
+.mc-ctaArrow {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+/* Feature strip */
+.cmFeatures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e8edf5;
+  border-radius: 14px;
+  padding: 18px 22px;
+  box-shadow: 0 2px 6px rgba(15,23,42,0.04);
+}
+.cmFeature { display: flex; align-items: center; gap: 12px; }
+.cmFeatureIcon {
+  width: 40px; height: 40px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.7);
+}
+.cmFeatureIconBlue   { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+.cmFeatureIconPurple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); }
+.cmFeatureIconGreen  { background: linear-gradient(135deg, #dcfce7, #bbf7d0); }
+.cmFeatureBody { display: flex; flex-direction: column; line-height: 1.3; }
+.cmFeatureTitle { font-size: 0.85rem; font-weight: 800; color: #0d1b3e; }
+.cmFeatureDesc  { font-size: 0.72rem; color: #94a3b8; margin-top: 2px; }
+
+@media (max-width: 1024px) {
+  .cmHero      { grid-template-columns: 1fr; }
+  .master-grid { grid-template-columns: 1fr; }
+  .cmFeatures  { grid-template-columns: 1fr; }
+  .cmHeroTitle { font-size: 1.6rem; }
+}
 
 /* WIZARD HEADER */
 .wiz-topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
@@ -199,63 +707,191 @@ input.err,select.err{border-color:var(--error);background:#FFF5F5;}
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="hdr">
-  <div class="hdr-brand">
-    <div class="hdr-logo">🧭</div>
-    <div class="hdr-text">
-      <h1>NavisMaster</h1>
-      <p>CarinAi Platform · Canopus GBS</p>
+<!-- ════════════ NAVISMASTER TOP HEADER ════════════ -->
+<header class="navisHeader">
+  <div class="nh-left">
+    <a href="index.html" class="nh-brand" title="Back to NavisMaster home">
+      <div class="nh-logo">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="13" stroke="rgba(255,255,255,0.85)" stroke-width="1.4"/>
+          <path d="M16 5 L19 16 L16 27 L13 16 Z" fill="#ffffff"/>
+          <path d="M16 5 L19 16 L16 16 Z" fill="rgba(255,255,255,0.55)"/>
+          <circle cx="16" cy="16" r="1.6" fill="#0d1b3e"/>
+        </svg>
+      </div>
+      <div class="nh-text">
+        <span class="nh-title">Navis<span class="nh-title-light">Master</span></span>
+        <span class="nh-subtitle">Master Data Quality · AI-native</span>
+      </div>
+    </a>
+    <span class="nh-context"><span class="nh-context-dot"></span>Pillar 1 — Foundation</span>
+  </div>
+
+  <div class="nh-mid">
+    <div class="nh-search">
+      <svg class="nh-search-icon" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M11 11 L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <input type="text" placeholder="Search records, rules, suppliers, KPIs…" aria-label="Global search">
+      <kbd class="nh-search-kbd">⌘K</kbd>
     </div>
   </div>
-  <div class="hdr-right">
-    <span class="hdr-badge">AI-Powered MDM</span>
-    <div class="hdr-user">👤 YK &nbsp;·&nbsp; MDM Requester</div>
+
+  <div class="nh-right">
+    <div class="nh-icon" title="Notifications"><span>🔔</span><span class="nh-icon-dot"></span></div>
+    <div class="nh-icon" title="Help">❓</div>
+    <div class="nh-icon" title="Settings">⚙️</div>
+    <div class="nh-avatar" id="navisAvatar" title="Loading…">··</div>
   </div>
 </header>
+
+<!-- Breadcrumb strip -->
+<div class="nh-breadcrumb">
+  <a href="index.html">Foundation</a>
+  <span class="nh-bc-sep">›</span>
+  <span class="nh-bc-current">Create Master Data</span>
+</div>
 
 <div class="main">
 
 <!-- ══════════════ HOME SCREEN ══════════════ -->
 <div id="scr-home" class="screen active">
-  <div class="page-heading">
-    <h2>Create Master Data</h2>
-    <p>Select the type of master data to create. Each form is validated by NavisMaster's AI rule engine and checked for duplicates before going to your manager for approval.</p>
+
+  <!-- ── Hero panel ── -->
+  <section class="cmHero">
+    <div class="cmHeroLeft">
+      <span class="cmKicker">📝 &nbsp;Master Data Creation</span>
+      <h1 class="cmHeroTitle">Create <span class="cmHeroTitleAccent">Master Data</span></h1>
+      <p class="cmHeroDesc">
+        Choose a record type below to start an AI-assisted creation form. Every submission is
+        cleansed, deduplicated, and validated against your governance rules before being routed
+        to your manager for approval.
+      </p>
+      <div class="cmHeroStats">
+        <div class="cmStat">
+          <div class="cmStatValue">142</div>
+          <div class="cmStatLabel">Created this month</div>
+        </div>
+        <div class="cmStatDivider"></div>
+        <div class="cmStat">
+          <div class="cmStatValue">94%</div>
+          <div class="cmStatLabel">Auto-approved</div>
+        </div>
+        <div class="cmStatDivider"></div>
+        <div class="cmStat">
+          <div class="cmStatValue">2.1<span class="cmStatUnit">d</span></div>
+          <div class="cmStatLabel">Avg approval time</div>
+        </div>
+      </div>
+    </div>
+    <div class="cmHeroRight">
+      <div class="cmAiPanel">
+        <div class="cmAiOrb"></div>
+        <div class="cmAiTitle">AI Co-pilot is ready</div>
+        <div class="cmAiSub">Suggesting field values, normalising names, detecting duplicates in real time.</div>
+        <div class="cmAiTags">
+          <span class="cmAiTag">🤖 Cleansing</span>
+          <span class="cmAiTag">🔍 Dedup</span>
+          <span class="cmAiTag">✓ Validation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section heading ── -->
+  <div class="cmSectionHead">
+    <span class="cmSectionTitle">Choose record type</span>
+    <span class="cmSectionHint">4 supported objects · Click any card to begin</span>
   </div>
+
+  <!-- ── Master grid ── -->
   <div class="master-grid">
-    <div class="mc" onclick="startWiz('material')">
-      <span class="mc-arrow">›</span>
-      <span class="mc-icon">📦</span>
-      <div class="mc-title">Material Master</div>
-      <div class="mc-sap">MM01 · MARA / MARC / MAKT / MARM</div>
+
+    <div class="mc mc-material" onclick="startWiz('material')">
+      <span class="mc-pop">Most popular</span>
+      <div class="mc-top">
+        <div class="mc-iconWrap"><span class="mc-icon">📦</span></div>
+        <div class="mc-meta">
+          <div class="mc-title">Material Master</div>
+          <div class="mc-sap">MM01 · MARA / MARC / MAKT / MARM</div>
+        </div>
+        <span class="mc-stepsBadge">5 steps</span>
+      </div>
       <div class="mc-desc">Raw materials, operating supplies, packaging, or services. Covers description, classification, org assignment, MRP, purchasing, and costing views.</div>
       <div class="mc-tags"><span class="tag tag-teal">MM</span><span class="tag tag-blue">Inventory</span><span class="tag tag-blue">MRP</span><span class="tag tag-purple">AI Cleansing</span></div>
+      <div class="mc-cta">Start Material Master <span class="mc-ctaArrow">→</span></div>
     </div>
-    <div class="mc" onclick="startWiz('bp')">
-      <span class="mc-arrow">›</span>
-      <span class="mc-icon">🤝</span>
-      <div class="mc-title">Business Partner</div>
-      <div class="mc-sap">BP / XD01 / XK01 · KNA1 / LFA1 / BUT000</div>
+
+    <div class="mc mc-bp" onclick="startWiz('bp')">
+      <div class="mc-top">
+        <div class="mc-iconWrap"><span class="mc-icon">🤝</span></div>
+        <div class="mc-meta">
+          <div class="mc-title">Business Partner</div>
+          <div class="mc-sap">BP / XD01 / XK01 · KNA1 / LFA1 / BUT000</div>
+        </div>
+        <span class="mc-stepsBadge">6 steps</span>
+      </div>
       <div class="mc-desc">Customers, vendors, or combined business partners. Covers address, tax IDs, bank details, company code assignment, payment terms, and credit management.</div>
       <div class="mc-tags"><span class="tag tag-teal">Customer</span><span class="tag tag-teal">Vendor</span><span class="tag tag-blue">CVI Ready</span><span class="tag tag-purple">AI Dedup</span></div>
+      <div class="mc-cta">Start Business Partner <span class="mc-ctaArrow">→</span></div>
     </div>
-    <div class="mc" onclick="startWiz('product')">
-      <span class="mc-arrow">›</span>
-      <span class="mc-icon">🏭</span>
-      <div class="mc-title">Product Master</div>
-      <div class="mc-sap">MM01 (FERT/HALB) · Sales Org / BOM</div>
+
+    <div class="mc mc-product" onclick="startWiz('product')">
+      <div class="mc-top">
+        <div class="mc-iconWrap"><span class="mc-icon">🏭</span></div>
+        <div class="mc-meta">
+          <div class="mc-title">Product Master</div>
+          <div class="mc-sap">MM01 (FERT/HALB) · Sales Org / BOM</div>
+        </div>
+        <span class="mc-stepsBadge">5 steps</span>
+      </div>
       <div class="mc-desc">Finished or semi-finished products. Covers sales organisation, distribution channel, pricing, product hierarchy, BOM relevance, and MRP planning data.</div>
       <div class="mc-tags"><span class="tag tag-teal">FERT</span><span class="tag tag-teal">HALB</span><span class="tag tag-blue">Sales</span><span class="tag tag-blue">BOM</span></div>
+      <div class="mc-cta">Start Product Master <span class="mc-ctaArrow">→</span></div>
     </div>
-    <div class="mc" onclick="startWiz('equipment')">
-      <span class="mc-arrow">›</span>
-      <span class="mc-icon">⚙️</span>
-      <div class="mc-title">Equipment Master</div>
-      <div class="mc-sap">IE01 · EQUI / EQUZ / ILOA</div>
+
+    <div class="mc mc-equipment" onclick="startWiz('equipment')">
+      <div class="mc-top">
+        <div class="mc-iconWrap"><span class="mc-icon">⚙️</span></div>
+        <div class="mc-meta">
+          <div class="mc-title">Equipment Master</div>
+          <div class="mc-sap">IE01 · EQUI / EQUZ / ILOA</div>
+        </div>
+        <span class="mc-stepsBadge">4 steps</span>
+      </div>
       <div class="mc-desc">Plant maintenance equipment including manufacturer data, functional location, work center, cost center, and classification characteristics for PM planning.</div>
       <div class="mc-tags"><span class="tag tag-teal">PM</span><span class="tag tag-blue">Asset</span><span class="tag tag-blue">Classification</span><span class="tag tag-purple">AI Match</span></div>
+      <div class="mc-cta">Start Equipment Master <span class="mc-ctaArrow">→</span></div>
+    </div>
+
+  </div>
+
+  <!-- ── Feature strip ── -->
+  <div class="cmFeatures">
+    <div class="cmFeature">
+      <div class="cmFeatureIcon cmFeatureIconBlue">🔒</div>
+      <div class="cmFeatureBody">
+        <div class="cmFeatureTitle">Compliance-first</div>
+        <div class="cmFeatureDesc">GxP / SOX / GDPR rules baked into every form</div>
+      </div>
+    </div>
+    <div class="cmFeature">
+      <div class="cmFeatureIcon cmFeatureIconPurple">🤖</div>
+      <div class="cmFeatureBody">
+        <div class="cmFeatureTitle">AI-assisted</div>
+        <div class="cmFeatureDesc">Smart defaults, normalisation, duplicate checks</div>
+      </div>
+    </div>
+    <div class="cmFeature">
+      <div class="cmFeatureIcon cmFeatureIconGreen">⚡</div>
+      <div class="cmFeatureBody">
+        <div class="cmFeatureTitle">Fast approval</div>
+        <div class="cmFeatureDesc">Average 2.1 days · 94% auto-approved</div>
+      </div>
     </div>
   </div>
+
 </div>
 
 <!-- ══════════════ WIZARD SCREEN ══════════════ -->
@@ -368,6 +1004,7 @@ let master=null,step=0,data={};
 // ───────────────────────────────────────────────
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function goHome(){
+  // If opened from the main app (has ?type= param), navigate back
   if(new URLSearchParams(window.location.search).get('type')){
     window.location.href=window.location.pathname.replace(/\/[^/]*$/,'')+'/index.html';
   } else {
@@ -920,6 +1557,48 @@ function applyAI(id){
   const typeMap={material:'material',businesspartner:'bp',product:'product',equipment:'equipment'};
   if(type&&typeMap[type]){
     startWiz(typeMap[type]);
+  }
+})();
+</script>
+
+<script>
+// Fetch the current logged-in user and update the avatar initials + tooltip
+(function () {
+  fetch("/odata/v4/dashboard/currentUser()", {
+    headers: { "Accept": "application/json" },
+    credentials: "include"
+  })
+  .then(function (res) { return res.ok ? res.json() : null; })
+  .then(function (data) {
+    if (!data) { return; }
+    var av = document.getElementById("navisAvatar");
+    if (!av) { return; }
+    av.textContent = data.initials || "··";
+    av.setAttribute("title", data.name || data.id || "");
+  })
+  .catch(function (err) { console.warn("currentUser load failed", err); });
+
+  // ⌘K / Ctrl+K to focus the global search
+  document.addEventListener("keydown", function (e) {
+    if ((e.metaKey || e.ctrlKey) && (e.key === "k" || e.key === "K")) {
+      var input = document.querySelector(".nh-search input");
+      if (input) { e.preventDefault(); input.focus(); input.select(); }
+    }
+    if (e.key === "Escape") {
+      var active = document.activeElement;
+      if (active && active.matches && active.matches(".nh-search input")) { active.blur(); }
+    }
+  });
+
+  // Click anywhere on the search wrapper focuses the input
+  var wrap = document.querySelector(".nh-search");
+  if (wrap) {
+    wrap.addEventListener("click", function (e) {
+      if (e.target.tagName !== "INPUT") {
+        var input = wrap.querySelector("input");
+        if (input) { input.focus(); }
+      }
+    });
   }
 })();
 </script>

@@ -10,10 +10,17 @@
   },
   "scripts": {
     "start": "cds-serve",
+    "dev": "cds watch --profile dev",
     "build": "mbt build",
     "deploy": "cf deploy mta_archives/navismaster_1.0.8.mtar"
   },
   "cds": {
+    "server": {
+      "livereload": false
+    },
+    "watch": {
+      "livereload": false
+    },
     "requires": {
       "destinations": true,
       "html5-repo": true,

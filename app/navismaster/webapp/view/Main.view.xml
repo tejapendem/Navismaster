@@ -9,389 +9,392 @@
 
     <Page showHeader="false" class="rootPage">
         <VBox class="rootLayout" height="100%">
-            
-            <!-- TOP HEADER (Dark Blue Navy Cockpit Bar) -->
-            <OverflowToolbar class="topHeader" height="72px">
-                <!-- Branding Block -->
+
+            <!-- ═══════════════════════════════════════
+                 TOP HEADER — dark navy command bar
+            ═══════════════════════════════════════ -->
+            <OverflowToolbar class="topHeader" height="58px">
+
+                <core:HTML content="&lt;button class='mobileMenuBtn' id='mobileMenuBtn' aria-label='Toggle navigation'&gt;☰&lt;/button&gt;"/>
                 <HBox id="logoHeader" class="logoBarHeader cursorPointer" alignItems="Center">
-                    <Avatar initials="N" class="logoAvatar" displayShape="Circle" displaySize="XS"/>
+                    <core:HTML content="&lt;div class='logoMark'&gt;&lt;svg viewBox='0 0 32 32' fill='none' xmlns='http://www.w3.org/2000/svg'&gt;&lt;circle cx='16' cy='16' r='13' stroke='rgba(255,255,255,0.85)' stroke-width='1.4'/&gt;&lt;path d='M16 5 L19 16 L16 27 L13 16 Z' fill='#ffffff'/&gt;&lt;path d='M16 5 L19 16 L16 16 Z' fill='rgba(255,255,255,0.55)'/&gt;&lt;circle cx='16' cy='16' r='1.6' fill='#0d1b3e'/&gt;&lt;/svg&gt;&lt;/div&gt;"/>
                     <VBox class="logoTextHeader">
-                        <Title text="NavisMaster" level="H4" class="logoTitle"/>
-                        <Text text="Master Data Quality, AI-native" class="logoSubtitle"/>
+                        <core:HTML content="&lt;span class='logoTitle'&gt;Navis&lt;span class='logoTitleAccent'&gt;Master&lt;/span&gt;&lt;/span&gt;"/>
+                        <core:HTML content="&lt;span class='logoSubtitle'&gt;Master Data Quality · AI-native&lt;/span&gt;"/>
                     </VBox>
                 </HBox>
-                
-                <ToolbarSpacer width="3rem"/>
-                
-                <!-- Active Section context badge/pill -->
-                <HBox class="contextPill" alignItems="Center" justifyContent="Center">
-                    <Text text="Pillar 1 - Foundation" class="contextText"/>
-                </HBox>
-                
+
+                <ToolbarSpacer width="1.5rem"/>
+
+                <core:HTML content="&lt;div class='contextPill'&gt;&lt;span class='contextDot'&gt;&lt;/span&gt;Pillar 1 — Foundation&lt;/div&gt;"/>
+
                 <ToolbarSpacer/>
-                <!-- Centered rounded search field -->
-                <SearchField width="24rem" placeholder="Search records, rules, suppliers..." class="headerSearch"/>
+                <SearchField width="28rem" placeholder="Search records, rules, suppliers, KPIs…" class="headerSearch"/>
                 <ToolbarSpacer/>
-                
-                <!-- Right Header Actions (Bell, Help, Settings & Avatar) -->
-                <Button icon="sap-icon://bell" type="Transparent" class="headerIconBtn"/>
-                <Button icon="sap-icon://question-mark" type="Transparent" class="headerIconBtn"/>
-                <Button icon="sap-icon://action-settings" type="Transparent" class="headerIconBtn"/>
-                <Avatar initials="YK" displayShape="Circle" displaySize="XS" class="userAvatar"/>
+
+                <!-- icon buttons -->
+                <core:HTML content="&lt;div class='hdrIconWrap'&gt;&lt;span class='hdrIcon'&gt;🔔&lt;/span&gt;&lt;span class='hdrDot'&gt;&lt;/span&gt;&lt;/div&gt;"/>
+                <core:HTML content="&lt;div class='hdrIconWrap hdrIconWrapAI' title='AI Assistant'&gt;&lt;span class='hdrIconAI'&gt;🤖&lt;/span&gt;&lt;/div&gt;"/>
+                <core:HTML content="&lt;div class='hdrIconWrap hdrDarkToggle' id='darkModeToggleWrap' title='Toggle dark mode'&gt;&lt;span class='hdrIcon' id='darkModeIcon'&gt;🌙&lt;/span&gt;&lt;/div&gt;"/>
+                <core:HTML content="&lt;div class='hdrIconWrap'&gt;&lt;span class='hdrIcon'&gt;⚙️&lt;/span&gt;&lt;/div&gt;"/>
+                <core:HTML content="{= '&lt;div class=&quot;hdrAvatar&quot;&gt;' + ${user>/initials} + '&lt;/div&gt;' }"/>
             </OverflowToolbar>
 
-            <!-- MAIN CONTAINER: DUAL LAYOUT (Sidebar + Content Pane) -->
+            <!-- ═══════════════════════════════════════
+                 MAIN SPLIT — sidebar + content
+            ═══════════════════════════════════════ -->
             <HBox class="mainContainer" height="100%" width="100%">
-                
-                <!-- LEFT SIDEBAR -->
-                <VBox class="sidebar" width="290px">
-                    <Title text="PILLAR" class="sectionTitle"/>
-                    
+
+                <core:HTML content="&lt;div class='mobileSidebarOverlay' id='mobileSidebarOverlay'&gt;&lt;/div&gt;"/>
+
+                <!-- ─── LEFT SIDEBAR ─── -->
+                <VBox class="sidebar">
+
+                    <core:HTML content="&lt;div class='sidebarSecLabel'&gt;PILLAR&lt;/div&gt;"/>
+
                     <VBox class="pillarList">
-                        <!-- Pillar 1: Active Foundation -->
-                        <HBox id="pillarFoundation" class="pillarItem activePillar cursorPointer" alignItems="Center">
-                            <HBox class="pillarCircle activeCircle" alignItems="Center" justifyContent="Center">
-                                <Text text="1" class="pillarCircleText activeCircleText"/>
-                            </HBox>
+                        <!-- Active -->
+                        <HBox id="pillarFoundation" class="pillarItem pillarActive cursorPointer" alignItems="Center">
+                            <core:HTML content="&lt;div class='pillarBadge pillarBadgeActive'&gt;1&lt;/div&gt;"/>
                             <VBox class="pillarText">
-                                <Text text="Foundation" class="pillarTitle"/>
-                                <Text text="Cleanse · Validate · Master" class="pillarSubtitle"/>
+                                <core:HTML content="&lt;span class='pillarName pillarNameActive'&gt;Foundation&lt;/span&gt;"/>
+                                <core:HTML content="&lt;span class='pillarDesc'&gt;Cleanse · Validate · Master&lt;/span&gt;"/>
                             </VBox>
                         </HBox>
-                        
-                        <!-- Pillar 2: Inactive Author -->
-                        <HBox class="pillarItem" alignItems="Center">
-                            <HBox class="pillarCircle" alignItems="Center" justifyContent="Center">
-                                <Text text="2" class="pillarCircleText"/>
-                            </HBox>
+                        <!-- Inactive 2 -->
+                        <HBox class="pillarItem cursorPointer" alignItems="Center">
+                            <core:HTML content="&lt;div class='pillarBadge'&gt;2&lt;/div&gt;"/>
                             <VBox class="pillarText">
-                                <Text text="Author" class="pillarTitle"/>
-                                <Text text="Templates · AI draft · Review" class="pillarSubtitle"/>
+                                <core:HTML content="&lt;span class='pillarName'&gt;Author&lt;/span&gt;"/>
+                                <core:HTML content="&lt;span class='pillarDesc'&gt;Templates · AI draft · Review&lt;/span&gt;"/>
                             </VBox>
                         </HBox>
-                        
-                        <!-- Pillar 3: Inactive Govern -->
-                        <HBox class="pillarItem" alignItems="Center">
-                            <HBox class="pillarCircle" alignItems="Center" justifyContent="Center">
-                                <Text text="3" class="pillarCircleText"/>
-                            </HBox>
+                        <!-- Inactive 3 -->
+                        <HBox class="pillarItem cursorPointer" alignItems="Center">
+                            <core:HTML content="&lt;div class='pillarBadge'&gt;3&lt;/div&gt;"/>
                             <VBox class="pillarText">
-                                <Text text="Govern" class="pillarTitle"/>
-                                <Text text="Policies · Lineage · KPIs" class="pillarSubtitle"/>
+                                <core:HTML content="&lt;span class='pillarName'&gt;Govern&lt;/span&gt;"/>
+                                <core:HTML content="&lt;span class='pillarDesc'&gt;Policies · Lineage · KPIs&lt;/span&gt;"/>
                             </VBox>
                         </HBox>
                     </VBox>
 
-                    <Title text="WORKSPACE" class="sectionTitle"/>
-                    
-                    <!-- Sidebar list using CustomListItems for Badge matching -->
-                    <List id="workspaceList" class="workspaceList" noDataText="No workspace items">
-                        <!-- Steward Inbox (Selected + Orange Pill counter) -->
-                        <CustomListItem class="workspaceItem activeWorkspaceItem" type="Active" press="onStewardInboxPress">
-                            <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://inbox" class="workspaceIcon"/>
-                                    <Text text="Steward Inbox" class="workspaceText"/>
+                    <core:HTML content="&lt;div class='sidebarSecLabel sidebarSecLabelGap'&gt;WORKSPACE&lt;/div&gt;"/>
+
+                    <List id="workspaceList" class="workspaceList" noDataText="">
+
+                        <CustomListItem class="wsItem wsItemActive" type="Active" press="onStewardInboxPress">
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconOrange'&gt;📥&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel wsLabelActive'&gt;Steward Inbox&lt;/span&gt;"/>
                                 </HBox>
-                                <HBox class="workspaceBadge" alignItems="Center" justifyContent="Center">
-                                    <Text text="142" class="badgeText"/>
+                                <core:HTML content="&lt;span class='wsBadge'&gt;142&lt;/span&gt;"/>
+                            </HBox>
+                        </CustomListItem>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconGold'&gt;⭐&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Golden Records&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Golden Records -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://favorite" class="workspaceIcon"/>
-                                    <Text text="Golden Records" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconCyan'&gt;🔍&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Vector Search&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Vector Search -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://search" class="workspaceIcon"/>
-                                    <Text text="Vector Search" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconRed'&gt;📊&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Cohort Outliers&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Cohort Outliers -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://bar-chart" class="workspaceIcon"/>
-                                    <Text text="Cohort Outliers" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconIndigo'&gt;⚡&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Rule Console&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Rule Console -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://document-text" class="workspaceIcon"/>
-                                    <Text text="Rule Console" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconPurple'&gt;🔗&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Lineage Explorer&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Lineage Explorer -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://journey" class="workspaceIcon"/>
-                                    <Text text="Lineage Explorer" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconBlue'&gt;📈&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;KPI Dashboard&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- KPI Dashboard -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://line-chart" class="workspaceIcon"/>
-                                    <Text text="KPI Dashboard" class="workspaceText"/>
+
+                        <CustomListItem class="wsItem" type="Active" press="onDashboardPress">
+                            <HBox alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconGreen'&gt;🗄️&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Source Systems&lt;/span&gt;"/>
                                 </HBox>
                             </HBox>
                         </CustomListItem>
-                        
-                        <!-- Source Systems -->
-                        <CustomListItem class="workspaceItem" type="Active" press="onDashboardPress">
-                            <HBox alignItems="Center" width="100%" class="workspaceRow">
-                                <HBox alignItems="Center" class="workspaceItemLeft">
-                                    <core:Icon src="sap-icon://database" class="workspaceIcon"/>
-                                    <Text text="Source Systems" class="workspaceText"/>
-                                </HBox>
-                            </HBox>
-                        </CustomListItem>
+
                     </List>
-                    
-                    <VBox class="sidebarSpacer" height="100%"/>
-                    
-                    <!-- Bottom Branding Card: Canopus GBS -->
-                    <HBox class="brandCard" alignItems="Center">
-                        <Avatar initials="CG" class="brandAvatar" displayShape="Circle" displaySize="XS"/>
-                        <VBox class="brandText">
-                            <Text text="Canopus GBS" class="brandTitle"/>
-                            <Text text="Tenant · acme-prod" class="brandSubtitle"/>
-                        </VBox>
-                    </HBox>
+
+                    <VBox class="sidebarSpacer"/>
+
+                    <!-- Bottom tenant card -->
+                    <core:HTML content="&lt;div class='tenantCard'&gt;&lt;div class='tenantAvatar'&gt;CG&lt;/div&gt;&lt;div&gt;&lt;div class='tenantName'&gt;Canopus GBS&lt;/div&gt;&lt;div class='tenantSub'&gt;Tenant · acme-prod&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;"/>
+
                 </VBox>
 
-                <!-- RIGHT CONTENT AREA -->
+                <!-- ─── RIGHT CONTENT ─── -->
                 <VBox class="contentArea">
                     <ScrollContainer vertical="true" height="100%" width="100%">
-                        
-                        <!-- VIEW 1: DASHBOARD VIEW (Visible by Default) -->
+
+                        <!-- ══════════ DASHBOARD VIEW ══════════ -->
                         <VBox id="dashboardView" visible="true" width="100%">
-                            <!-- GREETING & DATE BAR -->
+
+                            <!-- Greeting bar -->
                             <HBox justifyContent="SpaceBetween" alignItems="Center" class="greetingBar">
                                 <VBox>
-                                    <Title text="Good morning" level="H2" class="greetingTitle"/>
-                                    <Text text="Tuesday · 18 May 2026 · You have 7 stewardship items waiting (3 high priority)" class="greetingSubtitle"/>
+                                    <core:HTML content="{= '&lt;h1 class=&quot;greetTitle&quot;&gt;' + ${user>/greeting} + ', ' + ${user>/firstName} + ' &lt;span class=&quot;waveEmoji&quot;&gt;👋&lt;/span&gt;&lt;/h1&gt;' }"/>
+                                    <core:HTML content="{= '&lt;p class=&quot;greetSub&quot;&gt;' + ${user>/today} + ' &amp;nbsp;·&amp;nbsp; &lt;strong&gt;7 stewardship items waiting&lt;/strong&gt; — 3 high priority&lt;/p&gt;' }"/>
                                 </VBox>
-                                <Button text="+ New record" type="Emphasized" class="newRecordBtn" press="onNewRecordPress"/>
+                                <Button text="+ New Record" type="Emphasized" class="newRecordBtn" press="onNewRecordPress"/>
                             </HBox>
 
-                            <!-- KPI SUMMARY GRID (4 cards) -->
-                            <layout:Grid defaultSpan="L3 M6 S12" class="kpiGrid">
-                                <!-- KPI 1: Golden Records today -->
-                                <VBox class="kpiCard yellowBorder">
-                                    <Text text="Golden Records today" class="kpiCardTitle"/>
-                                    <Title text="1,284" level="H1" class="kpiCardValue"/>
-                                    <Text text="+9.2% vs avg" class="positiveText"/>
-                                </VBox>
-                                
-                                <!-- KPI 2: Avg Golden Score -->
-                                <VBox class="kpiCard redOrangeBorder">
-                                    <Text text="Avg Golden Score" class="kpiCardTitle"/>
-                                    <Title text="86.4" level="H1" class="kpiCardValue"/>
-                                    <HBox alignItems="Center" class="kpiCardSub">
-                                        <core:Icon src="sap-icon://circle-task-2" class="targetDot"/>
-                                        <Text text="target ≥ 85" class="targetText"/>
-                                    </HBox>
-                                </VBox>
-                                
-                                <!-- KPI 3: Open stewardship -->
-                                <VBox class="kpiCard blueBorder">
-                                    <Text text="Open stewardship" class="kpiCardTitle"/>
-                                    <Title text="142" level="H1" class="kpiCardValue"/>
-                                    <Text text="12 aging > 24h" class="warningText"/>
-                                </VBox>
-                                
-                                <!-- KPI 4: Time-to-GR (median) -->
-                                <VBox class="kpiCard cyanBorder">
-                                    <Text text="Time-to-GR (median)" class="kpiCardTitle"/>
-                                    <Title text="4.7m" level="H1" class="kpiCardValue"/>
-                                    <Text text="-18s this week" class="positiveText"/>
-                                </VBox>
-                            </layout:Grid>
+                            <!-- ── KPI CARDS ── -->
+                            <core:HTML content="&lt;div class='secHeading'&gt;KEY PERFORMANCE INDICATORS&lt;/div&gt;"/>
+                            <core:HTML content="
+&lt;div class='kpiRow'&gt;
 
-                            <!-- SECTION HEADER: YOUR APPS -->
-                            <Title text="YOUR APPS" class="sectionTitle appsTitle"/>
+  &lt;div class='kpiCard kpiYellow'&gt;
+    &lt;div class='kpiCardTop'&gt;
+      &lt;div class='kpiIconWrap kpiIconWrapYellow'&gt;⭐&lt;/div&gt;
+      &lt;div class='kpiMeta'&gt;
+        &lt;div class='kpiLabel'&gt;Golden Records Today&lt;/div&gt;
+        &lt;div class='kpiBadge kpiBadgeGreen'&gt;▲ +9.2% vs avg&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='kpiValue'&gt;1,284&lt;/div&gt;
+    &lt;div class='kpiBar'&gt;&lt;div class='kpiBarFill kpiBarYellow' style='width:78%'&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
 
-                            <!-- YOUR APPS GRID (8 cards) -->
-                            <layout:Grid defaultSpan="L3 M6 S12" class="tileGrid">
-                                
-                                <!-- App 1: Steward Inbox -->
-                                <VBox id="stewardInboxTile" class="appTile tileOrange cursorPointer">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://inbox" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Steward Inbox" class="tileTitle"/>
-                                            <Text text="Records waiting on you" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="142" level="H2" class="tileMetric"/>
-                                    <Text text="12 urgent · 3 SLA at risk" class="tileFooter"/>
-                                </VBox>
-                                
-                                <!-- App 2: Rule Console -->
-                                <VBox class="appTile tileBlue">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://document-text" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Rule Console" class="tileTitle"/>
-                                            <Text text="Catalog · dry-run · telemetry" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="286" level="H2" class="tileMetric"/>
-                                    <Text text="4 packs · 2 in pilot" class="tileFooter"/>
-                                </VBox>
-                                
-                                <!-- App 3: Vector Dedup -->
-                                <VBox class="appTile tileGreen">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://search" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Vector Dedup" class="tileTitle"/>
-                                            <Text text="Semantic similarity search" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="0.94" level="H2" class="tileMetric"/>
-                                    <Text text="P95 latency 92 ms" class="tileFooter"/>
-                                </VBox>
-                                
-                                <!-- App 4: Cohort Outliers -->
-                                <VBox class="appTile tileRed">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://bar-chart" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Cohort Outliers" class="tileTitle"/>
-                                            <Text text="k-NN over peer clusters" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="38" level="H2" class="tileMetric"/>
-                                    <Text text="New flags overnight" class="tileFooter"/>
-                                </VBox>
+  &lt;div class='kpiCard kpiBlue'&gt;
+    &lt;div class='kpiCardTop'&gt;
+      &lt;div class='kpiIconWrap kpiIconWrapBlue'&gt;🎯&lt;/div&gt;
+      &lt;div class='kpiMeta'&gt;
+        &lt;div class='kpiLabel'&gt;Avg Golden Score&lt;/div&gt;
+        &lt;div class='kpiBadge kpiBadgeBlue'&gt;✓ target ≥ 85&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='kpiValue'&gt;86.4&lt;/div&gt;
+    &lt;div class='kpiBar'&gt;&lt;div class='kpiBarFill kpiBarBlue' style='width:86%'&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
 
-                                <!-- App 5: Lineage Explorer -->
-                                <VBox class="appTile tilePurple">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://journey" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Lineage Explorer" class="tileTitle"/>
-                                            <Text text="Source -> Golden trace" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="Open" level="H2" class="tileMetric"/>
-                                    <Text text="CWI · MDG · ERP linked" class="tileFooter"/>
-                                </VBox>
+  &lt;div class='kpiCard kpiOrange'&gt;
+    &lt;div class='kpiCardTop'&gt;
+      &lt;div class='kpiIconWrap kpiIconWrapOrange'&gt;📋&lt;/div&gt;
+      &lt;div class='kpiMeta'&gt;
+        &lt;div class='kpiLabel'&gt;Open Stewardship&lt;/div&gt;
+        &lt;div class='kpiBadge kpiBadgeOrange'&gt;⚠ 12 aging &gt; 24h&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='kpiValue'&gt;142&lt;/div&gt;
+    &lt;div class='kpiBar'&gt;&lt;div class='kpiBarFill kpiBarOrange' style='width:55%'&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
 
-                                <!-- App 6: Author Drafts -->
-                                <VBox class="appTile tileYellow">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://edit" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Author Drafts" class="tileTitle"/>
-                                            <Text text="Pillar 2 templates + AI" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="7" level="H2" class="tileMetric"/>
-                                    <Text text="4 pending steward review" class="tileFooter"/>
-                                </VBox>
+  &lt;div class='kpiCard kpiTeal'&gt;
+    &lt;div class='kpiCardTop'&gt;
+      &lt;div class='kpiIconWrap kpiIconWrapTeal'&gt;⚡&lt;/div&gt;
+      &lt;div class='kpiMeta'&gt;
+        &lt;div class='kpiLabel'&gt;Time-to-GR (Median)&lt;/div&gt;
+        &lt;div class='kpiBadge kpiBadgeGreen'&gt;▼ −18s this week&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='kpiValue'&gt;4.7m&lt;/div&gt;
+    &lt;div class='kpiBar'&gt;&lt;div class='kpiBarFill kpiBarTeal' style='width:65%'&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
 
-                                <!-- App 7: KPI Dashboard -->
-                                <VBox class="appTile tileBlue2">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://line-chart" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="KPI Dashboard" class="tileTitle"/>
-                                            <Text text="Quality · ops · governance" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="Open" level="H2" class="tileMetric"/>
-                                    <Text text="Weekly digest Mon 9 am" class="tileFooter"/>
-                                </VBox>
+&lt;/div&gt;
+"/>
 
-                                <!-- App 8: Policy Library -->
-                                <VBox class="appTile tileTeal">
-                                    <HBox class="tileHeader" alignItems="Center">
-                                        <core:Icon src="sap-icon://education" class="tileIcon"/>
-                                        <VBox class="tileHeaderText">
-                                            <Text text="Policy Library" class="tileTitle"/>
-                                            <Text text="Rulesets · law · files" class="tileSubtitle"/>
-                                        </VBox>
-                                    </HBox>
-                                    <Title text="6" level="H2" class="tileMetric"/>
-                                    <Text text="3 change requests open" class="tileFooter"/>
-                                </VBox>
-                            </layout:Grid>
+                            <!-- ── YOUR APPS ── -->
+                            <core:HTML content="&lt;div class='secHeading'&gt;YOUR APPS&lt;/div&gt;"/>
 
-                            <!-- RECENT ACTIVITY -->
-                            <VBox class="activityFeed">
-                                <Title text="RECENT ACTIVITY" level="H5" class="activityFeedTitle"/>
-                                
-                                <List class="activityList" noDataText="No recent activities">
-                                    <CustomListItem class="activityItem">
-                                        <HBox alignItems="Center" width="100%" class="activityRow">
-                                            <Text text="09:14" class="activityTime"/>
-                                            <core:Icon src="sap-icon://circle-task-2" class="activityDot dotGreen"/>
-                                            <Text text="Auto-merged MAT-7841 with MAT-7501 (vector 0.97)" class="activityMessage"/>
-                                        </HBox>
-                                    </CustomListItem>
-                                    
-                                    <CustomListItem class="activityItem">
-                                        <HBox alignItems="Center" width="100%" class="activityRow">
-                                            <Text text="09:08" class="activityTime"/>
-                                            <core:Icon src="sap-icon://circle-task-2" class="activityDot dotRed"/>
-                                            <Text text="RMV-SUP-009 sanctions hit on DP 201023711 — quarantined" class="activityMessage"/>
-                                        </HBox>
-                                    </CustomListItem>
-                                    
-                                    <CustomListItem class="activityItem">
-                                        <HBox alignItems="Center" width="100%" class="activityRow">
-                                            <Text text="08:52" class="activityTime"/>
-                                            <core:Icon src="sap-icon://circle-task-2" class="activityDot dotYellow"/>
-                                            <Text text="AI plausibility flagged CO-220314 — proposed manufacturer canonicalization" class="activityMessage"/>
-                                        </HBox>
-                                    </CustomListItem>
-                                    
-                                    <CustomListItem class="activityItem">
-                                        <HBox alignItems="Center" width="100%" class="activityRow">
-                                            <Text text="08:31" class="activityTime"/>
-                                            <core:Icon src="sap-icon://circle-task-2" class="activityDot dotBlue"/>
-                                            <Text text="RulePack v1.6 promoted to production (covers 3 new fields)" class="activityMessage"/>
-                                        </HBox>
-                                    </CustomListItem>
-                                </List>
+                            <core:HTML content="
+&lt;div class='tileGrid'&gt;
+
+  &lt;!-- Steward Inbox --&gt;
+  &lt;div class='tile tileOrange' id='stewardInboxTileHtml' onclick=&quot;document.getElementById('stewardInboxTile').firePress&amp;&amp;document.getElementById('stewardInboxTile').firePress()&quot;&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgOrange'&gt;📥&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Steward Inbox&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Records waiting on you&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;142&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotOrange'&gt;●&lt;/span&gt; 12 urgent · 3 SLA at risk&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Rule Console --&gt;
+  &lt;div class='tile tileIndigo'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgIndigo'&gt;⚡&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Rule Console&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Catalog · dry run · telemetry&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;286&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotIndigo'&gt;●&lt;/span&gt; 4 packs · 2 in pilot&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Vector Dedup --&gt;
+  &lt;div class='tile tileCyan'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgCyan'&gt;🔍&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Vector Dedup&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Semantic similarity search&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;0.94&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotCyan'&gt;●&lt;/span&gt; P95 latency 92 ms&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Cohort Outliers --&gt;
+  &lt;div class='tile tileRed'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgRed'&gt;📊&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Cohort Outliers&lt;/div&gt;
+        &lt;div class='tileSub'&gt;k-NN over peer clusters&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;38&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotRed'&gt;●&lt;/span&gt; New flags overnight&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Lineage Explorer --&gt;
+  &lt;div class='tile tilePurple'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgPurple'&gt;🔗&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Lineage Explorer&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Source → Golden trace&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue tileValueOpen'&gt;↗ Open&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotPurple'&gt;●&lt;/span&gt; CWI · MDG · CDP linked&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Author Drafts --&gt;
+  &lt;div class='tile tileAmber'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgAmber'&gt;✏️&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Author Drafts&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Pillar 2 templates + AI&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;7&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotAmber'&gt;●&lt;/span&gt; 4 pending steward review&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- KPI Dashboard --&gt;
+  &lt;div class='tile tileBlue'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgBlue'&gt;📈&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;KPI Dashboard&lt;/div&gt;
+        &lt;div class='tileSub'&gt;Quality · ops · governance&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue tileValueOpen'&gt;↗ Open&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotBlue'&gt;●&lt;/span&gt; Weekly digest Mon 8 am&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Policy Library --&gt;
+  &lt;div class='tile tileGreen'&gt;
+    &lt;div class='tileTop'&gt;
+      &lt;div class='tileIconWrap tileIconBgGreen'&gt;📚&lt;/div&gt;
+      &lt;div class='tileMeta'&gt;
+        &lt;div class='tileName'&gt;Policy Library&lt;/div&gt;
+        &lt;div class='tileSub'&gt;RulePacks · severities&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class='tileValue'&gt;6&lt;/div&gt;
+    &lt;div class='tileFooter'&gt;&lt;span class='tileFooterDot tileFooterDotGreen'&gt;●&lt;/span&gt; 2 change requests open&lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+"/>
+                            <!-- Hidden SAP tile used for press handler -->
+                            <VBox id="stewardInboxTile" visible="false" class="hiddenTile">
+                                <Button press="onStewardInboxPress" visible="false"/>
                             </VBox>
+
+                            <!-- ── RECENT ACTIVITY ── -->
+                            <core:HTML content="&lt;div class='secHeading'&gt;RECENT ACTIVITY&lt;/div&gt;"/>
+                            <core:HTML content="
+&lt;div class='actCard'&gt;
+  &lt;div class='actRow'&gt;
+    &lt;span class='actTime'&gt;09:14&lt;/span&gt;
+    &lt;span class='actIconWrap actIconGreen'&gt;✓&lt;/span&gt;
+    &lt;span class='actMsg'&gt;&lt;strong&gt;Auto-merged&lt;/strong&gt; MAT-7841 with MAT-7501 — vector similarity 0.97&lt;/span&gt;
+    &lt;span class='actTag actTagGreen'&gt;Auto-resolve&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class='actRow actRowBorder'&gt;
+    &lt;span class='actTime'&gt;09:08&lt;/span&gt;
+    &lt;span class='actIconWrap actIconRed'&gt;!&lt;/span&gt;
+    &lt;span class='actMsg'&gt;&lt;strong&gt;RNV-SUP-009&lt;/strong&gt; sanctions hit on BP 0010023711 — &lt;em&gt;quarantined&lt;/em&gt;&lt;/span&gt;
+    &lt;span class='actTag actTagRed'&gt;Blocked&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class='actRow actRowBorder'&gt;
+    &lt;span class='actTime'&gt;08:52&lt;/span&gt;
+    &lt;span class='actIconWrap actIconBlue'&gt;🤖&lt;/span&gt;
+    &lt;span class='actMsg'&gt;&lt;strong&gt;AI plausibility&lt;/strong&gt; flagged EQ-220314 — proposed manufacturer canonicalization&lt;/span&gt;
+    &lt;span class='actTag actTagBlue'&gt;AI Flag&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class='actRow actRowBorder'&gt;
+    &lt;span class='actTime'&gt;08:31&lt;/span&gt;
+    &lt;span class='actIconWrap actIconPurple'&gt;▶&lt;/span&gt;
+    &lt;span class='actMsg'&gt;&lt;strong&gt;RulePack v18&lt;/strong&gt; promoted to pilot on tenant acme-prod&lt;/span&gt;
+    &lt;span class='actTag actTagPurple'&gt;Promoted&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+"/>
+
                         </VBox>
-                        
-                        <!-- VIEW 2: STEWARD INBOX TABLE VIEW (Visible when Steward Inbox is clicked) -->
+
+                        <!-- ══════════ STEWARD INBOX VIEW ══════════ -->
                         <VBox id="stewardInboxView" visible="false" width="100%" class="inboxContainer">
-                            <!-- BREADCRUMBS -->
-                             <HBox class="inboxBreadcrumbs">
-                                 <Link text="Foundation" class="breadcrumbBaseLink" press="onDashboardPress"/>
-                                 <Text text=" &gt; " class="breadcrumbDivider"/>
-                                 <Text text="Steward Inbox" class="breadcrumbCurrent"/>
-                             </HBox>
-                            
-                            <!-- HEADER TITLE AND PRIMARY ACTIONS -->
+                            <HBox class="inboxBreadcrumbs">
+                                <Link text="Foundation" class="breadcrumbBaseLink" press="onDashboardPress"/>
+                                <Text text=" › " class="breadcrumbDivider"/>
+                                <Text text="Steward Inbox" class="breadcrumbCurrent"/>
+                            </HBox>
+
                             <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="inboxTitleBar">
                                 <HBox alignItems="Center">
                                     <Title text="Steward Inbox" level="H1" class="inboxTitleText"/>
@@ -402,123 +405,73 @@
                                     <Button id="approveBtn" text="✓ Approve selected ({inbox>/selectedCount})" class="approveBtn"/>
                                 </HBox>
                             </HBox>
-                            
-                            <!-- FILTERS CHIPS TOOLBAR -->
+
                             <HBox class="filtersToolbar" width="100%">
                                 <Text text="Filters:" class="filtersLabel"/>
-                                <HBox class="filterPill pillBlue" alignItems="Center" justifyContent="Center">
-                                    <Text text="Domain · All" class="pillBlueText"/>
-                                </HBox>
-                                <HBox class="filterPill pillRed" alignItems="Center" justifyContent="Center">
-                                    <Text text="Severity · Hard + Soft" class="pillRedText"/>
-                                </HBox>
-                                <HBox class="filterPill pillYellow" alignItems="Center" justifyContent="Center">
-                                    <Text text="Score · 65–84" class="pillYellowText"/>
-                                </HBox>
-                                <HBox class="filterPill pillCyan" alignItems="Center" justifyContent="Center">
-                                    <Text text="Source · All 6" class="pillCyanText"/>
-                                </HBox>
-                                <HBox class="filterPill pillGreen" alignItems="Center" justifyContent="Center">
-                                    <Text text="Owner · Me" class="pillGreenText"/>
-                                </HBox>
-                                <HBox class="filterPill pillAdd" alignItems="Center" justifyContent="Center">
-                                    <Text text="+ Add filter" class="pillAddText"/>
-                                </HBox>
-                                
+                                <HBox class="filterPill pillBlue"   alignItems="Center" justifyContent="Center"><Text text="Domain · All"        class="pillBlueText"/></HBox>
+                                <HBox class="filterPill pillRed"    alignItems="Center" justifyContent="Center"><Text text="Severity · Hard + Soft" class="pillRedText"/></HBox>
+                                <HBox class="filterPill pillYellow" alignItems="Center" justifyContent="Center"><Text text="Score · 65–84"       class="pillYellowText"/></HBox>
+                                <HBox class="filterPill pillCyan"   alignItems="Center" justifyContent="Center"><Text text="Source · All 6"      class="pillCyanText"/></HBox>
+                                <HBox class="filterPill pillGreen"  alignItems="Center" justifyContent="Center"><Text text="Owner · Me"          class="pillGreenText"/></HBox>
+                                <HBox class="filterPill pillAdd"    alignItems="Center" justifyContent="Center"><Text text="+ Add filter"        class="pillAddText"/></HBox>
                                 <ToolbarSpacer/>
-                                
                                 <HBox class="pillDropdown" alignItems="Center" justifyContent="Center">
                                     <core:Icon src="sap-icon://bookmark" class="dropdownIcon"/>
                                     <Text text="My weekday queue" class="dropdownText"/>
                                     <core:Icon src="sap-icon://slim-arrow-down" class="dropdownIcon"/>
                                 </HBox>
                             </HBox>
-                            
-                            <!-- SMART TABLE CARD -->
+
                             <VBox class="tableContainer">
-                                <Table id="stewardInboxTable"
-                                       mode="MultiSelect"
-                                       items="{inbox>/items}"
-                                       selectionChange="onSelectionChange"
-                                       class="stewardTable">
+                                <Table id="stewardInboxTable" mode="MultiSelect" items="{inbox>/items}"
+                                       selectionChange="onSelectionChange" class="stewardTable">
                                     <columns>
-                                        <Column width="180px">
-                                            <Text text="RECORD" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="110px">
-                                            <Text text="DOMAIN" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="100px">
-                                            <Text text="SOURCE" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="140px">
-                                            <Text text="SCORE" class="columnHeader"/>
-                                        </Column>
-                                        <Column>
-                                            <Text text="TOP FINDING" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="95px">
-                                            <Text text="SEV" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="85px">
-                                            <Text text="AGE" class="columnHeader"/>
-                                        </Column>
-                                        <Column width="50px" hAlign="End">
-                                            <Text text="" class="columnHeader"/>
-                                        </Column>
+                                        <Column width="180px"><Text text="RECORD"      class="columnHeader"/></Column>
+                                        <Column width="110px"><Text text="DOMAIN"      class="columnHeader"/></Column>
+                                        <Column width="100px"><Text text="SOURCE"      class="columnHeader"/></Column>
+                                        <Column width="140px"><Text text="SCORE"       class="columnHeader"/></Column>
+                                        <Column>             <Text text="TOP FINDING"  class="columnHeader"/></Column>
+                                        <Column width="95px"><Text text="SEV"          class="columnHeader"/></Column>
+                                        <Column width="85px"><Text text="AGE"          class="columnHeader"/></Column>
+                                        <Column width="50px" hAlign="End"><Text text="" class="columnHeader"/></Column>
                                     </columns>
-                                     <items>
+                                    <items>
                                         <ColumnListItem selected="{inbox>selected}" class="tableRow">
                                             <cells>
-                                                <!-- RECORD: code + description -->
                                                 <VBox class="recordCell">
-                                                    <Link text="{inbox>id}" class="recordCodeLink"/>
+                                                    <Link text="{inbox>id}"   class="recordCodeLink"/>
                                                     <Text text="{inbox>name}" class="recordSubTitle"/>
                                                 </VBox>
-                                                
-                                                <!-- DOMAIN: dot + domain name -->
                                                 <core:HTML content="{= '&lt;div class=&quot;domainDotHbox&quot;&gt;&lt;span class=&quot;domainDot ' + ${inbox>domainDot} + 'Dot&quot;&gt;&amp;#9679;&lt;/span&gt;&lt;span class=&quot;cellText&quot;&gt;' + ${inbox>domain} + '&lt;/span&gt;&lt;/div&gt;' }"/>
-                                                
-                                                <!-- SOURCE -->
                                                 <Text text="{inbox>source}" class="cellText"/>
-                                                
-                                                <!-- SCORE: solid box + visual indicator bar and state -->
                                                 <core:HTML content="{= '&lt;div class=&quot;scoreContainerHTML&quot;&gt;&lt;div class=&quot;scoreBoxVal ' + ${inbox>scoreClass} + 'Bg&quot;&gt;' + ${inbox>score} + '&lt;/div&gt;&lt;div class=&quot;scoreIndicatorCol&quot;&gt;&lt;div class=&quot;scoreSliderBase&quot;&gt;&lt;div class=&quot;scoreSliderActive ' + ${inbox>scoreClass} + 'Bg&quot; style=&quot;width: ' + ${inbox>score} + '%;&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;scoreStateText&quot;&gt;' + ${inbox>scoreState} + '&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;' }"/>
-                                                
-                                                <!-- TOP FINDING -->
                                                 <Text text="{inbox>finding}" class="cellText boldFinding"/>
-                                                
-                                                <!-- SEV: dot + severity text -->
                                                 <core:HTML content="{= '&lt;div class=&quot;sevDotHbox&quot;&gt;&lt;span class=&quot;sevDot ' + ${inbox>sevDot} + 'Dot&quot;&gt;&amp;#9679;&lt;/span&gt;&lt;span class=&quot;cellText boldSev&quot;&gt;' + ${inbox>sev} + '&lt;/span&gt;&lt;/div&gt;' }"/>
-                                                
-                                                <!-- AGE -->
                                                 <Text text="{inbox>age}" class="cellText ageText"/>
-                                                
-                                                <!-- Action overflow -->
                                                 <Button icon="sap-icon://overflow" type="Transparent" class="rowActionBtn"/>
                                             </cells>
                                         </ColumnListItem>
                                     </items>
                                 </Table>
-
-                                <!-- PAGINATION FOOTER -->
                                 <OverflowToolbar class="tableFooterToolbar">
                                     <Text text="Showing 1–10 of 142" class="footerLeftText"/>
                                     <ToolbarSpacer/>
                                     <HBox class="paginationContainer" alignItems="Center">
                                         <Button text="&lt;" class="pagBtn pagArrow"/>
-                                        <Button text="1" class="pagBtn pagActive"/>
-                                        <Button text="2" class="pagBtn"/>
-                                        <Button text="3" class="pagBtn"/>
-                                        <Button text="4" class="pagBtn"/>
-                                        <Button text="5" class="pagBtn"/>
+                                        <Button text="1"   class="pagBtn pagActive"/>
+                                        <Button text="2"   class="pagBtn"/>
+                                        <Button text="3"   class="pagBtn"/>
+                                        <Button text="4"   class="pagBtn"/>
+                                        <Button text="5"   class="pagBtn"/>
                                         <Button text="&gt;" class="pagBtn pagArrow"/>
                                     </HBox>
                                 </OverflowToolbar>
                             </VBox>
                         </VBox>
+
                     </ScrollContainer>
                 </VBox>
+
             </HBox>
         </VBox>
     </Page>
