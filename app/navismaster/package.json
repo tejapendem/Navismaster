@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "ui5 build --clean-dest && cd dist && zip -r navismaster.zip ."
+    "build": "ui5 build --clean-dest && powershell -Command \"Compress-Archive -Path dist\\* -DestinationPath dist\\navismaster.zip -Force\""
   },
   "devDependencies": {
     "@ui5/cli": "^3.0.0"
