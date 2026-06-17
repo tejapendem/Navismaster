@@ -830,7 +830,7 @@ input.err,select.err{border-color:var(--error);background:#FFF5F5;}
           <div class="mc-title">Business Partner</div>
           <div class="mc-sap">BP / XD01 / XK01 · KNA1 / LFA1 / BUT000</div>
         </div>
-        <span class="mc-stepsBadge">6 steps</span>
+        <span class="mc-stepsBadge">7 steps</span>
       </div>
       <div class="mc-desc">Customers, vendors, or combined business partners. Covers address, tax IDs, bank details, company code assignment, payment terms, and credit management.</div>
       <div class="mc-tags"><span class="tag tag-teal">Customer</span><span class="tag tag-teal">Vendor</span><span class="tag tag-blue">CVI Ready</span><span class="tag tag-purple">AI Dedup</span></div>
@@ -981,8 +981,8 @@ const MASTERS = {
     dup:{field:'mat_maktx',msg:'Possible duplicate found: "STEEL PIPE SEAMLESS SCH40 5IN" (MAT-10045, 87% similarity). Please verify before continuing.'}
   },
   bp:{
-    heading:'Business Partner',sub:'New BP creation · Customer / Vendor / Combined · CVI Ready',
-    steps:['Role & Identity','Address','Tax & Legal','Bank Details','Company Code','Review & Submit'],
+    heading:'Business Partner',sub:'New BP creation · Smart Tax Lookup · Customer / Vendor · CVI Ready',
+    steps:['Tax Lookup','Role & Identity','Address','Tax & Legal','Bank Details','Company Code','Review & Submit'],
     dup:{field:'bp_name1',msg:'Possible match found: "TATA STEEL LIMITED" (BP-50023, 82% name similarity). Check if this is the same entity before proceeding.'}
   },
   product:{
@@ -995,6 +995,27 @@ const MASTERS = {
     steps:['Basic Data','Location & Org','Classification','Review & Submit'],
     dup:null
   }
+};
+
+// Indian state code → display names for GST API mapping
+const STATE_CODES = {
+  '01':'01 — Jammu & Kashmir','02':'02 — Himachal Pradesh','03':'03 — Punjab','04':'04 — Chandigarh',
+  '05':'05 — Uttarakhand','06':'06 — Haryana','07':'07 — Delhi','08':'08 — Rajasthan',
+  '09':'09 — Uttar Pradesh','10':'10 — Bihar','11':'11 — Sikkim','12':'12 — Arunachal Pradesh',
+  '13':'13 — Nagaland','14':'14 — Manipur','15':'15 — Mizoram','16':'16 — Tripura',
+  '17':'17 — Meghalaya','18':'18 — Assam','19':'19 — West Bengal','20':'20 — Jharkhand',
+  '21':'21 — Odisha','22':'22 — Chhattisgarh','23':'23 — Madhya Pradesh','24':'24 — Gujarat',
+  '25':'25 — Daman & Diu','26':'26 — Dadra & Nagar Haveli','27':'27 — Maharashtra',
+  '28':'28 — Andhra Pradesh (Old)','29':'29 — Karnataka','30':'30 — Goa',
+  '31':'31 — Lakshadweep','32':'32 — Kerala','33':'33 — Tamil Nadu','34':'34 — Puducherry',
+  '35':'35 — Andaman & Nicobar','36':'36 — Telangana','37':'37 — Andhra Pradesh'
+};
+const GST_FORMATS = {
+  IN:' GSTIN: 2-digit state + 10-char PAN + 3-char entity + check digit',
+  EU:' EU VAT: country code + up to 12 alphanumeric characters',
+  UK:' UK VAT: GB followed by 9 or 12 digits',
+  AE:' UAE TRN: 15-digit number',
+  SG:' Singapore UEN: 9 digits + 1 letter'
 };
 
 let master=null,step=0,data={};
@@ -1029,7 +1050,7 @@ function nextStep(){
   const steps=MASTERS[master].steps;
   if(step===steps.length-1){submit();return;}
   step++;
-  if(step===1){
+  if((master==='material'&&step===1)||(master==='bp'&&step===2)){
     const m=MASTERS[master];
     if(m.dup){
       document.getElementById('dup-msg').textContent=m.dup.msg;
@@ -1092,12 +1113,26 @@ function renderStepper(){
 function renderForm(){
   const fns={
     material:[matStep0,matStep1,matStep2,matStep3,reviewStep],
-    bp:[bpStep0,bpStep1,bpStep2,bpStep3,bpStep4,reviewStep],
+    bp:[bpTaxLookup,bpStep0,bpStep1,bpStep2,bpStep3,bpStep4,reviewStep],
     product:[prodStep0,prodStep1,prodStep2,prodStep3,reviewStep],
     equipment:[eqStep0,eqStep1,eqStep2,reviewStep]
   };
   document.getElementById('form-content').innerHTML=fns[master][step]();
   initCharCounters();
+  if(master==='bp'&&step===0){
+    const gstinInp=document.getElementById('bp_gstin');
+    if(gstinInp&&data.bp_lookup_done){
+      gstinInp.addEventListener('input',function(){
+        if(this.value!==data.bp_gstin){
+          data.bp_lookup_done=false;
+          const btn=document.getElementById('btn-lookup');
+          if(btn){btn.disabled=false;btn.textContent='🔄 Re-lookup';}
+          document.getElementById('lk-status')?.classList.remove('show','success');
+          document.getElementById('lk-results')?.classList.remove('show');
+        }
+      });
+    }
+  }
   // trigger AI suggestions with slight delay for realism
   setTimeout(fireAI,350);
 }
@@ -1105,17 +1140,19 @@ function renderForm(){
 // Field builder helper
 function F(id,label,type,opts={}){
   const{req=false,hint='',sap='',ai=false,ph='',opts:sel=[],rows=3,max=0,val=''}=opts;
+  const actualVal=data[id]||val;
   const reqS=req?'<span class="req">*</span>':'';
   const aiS=ai?'<span class="ai-chip">AI</span>':'';
   const sapS=sap?`<span class="sap-chip">${sap}</span>`:'';
   let inp='';
   if(type==='select'){
-    inp=`<select id="${id}"><option value="">— Select —</option>${sel.map(o=>typeof o==='string'?`<option>${o}</option>`:`<option value="${o.v}">${o.l}</option>`).join('')}</select>`;
+    const so=sel.map(o=>typeof o==='string'?`<option ${o===actualVal?'selected':''}>${o}</option>`:`<option value="${o.v}" ${o.v===actualVal||o.l===actualVal?'selected':''}>${o.l}</option>`).join('');
+    inp=`<select id="${id}"><option value="">— Select —</option>${so}</select>`;
   }else if(type==='textarea'){
-    inp=`<textarea id="${id}" rows="${rows}" placeholder="${ph}">${val}</textarea>`;
+    inp=`<textarea id="${id}" rows="${rows}" placeholder="${ph}">${actualVal}</textarea>`;
   }else{
     const mc=max?`data-max="${max}"`:'';
-    inp=`<input type="${type}" id="${id}" placeholder="${ph}" value="${val}" ${mc}>`;
+    inp=`<input type="${type}" id="${id}" placeholder="${ph}" value="${actualVal}" ${mc}>`;
   }
   const cc=max?`<div class="cc" id="${id}-cc">0/${max}</div>`:'';
   const aiBlock=ai?`<div class="ai-sug" id="${id}-sug"><span>🤖</span><span class="ai-sug-text">Suggestion: <strong id="${id}-ai-val">analysing…</strong></span><button class="ai-apply" onclick="applyAI('${id}')">Apply</button></div>`:'';
@@ -1214,6 +1251,113 @@ function matStep3(){
 }
 
 // ── BUSINESS PARTNER ────────────────────────
+
+function bpTaxLookup(){
+  const gstin=data.bp_gstin||'';
+  const country=data.bp_tax_country||'IN';
+  const done=data.bp_lookup_done;
+  const fmt=GST_FORMATS[country]||'';
+  return`<div class="form-card lookup-wrap">
+  <div class="lk-header">
+    <h3>🔍 Smart BP Lookup</h3>
+    <p>Enter a valid GST / VAT / Tax Registration Number to auto-populate the Business Partner form. The system will validate the number and pre-fill name, address, tax details, and more — saving you time and reducing manual entry errors.</p>
+  </div>
+  <div class="lk-countries" id="lk-countries">
+    ${['IN','EU','UK','AE','SG'].map(c=>`<button class="lk-country-btn${c===country?' active':''}" data-country="${c}" onclick="selectTaxCountry('${c}')">${c==='IN'?'🇮🇳 India':c==='EU'?'🇪🇺 EU':c==='UK'?'🇬🇧 UK':c==='AE'?'🇦🇪 UAE':'🇸🇬 Singapore'}</button>`).join('')}
+  </div>
+  <div class="lk-input-row">
+    <div class="lk-input-wrap">
+      <label for="bp_gstin">Tax Registration Number <span class="req">*</span></label>
+      <input type="text" id="bp_gstin" placeholder="e.g. 27AABCU9603R1ZV" value="${gstin}" style="text-transform:uppercase;">
+      <div class="lk-format-hint" id="lk-format-hint">Expected format${fmt}</div>
+      <div class="ferr" id="bp_gstin_err">Please enter a valid tax registration number for the selected country.</div>
+    </div>
+    <button class="btn-lookup" id="btn-lookup" onclick="handleTaxLookup()" ${done?'disabled':''}>${done?'✅ Looked Up':'🔍 Lookup'}</button>
+  </div>
+  <div class="lk-status ${done?'success show':''}" id="lk-status">${done?'✅ Tax registration validated successfully — fields have been pre-filled below.':''}</div>
+  ${done?renderLookupResults():''}
+</div>`;
+}
+
+function renderLookupResults(){
+  const rows=[
+    ['Organisation Name',data.bp_name1||'—'],
+    ['Trade / Legal Name',data.bp_sortl||'—'],
+    ['GST / VAT Number',data.bp_stceg||'—'],
+    ['Street Name',data.bp_stras||'—'],
+    ['House / Building No.',data.bp_hsnmr||'—'],
+    ['City',data.bp_ort01||'—'],
+    ['State / Region',data.bp_regio||'—'],
+    ['Postal Code',data.bp_pstlz||'—'],
+    ['Country',data.bp_land1||'—']
+  ].map(([l,v])=>`<tr><td>${l}</td><td>${v}<span class="lk-mapped-badge">✓ Auto-mapped</span></td></tr>`).join('');
+  return`<div class="lk-results show" id="lk-results">
+  <h4>✅ Pre-filled Fields</h4>
+  <table class="lk-results-tbl">${rows}</table>
+  <div class="lk-auto-fill-msg">📋 These values have been saved and will appear in the subsequent form steps. You can edit them when you reach each section.</div>
+</div>`;
+}
+
+function selectTaxCountry(code){
+  data.bp_tax_country=code;
+  data.bp_lookup_done=false;
+  const ct=document.getElementById('lk-countries');
+  if(ct)ct.querySelectorAll('.lk-country-btn').forEach(b=>b.classList.toggle('active',b.dataset.country===code));
+  const hint=document.getElementById('lk-format-hint');
+  if(hint)hint.textContent='Expected format'+GST_FORMATS[code];
+  const inp=document.getElementById('bp_gstin');
+  if(inp){inp.value='';inp.classList.remove('err');}
+  const btn=document.getElementById('btn-lookup');
+  if(btn){btn.disabled=false;btn.textContent='🔍 Lookup';}
+  document.getElementById('bp_gstin_err')?.classList.remove('show');
+  document.getElementById('lk-status')?.classList.remove('show','error','success');
+  document.getElementById('lk-results')?.classList.remove('show');
+}
+
+function handleTaxLookup(){
+  const inp=document.getElementById('bp_gstin');
+  const errEl=document.getElementById('bp_gstin_err');
+  const btn=document.getElementById('btn-lookup');
+  const status=document.getElementById('lk-status');
+  const country=data.bp_tax_country||'IN';
+  if(!inp||!inp.value.trim()){inp.classList.add('err');if(errEl)errEl.classList.add('show');return;}
+  inp.classList.remove('err');if(errEl)errEl.classList.remove('show');
+  const gstin=inp.value.trim().toUpperCase();
+  if(country==='IN'&&!/^\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d[Z]{1}[A-Z\d]{1}$/.test(gstin)){
+    inp.classList.add('err');if(errEl)errEl.classList.add('show');errEl.textContent='Invalid Indian GSTIN format. Expected: 2 digits + 5 letters + 4 digits + 1 letter + 1 digit + Z + 1 alphanumeric';return;
+  }
+  btn.disabled=true;btn.textContent='⏳ Looking up…';
+  status.className='lk-status loading show';status.textContent='⏳ Validating tax registration number…';
+  fetch('/api/tax-lookup?gstin='+encodeURIComponent(gstin))
+    .then(r=>{if(!r.ok)throw new Error('Lookup failed');return r.json();})
+    .then(res=>{
+      if(res.flag===false)throw new Error(res.message||'GSTIN not found');
+      const d=res.data||{};
+      const addr=d.pradr&&d.pradr.addr||{};
+      data.bp_gstin=gstin;
+      data.bp_stceg=gstin;
+      data.bp_name1=d.lgnm||'';
+      data.bp_sortl=d.tradeNam||d.lgnm||'';
+      data.bp_ort01=addr.loc||'';
+      data.bp_stras=addr.st||'';
+      data.bp_hsnmr=addr.bnm||'';
+      data.bp_pstlz=addr.pncd||'';
+      data.bp_regio=d.pradr&&d.pradr.stcd||addr.stcd||'';
+      data.bp_land1={'IN':'IN — India','UK':'GB — United Kingdom','AE':'AE — UAE','SG':'SG — Singapore'}[country]||'';
+      data.bp_lookup_done=true;
+      status.className='lk-status success show';status.textContent='✅ Tax registration validated successfully — fields have been pre-filled below.';
+      btn.disabled=true;btn.textContent='✅ Looked Up';
+      const resultsDiv=document.getElementById('lk-results');
+      if(resultsDiv)resultsDiv.outerHTML=renderLookupResults();
+      else document.querySelector('.lk-input-row').insertAdjacentHTML('afterend',renderLookupResults());
+    })
+    .catch(err=>{
+      console.warn('Tax lookup failed:',err);
+      status.className='lk-status error show';status.textContent='❌ Lookup failed. Please check the number and try again, or enter details manually.';
+      btn.disabled=false;btn.textContent='🔍 Retry Lookup';
+    });
+}
+
 function bpStep0(){
   return`<div class="form-card">
   <div class="fc-title">🤝 BP Role & Identity</div>
@@ -1477,6 +1621,18 @@ function reviewStep(){
 // VALIDATION & UTILS
 // ───────────────────────────────────────────────
 function validate(){
+  if(master==='bp'&&step===0){
+    if(!data.bp_lookup_done){
+      const inp=document.getElementById('bp_gstin');
+      const errEl=document.getElementById('bp_gstin_err');
+      if(inp)inp.classList.add('err');
+      if(errEl)errEl.classList.add('show');
+      const firstErr=document.querySelector('.err');
+      if(firstErr)firstErr.scrollIntoView({behavior:'smooth',block:'center'});
+      return false;
+    }
+    return true;
+  }
   let ok=true;
   document.querySelectorAll('#form-content [id]').forEach(el=>{
     const errEl=document.getElementById(el.id+'-err');

@@ -19,7 +19,16 @@ sap.ui.define([
                 greeting: this._greetingForHour(new Date().getHours())
             });
             this.getView().setModel(oUserModel, "user");
-            this._loadCurrentUser();
+
+            // Wait for OData model metadata to be ready before calling functions
+            var oModel = this.getView().getModel();
+            if (oModel && oModel.attachMetadataLoaded) {
+                oModel.attachMetadataLoaded(function () {
+                    this._loadCurrentUser();
+                }.bind(this));
+            } else {
+                this._loadCurrentUser();
+            }
 
             // Build high-fidelity mockup data for Screen 2 (Steward Inbox Table)
             var oInboxData = {
@@ -59,24 +68,46 @@ sap.ui.define([
 
         _loadCurrentUser: function () {
             var oUserModel = this.getView().getModel("user");
-            fetch("/odata/v4/dashboard/currentUser()", {
+            this._tryLoadUserOData(oUserModel) || this._tryLoadUserApi(oUserModel);
+        },
+
+        _applyUserData: function (oUserModel, data) {
+            if (!data) { return; }
+            var current = oUserModel.getData();
+            oUserModel.setData({
+                id:        data.id        || "",
+                name:      data.name      || "",
+                firstName: data.firstName || "there",
+                initials:  data.initials  || "··",
+                today:     current.today,
+                greeting:  current.greeting
+            });
+        },
+
+        _tryLoadUserOData: function (oUserModel) {
+            var oModel = this.getView().getModel();
+            if (!oModel || !oModel.callFunction) { return false; }
+            var that = this;
+            oModel.callFunction("currentUser", {})
+                .then(function (oResult) {
+                    var data = oResult && oResult.getObject ? oResult.getObject() : oResult;
+                    that._applyUserData(oUserModel, data);
+                })
+                .catch(function () {
+                    that._tryLoadUserApi(oUserModel);
+                });
+            return true;
+        },
+
+        _tryLoadUserApi: function (oUserModel) {
+            var that = this;
+            fetch("/api/user", {
                 headers: { "Accept": "application/json" },
                 credentials: "include"
             })
             .then(function (res) { return res.ok ? res.json() : null; })
-            .then(function (data) {
-                if (!data) { return; }
-                var current = oUserModel.getData();
-                oUserModel.setData({
-                    id:        data.id        || "",
-                    name:      data.name      || "",
-                    firstName: data.firstName || "there",
-                    initials:  data.initials  || "··",
-                    today:     current.today,
-                    greeting:  current.greeting
-                });
-            })
-            .catch(function (err) { console.warn("currentUser load failed", err); });
+            .then(function (data) { that._applyUserData(oUserModel, data); })
+            .catch(function () { /* leave default "there" */ });
         },
 
         onAfterRendering: function () {

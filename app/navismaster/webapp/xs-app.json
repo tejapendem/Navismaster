@@ -10,6 +10,13 @@
       "csrfProtection": true
     },
     {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "navismaster-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
