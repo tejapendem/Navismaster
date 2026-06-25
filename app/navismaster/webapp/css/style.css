@@ -365,6 +365,7 @@ html, body, .sapUiBody, #content, .rootPage {
 .wsIconPurple { background: #faf5ff; }
 .wsIconBlue   { background: #eff6ff; }
 .wsIconGreen  { background: #f0fdf4; }
+.wsIconTeal   { background: #f0fdfa; }
 
 .wsLabel       { font-size: 0.8rem !important; font-weight: 500 !important; color: #475569; display: block; }
 .wsLabelActive { font-weight: 700 !important; color: #1e40af !important; }

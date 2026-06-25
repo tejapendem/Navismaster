@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="navismaster.controller.MasterCreate"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page showHeader="false" class="rootPage wizardPageBackground" enableScrolling="true">
+        <core:HTML id="wizardContent" preferDOM="true"/>
+    </Page>
+</mvc:View>

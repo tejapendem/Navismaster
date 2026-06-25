@@ -44,6 +44,21 @@ modules:
             HTML5.ForwardAuthToken: 'true'
             HTML5.DynamicDestination: 'true'
 
+  - name: navismaster-approuter
+    type: approuter.nodejs
+    path: app/approuter
+    build-parameters:
+      ignore: ["node_modules/"]
+    requires:
+      - name: navismaster-auth
+      - name: navismaster-html5-repo-runtime
+      - name: navismaster-destination
+      - name: srv-api
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+      keep-existing-routes: true
+
   - name: navismasternavismaster
     type: html5
     path: app/navismaster
@@ -113,6 +128,10 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+  - name: navismaster-html5-repo-runtime
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: navismaster-html5-repo-runtime
   - name: navismaster-postgres
     type: org.cloudfoundry.existing-service
     parameters:

@@ -1,0 +1,30 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/logout",
+    "logoutPage": "/logout.html"
+  },
+  "routes": [
+    {
+      "source": "^/odata/v4/dashboard/(.*)$",
+      "target": "/odata/v4/dashboard/$1",
+      "destination": "navismaster-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "navismaster-api",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

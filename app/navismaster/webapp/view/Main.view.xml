@@ -83,11 +83,20 @@
 
                     <List id="workspaceList" class="workspaceList" noDataText="">
 
-                        <CustomListItem class="wsItem wsItemActive" type="Active" press="onStewardInboxPress">
+                        <CustomListItem class="wsItem wsItemActive" type="Active" press="onManageApprovalPress">
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="wsRow">
+                                <HBox alignItems="Center" class="wsLeft">
+                                    <core:HTML content="&lt;span class='wsIconBox wsIconTeal'&gt;✓&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel wsLabelActive'&gt;Manage Approval&lt;/span&gt;"/>
+                                </HBox>
+                            </HBox>
+                        </CustomListItem>
+
+                        <CustomListItem class="wsItem" type="Active" press="onStewardInboxPress">
                             <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="wsRow">
                                 <HBox alignItems="Center" class="wsLeft">
                                     <core:HTML content="&lt;span class='wsIconBox wsIconOrange'&gt;📥&lt;/span&gt;"/>
-                                    <core:HTML content="&lt;span class='wsLabel wsLabelActive'&gt;Steward Inbox&lt;/span&gt;"/>
+                                    <core:HTML content="&lt;span class='wsLabel'&gt;Steward Inbox&lt;/span&gt;"/>
                                 </HBox>
                                 <core:HTML content="&lt;span class='wsBadge'&gt;142&lt;/span&gt;"/>
                             </HBox>
@@ -466,6 +475,45 @@
                                         <Button text="&gt;" class="pagBtn pagArrow"/>
                                     </HBox>
                                 </OverflowToolbar>
+                            </VBox>
+                        </VBox>
+
+                        <!-- ══════════ MANAGE APPROVAL VIEW ══════════ -->
+                        <VBox id="manageApprovalView" visible="false" width="100%" class="inboxContainer">
+                            <HBox class="inboxBreadcrumbs">
+                                <Link text="Foundation" class="breadcrumbBaseLink" press="onDashboardPress"/>
+                                <Text text=" › " class="breadcrumbDivider"/>
+                                <Text text="Manage Approval" class="breadcrumbCurrent"/>
+                            </HBox>
+
+                            <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="inboxTitleBar">
+                                <HBox alignItems="Center">
+                                    <Title text="Manage Approval" level="H1" class="inboxTitleText"/>
+                                    <Text text="{approval>/count} workflows" class="inboxCountText"/>
+                                </HBox>
+                            </HBox>
+
+                            <VBox class="tableContainer">
+                                <Table id="manageApprovalTable" items="{approval>/items}" class="stewardTable">
+                                    <columns>
+                                        <Column width="200px"><Text text="Workflow Name" class="columnHeader"/></Column>
+                                        <Column width="110px"><Text text="Level 1"        class="columnHeader"/></Column>
+                                        <Column width="160px"><Text text="Name"           class="columnHeader"/></Column>
+                                        <Column width="150px"><Text text="Requestor"      class="columnHeader"/></Column>
+                                        <Column>             <Text text="Users"           class="columnHeader"/></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem class="tableRow">
+                                            <cells>
+                                                <Text text="{approval>workflow}" class="cellText recordCodeLink"/>
+                                                <Text text="{approval>level}"    class="cellText"/>
+                                                <Text text="{approval>name}"     class="cellText"/>
+                                                <Text text="{approval>requestor}" class="cellText"/>
+                                                <Text text="{approval>users}"    class="cellText"/>
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
                             </VBox>
                         </VBox>
 

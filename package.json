@@ -28,6 +28,7 @@
       "[production]": {
         "db": {
           "kind": "postgres",
+          "schema": "navismaster",
           "deploy": {
             "drop": false
           }

@@ -49,6 +49,21 @@ sap.ui.define([
 
             var oModel = new JSONModel(oInboxData);
             this.getView().setModel(oModel, "inbox");
+
+            // Manage Approval mock data
+            var oApprovalData = {
+                count: 6,
+                items: [
+                    { workflow: "Material Master Create",  level: "Level 1", name: "Rajesh Pendem",     requestor: "Saketh Reddy",   users: "Rajesh, Priya, Anil" },
+                    { workflow: "Business Partner Create", level: "Level 1", name: "Priya Sharma",      requestor: "Vikram Singh",   users: "Priya, Rajesh, Meera" },
+                    { workflow: "Vendor Onboarding",       level: "Level 1", name: "Amit Kumar",        requestor: "Sneha Patel",    users: "Amit, Rohit, Neha" },
+                    { workflow: "Customer Extension",      level: "Level 1", name: "Sneha Gupta",       requestor: "Arun Nair",      users: "Sneha, Deepak, Kavya" },
+                    { workflow: "Material Master Change",  level: "Level 1", name: "Vikram Joshi",      requestor: "Pooja Iyer",     users: "Vikram, Anita, Ravi" },
+                    { workflow: "Supplier Classification", level: "Level 1", name: "Deepak Verma",      requestor: "Ananya Rao",     users: "Deepak, Suresh, Lata" }
+                ]
+            };
+            var oApprovalModel = new JSONModel(oApprovalData);
+            this.getView().setModel(oApprovalModel, "approval");
         },
 
         _formatToday: function () {
@@ -601,12 +616,19 @@ sap.ui.define([
             });
         },
 
-        onStewardInboxPress: function () {
-            this._switchView("dashboardView", "stewardInboxView", "left");
+        _getVisibleView: function () {
+            var oView = this.getView();
+            if (oView.byId("manageApprovalView") && oView.byId("manageApprovalView").getVisible()) return "manageApprovalView";
+            if (oView.byId("stewardInboxView") && oView.byId("stewardInboxView").getVisible()) return "stewardInboxView";
+            return "dashboardView";
+        },
+
+        onManageApprovalPress: function () {
+            this._switchView(this._getVisibleView(), "manageApprovalView", "left");
             this.showToast({
                 type: "info",
-                title: "Steward Inbox",
-                message: "Showing 142 records waiting on you",
+                title: "Manage Approval",
+                message: "Showing 6 active approval workflows",
                 duration: 3000
             });
 
@@ -617,8 +639,27 @@ sap.ui.define([
             }
         },
 
+        onStewardInboxPress: function () {
+            this._switchView(this._getVisibleView(), "stewardInboxView", "left");
+            this.showToast({
+                type: "info",
+                title: "Steward Inbox",
+                message: "Showing 142 records waiting on you",
+                duration: 3000
+            });
+
+            var oList = this.getView().byId("workspaceList");
+            if (oList) {
+                oList.getItems().forEach(function (oItem) { oItem.removeStyleClass("wsItemActive"); });
+                oList.getItems()[1].addStyleClass("wsItemActive");
+            }
+        },
+
         onDashboardPress: function () {
-            this._switchView("stewardInboxView", "dashboardView", "right");
+            var sVisible = this._getVisibleView();
+            if (sVisible !== "dashboardView") {
+                this._switchView(sVisible, "dashboardView", "right");
+            }
 
             var oList = this.getView().byId("workspaceList");
             if (oList) {

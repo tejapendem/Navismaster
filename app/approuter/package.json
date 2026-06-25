@@ -1,0 +1,11 @@
+{
+  "name": "navismaster-approuter",
+  "version": "1.0.0",
+  "description": "Standalone app router for NavisMaster",
+  "dependencies": {
+    "@sap/approuter": "^10"
+  },
+  "scripts": {
+    "start": "node start.js"
+  }
+}
