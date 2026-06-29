@@ -52,6 +52,9 @@
             "css": [
                 {
                     "uri": "css/style.css"
+                },
+                {
+                    "uri": "css/wizard-style.css"
                 }
             ]
         },
@@ -77,11 +80,19 @@
                     "name": "main",
                     "pattern": "",
                     "target": "main"
+                },
+                {
+                    "name": "masterCreate",
+                    "pattern": "masterCreate/{type}",
+                    "target": "masterCreate"
                 }
             ],
             "targets": {
                 "main": {
                     "viewName": "Main"
+                },
+                "masterCreate": {
+                    "viewName": "MasterCreate"
                 }
             }
         },

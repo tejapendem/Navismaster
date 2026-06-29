@@ -3,8 +3,9 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/Dialog",
     "sap/m/Button",
-    "sap/ui/core/HTML"
-], function (Controller, JSONModel, Dialog, Button, HTML) {
+    "sap/ui/core/HTML",
+    "sap/ui/core/mvc/XMLView"
+], function (Controller, JSONModel, Dialog, Button, HTML, XMLView) {
     "use strict";
 
     return Controller.extend("navismaster.controller.Main", {
@@ -116,13 +117,18 @@ sap.ui.define([
 
         _tryLoadUserApi: function (oUserModel) {
             var that = this;
-            fetch("/api/user", {
+            var apiBase = this._getApiBase();
+            fetch(apiBase + "/api/user", {
                 headers: { "Accept": "application/json" },
                 credentials: "include"
             })
             .then(function (res) { return res.ok ? res.json() : null; })
             .then(function (data) { that._applyUserData(oUserModel, data); })
             .catch(function () { /* leave default "there" */ });
+        },
+
+        _getApiBase: function () {
+            return (typeof window.NAVISMASTER_API_BASE !== "undefined") ? window.NAVISMASTER_API_BASE : "";
         },
 
         onAfterRendering: function () {
@@ -881,8 +887,45 @@ sap.ui.define([
         },
 
         _openMasterDataWizard: function (sType) {
-            var sBase = window.location.pathname.replace(/\/[^/]*$/, "");
-            window.location.href = sBase + "/NavisMaster_MasterCreate_Form.html?type=" + sType;
+            // Find or create the overlay root div
+            var root = document.getElementById("masterCreateOverlayRoot");
+            if (!root) { return; }
+
+            // Reuse already-initialised wizard controller instance
+            if (!this._mcCtrl) {
+                var that = this;
+                sap.ui.require(["navismaster/controller/MasterCreate.controller"], function (MasterCreateDef) {
+                    // MasterCreate.controller exports a Controller.extend(...) return value
+                    // We can't instantiate it directly; instead share the module-level methods
+                    // by bootstrapping a lightweight proxy bound to the overlay root
+                    that._mcCtrl = { _root: root, _closeCallback: function () { root.style.display = "none"; root.innerHTML = ""; that._mcCtrl = null; } };
+                    // Copy all prototype methods from MasterCreate onto the proxy
+                    var proto = MasterCreateDef.prototype;
+                    Object.getOwnPropertyNames(proto).forEach(function (k) {
+                        if (typeof proto[k] === "function") { that._mcCtrl[k] = proto[k].bind(that._mcCtrl); }
+                    });
+                    // Shim the two UI5 methods the controller uses
+                    that._mcCtrl.getView = function () {
+                        return {
+                            byId: function (id) {
+                                return { getDomRef: function () { return root; } };
+                            },
+                            getViewData: function () { return { masterType: sType }; },
+                            getId: function () { return "masterCreateOverlayRoot"; }
+                        };
+                    };
+                    that._mcCtrl.getOwnerComponent = function () { return that.getOwnerComponent(); };
+
+                    root.innerHTML = that._mcCtrl._buildWizardHTML();
+                    root.style.display = "block";
+                    that._mcCtrl._bindGlobalEvents();
+                    that._mcCtrl._startWizByType(sType);
+                    that._mcCtrl._fetchUser();
+                });
+                return;
+            }
+            root.style.display = "block";
+            this._mcCtrl._startWizByType(sType);
         },
 
         _renderWizard: function (oData, iCurrentStep) {

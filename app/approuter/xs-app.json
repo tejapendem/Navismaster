@@ -17,7 +17,7 @@
       "source": "^/api/(.*)$",
       "target": "/api/$1",
       "destination": "navismaster-api",
-      "authenticationType": "xsuaa",
+      "authenticationType": "none",
       "csrfProtection": false
     },
     {

@@ -7,14 +7,14 @@
       "target": "/odata/v4/dashboard/$1",
       "destination": "navismaster-api",
       "authenticationType": "xsuaa",
-      "csrfProtection": true
+      "csrfProtection": false
     },
     {
       "source": "^/api/(.*)$",
       "target": "/api/$1",
       "destination": "navismaster-api",
-      "authenticationType": "xsuaa",
-      "csrfProtection": true
+      "authenticationType": "none",
+      "csrfProtection": false
     },
     {
       "source": "^(.*)$",

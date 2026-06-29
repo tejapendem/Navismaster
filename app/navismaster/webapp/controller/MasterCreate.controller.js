@@ -3,9 +3,10 @@ sap.ui.define([
 ], function (Controller) {
     "use strict";
 
-    var API_BASE = window.location.origin === 'https://canopusintegrate.launchpad.cfapps.ap10.hana.ondemand.com'
-        ? 'https://canopus-gbs-private-limited-canopusintegrate-dev-navism576b1ad9.cfapps.ap10.hana.ondemand.com'
-        : '';
+    // Read lazily at call time so Component.js has already set window.NAVISMASTER_API_BASE
+    function getApiBase() {
+        return (typeof window.NAVISMASTER_API_BASE !== "undefined") ? window.NAVISMASTER_API_BASE : "";
+    }
 
     var that, master = null, step = 0, data = {};
 
@@ -69,15 +70,33 @@ sap.ui.define([
 
         onInit: function () {
             that = this;
+            this._closeCallback = null;
+        },
+
+        _setCloseCallback: function (fn) {
+            this._closeCallback = fn;
+        },
+
+        _startWizByType: function (sType) {
+            var typeMap = { material: 'material', businesspartner: 'bp', bp: 'bp', product: 'product', equipment: 'equipment' };
+            var mapped = typeMap[sType] || sType;
+            if (mapped) { this._startWiz(mapped); }
         },
 
         onAfterRendering: function () {
             var content = this._buildWizardHTML();
-            var dom = document.getElementById(this.getView().getId() + '-wizardContent');
+            var oHtml = this.getView().byId("wizardContent");
+            var dom = oHtml ? oHtml.getDomRef() : null;
             if (dom) {
                 dom.innerHTML = content;
                 this._bindGlobalEvents();
-                this._autoStart();
+                // Read type from viewData (passed by Main controller) or hash
+                var sType = (this.getView().getViewData() || {}).masterType;
+                if (sType) {
+                    this._startWizByType(sType);
+                } else {
+                    this._autoStart();
+                }
                 this._fetchUser();
             }
         },
@@ -86,7 +105,7 @@ sap.ui.define([
             return '' +
                 '<header class="navisHeader">' +
                 '  <div class="nh-left">' +
-                '    <a href="' + window.location.pathname.replace(/\/[^/]*$/, '') + '/index.html" class="nh-brand" title="Back to NavisMaster home">' +
+                '    <a href="#" onclick="sap.ui.getCore().getComponent(\'container\').getRouter().navTo(\'main\'); return false;" class="nh-brand" title="Back to NavisMaster home">' +
                 '      <div class="nh-logo"><svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="13" stroke="rgba(255,255,255,0.85)" stroke-width="1.4"/><path d="M16 5 L19 16 L16 27 L13 16 Z" fill="#ffffff"/><path d="M16 5 L19 16 L16 16 Z" fill="rgba(255,255,255,0.55)"/><circle cx="16" cy="16" r="1.6" fill="#0d1b3e"/></svg></div>' +
                 '      <div class="nh-text"><span class="nh-title">Navis<span class="nh-title-light">Master</span></span><span class="nh-subtitle">Master Data Quality · AI-native</span></div>' +
                 '    </a>' +
@@ -199,7 +218,8 @@ sap.ui.define([
 
         _bindGlobalEvents: function () {
             var self = this;
-            var container = document.getElementById(this.getView().getId() + '-wizardContent');
+            var oHtml = this.getView().byId("wizardContent");
+            var container = oHtml ? oHtml.getDomRef() : null;
 
             container.addEventListener('click', function (e) {
                 var target = e.target.closest('[data-wiz]');
@@ -267,13 +287,10 @@ sap.ui.define([
         },
 
         _goHome: function () {
-            var params = new URLSearchParams(window.location.search);
-            if (params.get('type')) {
-                var base = window.location.pathname.replace(/\/[^/]*$/, '');
-                window.location.href = base + '/index.html';
+            if (this._closeCallback) {
+                this._closeCallback();
             } else {
-                master = null; step = 0; data = {};
-                this._show('scr-home');
+                this.getOwnerComponent().getRouter().navTo("main");
             }
         },
 
@@ -589,7 +606,7 @@ sap.ui.define([
                 if (stepIdx <= 6) tickStep();
                 else clearInterval(stepTimer);
             }, 380);
-            fetch(API_BASE + '/api/tax-lookup?gstin=' + encodeURIComponent(gstin))
+            fetch(getApiBase() + '/api/tax-lookup?gstin=' + encodeURIComponent(gstin), { credentials: "include" })
                 .then(function (r) { if (!r.ok) throw new Error('Lookup failed'); return r.json(); })
                 .then(function (res) {
                     clearInterval(stepTimer);
@@ -914,22 +931,30 @@ sap.ui.define([
 
         _autoStart: function () {
             var type = null;
+            // UI5 router navTo format: #/masterCreate/<type>
             var hash = window.location.hash;
-            if (hash && hash.indexOf('?') > -1) {
-                var qs = hash.substring(hash.indexOf('?') + 1);
-                if (qs.indexOf('&') > -1) qs = qs.split('&').filter(function (p) { return p.indexOf('type=') === 0; })[0] || qs;
-                if (qs.indexOf('=') > -1) type = decodeURIComponent(qs.split('=')[1]);
+            var routerMatch = hash.match(/[#/]masterCreate\/([^?&/]+)/i);
+            if (routerMatch) {
+                type = decodeURIComponent(routerMatch[1]);
             }
-            var params = new URLSearchParams(window.location.search);
-            type = type || params.get('type');
-            var typeMap = { material: 'material', businesspartner: 'bp', product: 'product', equipment: 'equipment' };
+            // Legacy query string fallback: ?type=<type>
+            if (!type) {
+                if (hash && hash.indexOf('?') > -1) {
+                    var qs = hash.substring(hash.indexOf('?') + 1);
+                    if (qs.indexOf('&') > -1) qs = qs.split('&').filter(function (p) { return p.indexOf('type=') === 0; })[0] || qs;
+                    if (qs.indexOf('=') > -1) type = decodeURIComponent(qs.split('=')[1]);
+                }
+                var params = new URLSearchParams(window.location.search);
+                type = type || params.get('type');
+            }
+            var typeMap = { material: 'material', businesspartner: 'bp', bp: 'bp', product: 'product', equipment: 'equipment' };
             if (type && typeMap[type]) {
                 this._startWiz(typeMap[type]);
             }
         },
 
         _fetchUser: function () {
-            fetch(API_BASE + "/odata/v4/dashboard/currentUser()", {
+            fetch(getApiBase() + "/odata/v4/dashboard/currentUser()", {
                 headers: { "Accept": "application/json" },
                 credentials: "include"
             })

@@ -1,6 +1,24 @@
 const cds = require('@sap/cds');
 
 cds.on('bootstrap', (app) => {
+    // Allow cross-origin calls from SAP BTP Launchpad and approuter
+    app.use((req, res, next) => {
+        const origin = req.headers.origin;
+        if (origin && (
+            origin.endsWith('.hana.ondemand.com') ||
+            origin.endsWith('.cfapps.ap10.hana.ondemand.com') ||
+            origin === 'http://localhost:4004' ||
+            origin === 'http://localhost:5000'
+        )) {
+            res.setHeader('Access-Control-Allow-Origin', origin);
+            res.setHeader('Access-Control-Allow-Credentials', 'true');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-csrf-token');
+        }
+        if (req.method === 'OPTIONS') { return res.sendStatus(204); }
+        next();
+    });
+
     app.get('/api/user', (req, res) => {
         const u = req.user || {};
         const id = u.id || 'anonymous';

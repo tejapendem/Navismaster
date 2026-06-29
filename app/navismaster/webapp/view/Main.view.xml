@@ -409,7 +409,7 @@
                                     <Title text="Steward Inbox" level="H1" class="inboxTitleText"/>
                                     <Text text="142 items" class="inboxCountText"/>
                                 </HBox>
-                                <HBox gap="0.75rem">
+                                <HBox>
                                     <Button text="Export CSV" icon="sap-icon://download" class="exportBtn"/>
                                     <Button id="approveBtn" text="✓ Approve selected ({inbox>/selectedCount})" class="approveBtn"/>
                                 </HBox>
@@ -522,5 +522,9 @@
 
             </HBox>
         </VBox>
+
+        <!-- MasterCreate full-screen overlay — shown/hidden without routing -->
+        <core:HTML id="masterCreateOverlay" preferDOM="true"
+            content="&lt;div id='masterCreateOverlayRoot' style='display:none;position:fixed;inset:0;z-index:9999;background:#EDF2F7;overflow:auto;'&gt;&lt;/div&gt;"/>
     </Page>
 </mvc:View>
